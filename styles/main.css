@@ -452,21 +452,21 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .day--sunday .label { color: var(--greenery); }
 .day--sunday .vibe { margin: 16px auto 0; }
 
-/* Where We're Going */
-.wwg { padding: 8px 0 10px; }
-.wwg .eyebrow { color: var(--greenery); text-align: center; display: block; }
-.wwg h2 { text-align: center; font-size: 34px; margin-top: 6px; }
-.loc-card {
-  margin-top: 18px;
+/* location marker living inside the day it belongs to */
+.day-loc {
+  margin-top: 28px;
+  max-width: 34em;
   background: #fff;
   border: 1px solid var(--sand);
   border-radius: 18px;
   padding: 20px;
   box-shadow: var(--shadow-soft);
+  color: var(--ink);
 }
-.loc-card .eyebrow { color: var(--gold); }
-.loc-card h3 { font-size: 24px; margin: 6px 0 6px; }
-.loc-card .detail { font-size: 13.5px; opacity: .78; }
+.day-loc .eyebrow { color: var(--gold); display: block; }
+.day-loc h3 { font-size: 24px; margin: 6px 0 6px; }
+.day-loc .detail { font-size: 13.5px; opacity: .78; }
+.day-loc .pill-link { margin-top: 16px; }
 
 /* ============================================ SCHEDULE CARDS */
 .schedule { display: grid; gap: 16px; margin: 28px 0 8px; }

@@ -82,11 +82,21 @@
     }
     body += swatchRow(day.swatches);
     if (day.looksWidget) body += boardwalkWidgetHTML();
+    if (day.location) body += dayLocationHTML(day.location);
 
     return '<section class="day ' + day.theme + '" id="' + esc(day.id) + '">' +
              '<span class="day__glyph" aria-hidden="true">' + glyph + "</span>" +
              '<div class="wrap"><div class="day__inner">' + body + "</div></div>" +
            "</section>";
+  }
+
+  /* a location marker that lives inside the day it belongs to */
+  function dayLocationHTML(loc) {
+    return '<div class="day-loc reveal">' +
+      (loc.eyebrow ? '<span class="eyebrow">' + esc(loc.eyebrow) + "</span>" : "") +
+      "<h3>" + esc(loc.title) + "</h3>" +
+      '<div class="detail">' + esc(loc.detail) + "</div>" +
+      mapBlock(loc.map, loc.title) + "</div>";
   }
 
   function renderBachelorette() {
@@ -106,14 +116,6 @@
 
     var days = b.days.map(renderDay).join("");
 
-    var wwg = b.whereWeGoing;
-    var locCards = wwg.cards.map(function (c) {
-      return '<article class="loc-card reveal"><span class="eyebrow">' + esc(c.eyebrow) + "</span>" +
-        "<h3>" + esc(c.title) + "</h3>" +
-        '<div class="detail">' + esc(c.detail) + "</div>" +
-        mapBlock(c.map, c.title) + "</article>";
-    }).join("");
-
     el("view-bachelorette").innerHTML =
       '<section class="hero hero--sea">' +
         '<img class="hero-badge reveal" src="assets/img/brand/sea-badge.jpg" alt="All I Sea is Love, Laura\'s Bachelorette, Pawleys Island" width="120" height="120">' +
@@ -125,9 +127,7 @@
       '<nav class="jumpnav"><div class="jumpnav__scroll">' + pills + "</div></nav>" +
       '<div class="wrap">' + house + "</div>" +
       days +
-      '<div class="wrap"><section class="wwg"><span class="eyebrow">' + esc(wwg.eyebrow) + "</span>" +
-        '<h2 class="reveal">' + esc(wwg.heading) + "</h2>" + locCards + "</section>" +
-        pagefoot(b.footerScript, b.footerLine) + "</div>";
+      '<div class="wrap">' + pagefoot(b.footerScript, b.footerLine) + "</div>";
 
     initJumpNav();
   }
