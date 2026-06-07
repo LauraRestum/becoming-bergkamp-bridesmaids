@@ -463,6 +463,22 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   scroll-margin-top: calc(var(--topbar-h) + var(--jump-h) + env(safe-area-inset-top));
 }
 .day__inner { position: relative; z-index: 2; }
+
+/* a day can carry a full-bleed background photo (set inline from data); a
+   themed tint overlay keeps the copy legible and the banner + bg cohesive */
+.day.has-bg {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.day.has-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
 .day .label { font-family: var(--script); font-size: 34px; line-height: 1; }
 .day h2 { font-size: clamp(42px, 13vw, 64px); margin-top: 2px; font-variation-settings: "opsz" 144; }
 .day .hook {
@@ -496,11 +512,14 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   user-select: none;
 }
 
-/* --- Thursday, Beach Club: deep emerald old-money green --- */
-.day--thursday { background: radial-gradient(120% 120% at 70% 10%, #356b5b 0%, #2C5C4F 40%, #173a31 100%); color: #F4EFE3; }
-.day--thursday .label { color: var(--gold-soft); }
-.day--thursday .hook  { color: var(--gold-soft); }
-.day--thursday .wearchip { color: #F4EFE3; }
+/* --- Thursday, Beach Club: coastal blue club crest over a calm blue wash --- */
+.day--thursday { background: radial-gradient(120% 120% at 70% 10%, #5b9bc4 0%, #3E84B0 45%, #1E5680 100%); color: #FBFAF6; }
+.day--thursday.has-bg::before {
+  background: linear-gradient(180deg, rgba(30,86,128,0) 0%, rgba(30,86,128,.18) 40%, rgba(18,52,79,.72) 100%);
+}
+.day--thursday .label { color: #FBFAF6; }
+.day--thursday .hook  { color: #EAF4FB; }
+.day--thursday .wearchip { color: #FBFAF6; }
 
 /* --- Friday day, Something Blue --- */
 .day--blue {
@@ -509,6 +528,10 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
     linear-gradient(170deg, #8EC5E8 0%, #2BB3C0 38%, #1366C9 70%, #16314E 100%);
   color: #fff;
 }
+/* clear water bg is bright, so darken toward the bottom for white copy */
+.day--blue.has-bg::before {
+  background: linear-gradient(180deg, rgba(142,197,232,.10) 0%, rgba(43,130,180,.45) 42%, rgba(22,49,78,.80) 100%);
+}
 .day--blue .label { color: #EAF6FF; }
 .day--blue .hook  { color: #EAF6FF; }
 
@@ -516,31 +539,37 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .day--rainbow {
   /* iridescent background image set inline from data; fallback opal */
   background-color: #EAE6F2;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   color: var(--ink);
 }
-.day--rainbow .day__inner { position: relative; z-index: 2; }
 .day--rainbow .day__glyph { display: none; }
 .day--rainbow .label { color: #6f54a8; }
 .day--rainbow .hook  { color: #d6398a; }
-/* hand-lettered RAINBOW FISH banner replaces the text title */
-.day__banner-wrap { margin-top: 2px; line-height: 0; }
+.day--rainbow.has-bg::before { background: linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,.06) 40%, rgba(255,255,255,.30)); }
+
+/* ---- Hand-lettered banner art as the day title ---- */
+.day__banner-wrap, .day__crest { margin-top: 2px; line-height: 0; }
 .day__banner {
   display: block;
-  width: min(440px, 90%);
+  width: min(560px, 100%);
   height: auto;
+  border-radius: var(--radius-m);
+  box-shadow: 0 10px 30px rgba(21,19,15,.22);
 }
-.rainbow-title {
-  background: linear-gradient(90deg, #FF3FA4, #FF8A3D, #FFD23F, #2FBF71, #3FA9FF, #8A4FFF, #FF3FA4);
-  background-size: 300% 100%;
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent; color: transparent;
-  animation: shimmer 6s linear infinite;
+.day__banner--crest { width: min(560px, 100%); }
+/* the word that rides under a crest banner */
+.day__title { margin-top: 18px; font-size: clamp(42px, 13vw, 64px); font-variation-settings: "opsz" 144; }
+/* placeholder frame when banner art is still coming */
+.day__banner-ph {
+  width: min(560px, 100%);
+  aspect-ratio: 851 / 315;
+  border: 2px dashed currentColor;
+  border-radius: var(--radius-m);
+  display: grid; place-items: center;
+  opacity: .5;
 }
-@keyframes shimmer { to { background-position: 300% 0; } }
-@media (prefers-reduced-motion: reduce) { .rainbow-title { animation: none; } }
+.day__banner-ph span {
+  font-size: 11px; letter-spacing: var(--track-label); text-transform: uppercase;
+}
 
 /* --- Saturday day, Boardwalk --- */
 .day--boardwalk {
@@ -560,8 +589,12 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
     linear-gradient(170deg, #E8B14C 0%, #C56B4A 45%, #6B4226 100%);
   color: #F8EFDF;
 }
-.day--coconuts .label { color: #F8EFDF; }
-.day--coconuts .hook  { color: #F8EFDF; }
+/* tan stripe bg is light, so warm-darken downward for the cream copy */
+.day--coconuts.has-bg::before {
+  background: linear-gradient(180deg, rgba(244,234,215,0) 0%, rgba(197,107,74,.42) 38%, rgba(107,66,38,.86) 100%);
+}
+.day--coconuts .label { color: #FFF3E2; }
+.day--coconuts .hook  { color: #FFF3E2; }
 
 /* --- Sunday --- */
 .day--sunday { background: var(--ivory); color: var(--ink); text-align: center; padding: 70px 0; }
@@ -708,6 +741,235 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .look-meta { padding: 14px 4px 0; }
 .look-meta h3 { font-size: 26px; }
 .look-meta .desc { font-size: 14px; opacity: .78; margin: 6px 0 14px; max-width: 32em; }
+
+/* ============================================ PAGE HEADER BANNER */
+/* full-width hand-lettered header art for the bachelorette page */
+.hero--banner { padding: 0 0 0; }
+.hero--banner .hero-banner {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-bottom-left-radius: var(--radius-l);
+  border-bottom-right-radius: var(--radius-l);
+  box-shadow: 0 12px 34px rgba(21,19,15,.26);
+}
+.hero--banner .sub { margin-top: 20px; padding: 0 22px; }
+.hero--banner .wavewrap { margin-top: var(--space-6); }
+
+/* ============================================ DAY EXTRAS */
+/* "we have the ride" transport note */
+.transport {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-top: var(--space-5);
+  max-width: 34em;
+  font-size: 14px; line-height: 1.55;
+  padding: 12px 16px;
+  border-radius: var(--radius-m);
+  background: rgba(255,255,255,.16);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,.28);
+}
+.transport__glyph { font-size: 18px; line-height: 1.4; }
+
+/* form links that feed the games (Beach Club) */
+.forms {
+  margin-top: var(--space-6);
+  max-width: 34em;
+  background: rgba(255,255,255,.12);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: var(--radius-l);
+  padding: var(--space-5);
+}
+.forms .eyebrow { color: #FFF3E2; display: block; }
+.forms h3 { font-size: 24px; margin: 6px 0 8px; }
+.forms__note { font-size: 13.5px; line-height: 1.6; opacity: .92; margin: 0 0 16px; }
+.forms__links { display: flex; flex-wrap: wrap; gap: 10px; }
+.forms__links .pill-link { font-size: 12.5px; padding: 11px 18px; }
+
+/* "On the Menu" dining block, adapts to light or dark day worlds */
+.meals {
+  margin-top: var(--space-6);
+  max-width: 34em;
+  background: rgba(255,255,255,.14);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: var(--radius-l);
+  padding: var(--space-5);
+}
+.meals .eyebrow { display: block; opacity: .92; }
+.meals__list { display: grid; gap: 16px; margin-top: 14px; }
+.meal {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  align-items: baseline;
+  gap: 10px;
+}
+.meal__glyph { font-size: 15px; line-height: 1.3; }
+.meal__body { display: flex; flex-direction: column; min-width: 0; }
+.meal__label {
+  font-size: 11px; letter-spacing: var(--track-label); text-transform: uppercase;
+  opacity: .72;
+}
+.meal__place {
+  font-family: var(--serif); font-size: 16px; line-height: 1.35;
+  font-variation-settings: "opsz" 32; margin-top: 1px;
+}
+.meal__addr { font-size: 12px; opacity: .7; margin-top: 3px; }
+
+/* outbound website / menu link chips, adapt to any day world via currentColor */
+.linklist { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.linkchip {
+  display: inline-flex; align-items: center;
+  font-size: 11.5px; letter-spacing: .03em; font-weight: 500;
+  text-decoration: none;
+  padding: 7px 13px;
+  border-radius: var(--radius-pill);
+  border: 1px solid currentColor;
+  color: inherit;
+  opacity: .82;
+  transition: opacity .2s var(--ease), transform .15s var(--ease);
+}
+@media (hover: hover) { .linkchip:hover { opacity: 1; } }
+.linkchip:active { transform: scale(.96); }
+
+/* address line inside a day location card */
+.day-loc__addr { font-size: 13px; opacity: .78; margin-top: 4px; }
+/* dark-text day worlds get a light frosted card instead */
+.day--rainbow .meals, .day--boardwalk .meals {
+  background: rgba(255,255,255,.55);
+  border-color: rgba(21,19,15,.12);
+}
+
+/* warm sunset panel layered over the cruise description (Coco Nuts) */
+.sunset {
+  margin-top: var(--space-6);
+  max-width: 34em;
+  border-radius: var(--radius-l);
+  padding: var(--space-5) var(--space-5) calc(var(--space-5) + 2px);
+  color: #FFF6EA;
+  background:
+    radial-gradient(120% 90% at 20% 0%, rgba(255,210,120,.40), rgba(255,210,120,0) 60%),
+    linear-gradient(160deg, #F2A65A 0%, #E8795B 38%, #C2554E 68%, #7A3B33 100%);
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+/* a low sun glow sitting behind the text */
+.sunset::after {
+  content: "";
+  position: absolute; z-index: 0;
+  left: 50%; bottom: -120px; transform: translateX(-50%);
+  width: 260px; height: 260px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,233,178,.85), rgba(255,233,178,0) 70%);
+  pointer-events: none;
+}
+.sunset > * { position: relative; z-index: 1; }
+.sunset .eyebrow { color: #FFE9B2; display: block; }
+.sunset h3 { font-size: 25px; margin: 6px 0 8px; }
+.sunset__body { font-size: 15px; line-height: 1.65; margin: 0; }
+.sunset__cost {
+  font-size: 13px; line-height: 1.55; margin: 12px 0 0;
+  padding-top: 12px; border-top: 1px solid rgba(255,255,255,.28);
+  opacity: .95;
+}
+
+/* ============================================ SHORTS CAROUSEL */
+.shorts { margin-top: var(--space-5); }
+.shorts__bar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; margin-bottom: 14px;
+}
+.shorts__count {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-variation-settings: "opsz" 40;
+  letter-spacing: .04em;
+}
+.shorts__count .sl { opacity: .45; margin: 0 4px; }
+.shorts__count [data-total] { opacity: .55; }
+
+/* crop top / tucked in toggle */
+.shorts__fit {
+  display: inline-flex;
+  background: rgba(255,255,255,.6);
+  border: 1px solid rgba(21,19,15,.14);
+  border-radius: var(--radius-pill);
+  padding: 3px;
+}
+.shorts__fitbtn {
+  border: 0; background: transparent;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 12px; font-weight: 500; letter-spacing: .02em;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  transition: background .2s var(--ease), color .2s var(--ease);
+}
+.shorts__fitbtn.is-on {
+  background: var(--ink); color: var(--ivory);
+  box-shadow: 0 1px 3px rgba(21,19,15,.25);
+}
+
+.shorts__stage {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  gap: 8px;
+}
+.shorts__arrow {
+  width: 44px; height: 44px;
+  display: grid; place-items: center;
+  border: 1px solid rgba(21,19,15,.16);
+  background: rgba(255,255,255,.78);
+  color: var(--ink);
+  border-radius: 50%;
+  font-size: 24px; line-height: 1;
+  box-shadow: var(--shadow-soft);
+  transition: transform .18s var(--ease), background .2s var(--ease);
+}
+.shorts__arrow:active { transform: scale(.9); }
+@media (hover: hover) { .shorts__arrow:hover { background: #fff; } }
+
+/* the tile: transparent garment art on a soft light card, no more black */
+.shorts__frame { min-width: 0; }
+.shorts__tile {
+  background:
+    radial-gradient(120% 90% at 50% 12%, #FFFFFF 0%, #FBF7EF 55%, #F1E7D2 100%);
+  border: 1px solid rgba(21,19,15,.10);
+  aspect-ratio: 920 / 720;
+  display: grid; place-items: center;
+  padding: 10px;
+}
+.shorts__tile img { width: 100%; height: 100%; object-fit: contain; }
+.shorts__tile .ov { color: rgba(21,19,15,.5); text-shadow: none; }
+.shorts__tile .ov-fb { bottom: 10px; right: 12px; }
+.shorts__tile .ov-zoom { bottom: 10px; left: 12px; }
+
+.shorts__dots { display: flex; justify-content: center; gap: 8px; margin: 14px 0 4px; }
+.shorts__dot {
+  width: 8px; height: 8px; padding: 0;
+  border: 0; border-radius: 50%;
+  background: rgba(21,19,15,.22);
+  transition: background .2s var(--ease), transform .2s var(--ease);
+}
+.shorts__dot.is-on { background: var(--ink); transform: scale(1.25); }
+
+.shorts__meta { text-align: center; margin-top: 10px; }
+.shorts__num {
+  font-family: var(--serif); font-size: 12px; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--gold); opacity: .9;
+}
+.shorts__meta h3 { font-size: 28px; margin-top: 4px; }
+.shorts__meta .desc { font-size: 14px; opacity: .8; margin: 8px auto 16px; max-width: 30em; }
+.shorts__fitnote {
+  text-align: center; font-size: 12px; opacity: .7;
+  margin-top: 16px; max-width: 30em; margin-left: auto; margin-right: auto;
+}
 
 /* lightbox */
 .lightbox {

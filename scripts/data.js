@@ -58,7 +58,11 @@ var DATA = {
     hero: {
       kicker: "all you",
       headline: "SEA is Love",
-      subtitle: "Myrtle Beach, South Carolina · August 2026"
+      subtitle: "Myrtle Beach, South Carolina · August 2026",
+      // Full-width header art for the whole bachelorette page. Leads the page
+      // with the banner instead of the round badge. Set to "" to fall back to
+      // the badge + lettering hero.
+      banner: "assets/img/brand/sea-header.png"
     },
 
     // Sticky day-jump pills. anchor matches each day's id.
@@ -84,11 +88,30 @@ var DATA = {
       {
         id: "thursday",
         theme: "day--thursday",
-        label: "thursday",
+        label: "thursday · night in",
         title: "Beach Club",
+        // Hero crest on blue, plus the matching no-text wash behind the section.
+        banner: "assets/img/beachclub/beachclub-banner.png",
+        bannerKeepsTitle: true, // crest art does not spell the day, keep the word
+        bg: "assets/img/beachclub/beachclub-bg.jpg",
         hook: "Members Only",
-        vibe: "We kick things off low-key and luxe. A members-only night in at the house, with palms-and-gold-rimmed-glasses energy and nowhere to be.",
-        wear: "resort chic, white or cream",
+        vibe: "We kick the weekend off with a cozy night in at the house. Crafts at the table, a few rounds of trivia, and silly get to know you games to break the ice. Low key, low pressure, and where all the inside jokes start.",
+        wear: "comfy and cute, beach club lounge",
+        meals: {
+          dinner: "Dinner in at the house"
+        },
+        // Forms feed the trivia and games. Links land here later (href "" shows
+        // a non-clickable "coming soon" pill, no submissions on this site).
+        forms: {
+          eyebrow: "Before the games",
+          title: "Fill these out for us",
+          note: "A few quick forms feed into the trivia and games we will play that night. The links land here soon, so check back before the trip.",
+          items: [
+            { label: "Get to know the bride", href: "" },
+            { label: "How well do you know Laura & William", href: "" },
+            { label: "Two truths and a lie", href: "" }
+          ]
+        },
         swatches: [
           { name: "emerald", hex: "#2C5C4F" },
           { name: "hunter", hex: "#2C5F34" },
@@ -102,27 +125,41 @@ var DATA = {
         theme: "day--blue",
         label: "friday · day",
         title: "Something Blue",
-        hook: "Something Blue",
-        vibe: "Beach day, all in blue. Toes in the sand at Litchfield, drinks the color of the ocean, the brightest day of the trip.",
+        // Hand-lettered "Something Blue Before I Do" banner over clear water.
+        banner: "assets/img/blue/something-blue-banner.png",
+        bg: "assets/img/blue/something-blue-bg.jpg",
+        hook: "Toes in the Sand",
+        vibe: "Beach day, all in blue. We post up at Litchfield Beach, drinks the color of the ocean, the brightest, easiest day of the trip.",
         wear: "a blue swimsuit, any blue you love",
+        transport: "Litchfield Beach is a quick three minute drive from the house, and we have the ride covered. Just hop in.",
+        meals: {
+          breakfast: "At the house",
+          lunch: "Beach picnic at Litchfield, packed from the house"
+        },
         swatches: [
           { name: "sky", hex: "#8EC5E8" },
           { name: "cobalt", hex: "#1366C9" },
           { name: "turquoise", hex: "#2BB3C0" },
           { name: "navy", hex: "#16314E" },
           { name: "sand", hex: "#E6D8BD" }
-        ]
+        ],
+        location: {
+          eyebrow: "On the Map",
+          title: "Litchfield Beach",
+          detail: "Pawleys Island, SC · about three minutes from the house, transportation provided",
+          map: mapFor("Litchfield Beach Pawleys Island SC")
+        }
       },
       {
         id: "friday-rainbow",
         theme: "day--rainbow",
         label: "friday · night",
         title: "Rainbow Fish",
-        // Iridescent background and hand-lettered banner for this section.
+        // Iridescent mermaid-scale background and hand-lettered banner.
         bg: "assets/img/rainbow/rainbow-bg.png",
         banner: "assets/img/rainbow/rainbow-banner.png",
         hook: "Catch the Shimmer",
-        vibe: "The showstopper. Iridescent everything, glitter scales on our arms, the whole crew shimmering under the lights.",
+        vibe: "The showstopper. Iridescent everything, glitter scales on our arms, the whole crew shimmering as we head out for the night.",
         wear: "any rainbow color, shimmery, glittery or silky",
         secondary: "No need to match anyone. Pick your shade and shine.",
         swatches: [
@@ -133,21 +170,47 @@ var DATA = {
           { name: "emerald", hex: "#2FBF71" },
           { name: "azure", hex: "#3FA9FF" },
           { name: "violet", hex: "#8A4FFF" }
-        ]
+        ],
+        location: {
+          eyebrow: "Dinner & Out",
+          title: "RipTydz Oceanfront Grille & Rooftop Bar",
+          detail: "Myrtle Beach, SC · oceanfront dinner and a rooftop bar to kick the night off",
+          address: "1210 N Ocean Blvd, Myrtle Beach, SC 29577",
+          website: "https://riptydz.com",
+          links: [
+            { label: "Food menu", href: "https://riptydz.com/food-menu" },
+            { label: "Drink menu", href: "https://riptydz.com/drink-menu" }
+          ],
+          map: mapFor("RipTydz 1210 N Ocean Blvd Myrtle Beach SC 29577")
+        }
       },
       {
         id: "boardwalk",
         theme: "day--boardwalk",
         label: "saturday · day",
         title: "Boardwalk",
+        // Banner art still to come from Laura. Renders a placeholder frame.
+        bannerPlaceholder: true,
         hook: "Boardwalk & Chill",
-        vibe: "Slow morning, then we wander Broadway at the Beach. Shops, snacks, sunshine and string lights when the sky goes pink.",
+        vibe: "Slow morning, then we wander Broadway at the Beach. Shops, snacks, sunshine, and string lights when the sky goes pink.",
         wear: "whatever's comfy, sundress and sneakers",
-        looksWidget: true, // renders the Pick Your Shorts widget inline
+        meals: {
+          breakfast: "At the house",
+          lunch: {
+            place: "Margaritaville at Broadway at the Beach",
+            address: "1114 Celebrity Circle, Myrtle Beach, SC 29577",
+            website: "https://www.margaritavillemyrtlebeach.com",
+            links: [
+              { label: "Menu", href: "https://www.margaritavillemyrtlebeach.com/menu" }
+            ]
+          }
+        },
+        looksWidget: true, // renders the Pick Your Shorts carousel inline
         location: {
           eyebrow: "On the Map",
           title: "Broadway at the Beach",
           detail: "Myrtle Beach, SC · about 30 minutes north of the house",
+          website: "https://www.broadwayatthebeach.com",
           map: mapFor("Broadway at the Beach Myrtle Beach SC")
         }
       },
@@ -156,9 +219,31 @@ var DATA = {
         theme: "day--coconuts",
         label: "saturday · night",
         title: "Let's Go Coco Nuts",
+        // Retro "Let's Go Coconuts" banner over warm tan stripes.
+        banner: "assets/img/coconuts/coconuts-banner.png",
+        bg: "assets/img/coconuts/coconuts-bg.png",
         hook: "Golden Hour, Golden Crew",
-        vibe: "Our fancy night. A sunset catamaran cruise through the Murrells Inlet marsh, dressed to the nines as the sky turns gold.",
+        vibe: "Our fancy night. Dressed to the nines, out on the water, then dinner along the Murrells Inlet MarshWalk as we keep the night going right there in the inlet.",
+        // Sunset tour gets its own warm, layered sunset panel.
+        sunset: {
+          eyebrow: "The Sunset Tour",
+          title: "Happy hour on the water",
+          body: "First a happy hour catamaran cruise through the Murrells Inlet marsh as the sky turns gold and pink.",
+          cost: "Happy hour and sunset cruises run about $30 to $60 per person depending on the boat and the season.",
+          link: { label: "Sunset cruise details", href: "https://myrtlebeachsailingcruises.com/sunset-cruise" }
+        },
         wear: "any shade of brown, bronze, coconut or coffee",
+        meals: {
+          dinner: {
+            place: "Wicked Tuna on the MarshWalk",
+            address: "4123 US-17 BUS, Murrells Inlet, SC 29576",
+            website: "https://www.thewickedtuna.com",
+            links: [
+              { label: "Menus", href: "https://www.thewickedtuna.com/murrells-inlet-menus" },
+              { label: "Drink menu", href: "https://www.thewickedtuna.com/menu/drink-menu" }
+            ]
+          }
+        },
         swatches: [
           { name: "bronze", hex: "#A9742E" },
           { name: "coconut", hex: "#6B4226" },
@@ -168,8 +253,9 @@ var DATA = {
         ],
         location: {
           eyebrow: "On the Map",
-          title: "Murrells Inlet Sunset Cruise",
-          detail: "MarshWalk, Murrells Inlet, SC · catamaran departs at golden hour",
+          title: "Murrells Inlet MarshWalk",
+          detail: "Murrells Inlet, SC · happy hour cruise, then dinner and drinks at Wicked Tuna on the MarshWalk",
+          website: "https://marshwalk.com",
           map: mapFor("Murrells Inlet MarshWalk SC")
         }
       },
@@ -178,7 +264,12 @@ var DATA = {
         theme: "day--sunday",
         label: "sunday",
         title: "Slow Goodbyes",
-        vibe: "One last coffee, big hugs, and home we go. Travel safe, and sea you soon."
+        hook: "Relax · Debrief · Head Home",
+        vibe: "One last easy breakfast, a slow debrief of the whole weekend, big hugs, and home we go. Travel safe, and sea you soon.",
+        meals: {
+          breakfast: "At the house, depending on departure times",
+          lunch: "House or grab and go, depending on departure times"
+        }
       }
     ],
 
@@ -274,34 +365,48 @@ var DATA = {
   boardwalk: {
     kicker: "saturday · boardwalk",
     title: "Pick Your Shorts",
-    intro: "Same shirt for everyone, your choice of shorts. Tap a look to see it bigger, then shop your favorite.",
+    intro: "Same surprise tee for everyone, your choice of shorts. Arrow through the options, flip between crop top and tucked in, then shop your favorite.",
     teeNote: "Everyone gets the same tee",
     teeSub: "It's a surprise, so it's shown blank here. Just pick your shorts.",
+    fitNote: "Two ways to wear the tee: cropped, or tucked in and worn long.",
     footerScript: "boardwalk & chill",
     footerLine: "All You Sea Is Love · Myrtle Beach 2026",
 
-    // Add a look later: drop an image in assets/img/looks/ and append one object.
-    // shop: "" or "#" renders a non-clickable "Link coming soon" pill.
+    // Each look has a "normal" (tee tucked in, worn long) and a "crop" (tee worn
+    // cropped) image, shown front and back on a transparent background.
+    // Add a look later: drop the two images in assets/img/looks/ and append one
+    // object. shop: "" or "#" renders a non-clickable "Amazon link coming soon".
     looks: [
       {
-        img: "assets/img/looks/lace-trim.jpg",
         num: "01",
-        name: "The Lace Trim",
-        desc: "Soft drawstring shorts with a scalloped lace hem. Sweet and breezy.",
-        shop: ""
-      },
-      {
-        img: "assets/img/looks/denim-cutoffs.jpg",
-        num: "02",
         name: "The Denim Cutoffs",
         desc: "Light-wash frayed denim. The easy, classic boardwalk look.",
+        normal: "assets/img/looks/denim-cutoffs-normal.png",
+        crop: "assets/img/looks/denim-cutoffs-crop.png",
         shop: ""
       },
       {
-        img: "assets/img/looks/seersucker-ruffle.jpg",
+        num: "02",
+        name: "The Lace Trim",
+        desc: "Soft drawstring shorts with a scalloped lace hem. Sweet and breezy.",
+        normal: "assets/img/looks/lace-trim-normal.png",
+        crop: "assets/img/looks/lace-trim-crop.png",
+        shop: ""
+      },
+      {
         num: "03",
-        name: "The Seersucker Ruffle",
-        desc: "Blue striped smocked shorts with a bow and ruffle hem.",
+        name: "The Smocked Ruffle",
+        desc: "Light blue smocked shorts with a soft ruffle hem and a little bow.",
+        normal: "assets/img/looks/smocked-ruffle-normal.png",
+        crop: "assets/img/looks/smocked-ruffle-crop.png",
+        shop: ""
+      },
+      {
+        num: "04",
+        name: "The Gingham Tiered",
+        desc: "Blue gingham with tiered ruffles. The most playful of the bunch.",
+        normal: "assets/img/looks/gingham-tiered-normal.png",
+        crop: "assets/img/looks/gingham-tiered-crop.png",
         shop: ""
       }
     ]

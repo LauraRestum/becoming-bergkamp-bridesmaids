@@ -10,7 +10,7 @@
 
   Bump CACHE when shipping so clients pick up a new worker and get prompted.
 */
-var CACHE = "bergkamp-v3";
+var CACHE = "bergkamp-v5";
 
 var SHELL = [
   "/",
@@ -19,13 +19,26 @@ var SHELL = [
   "/manifest.json",
   "/styles/main.css",
   "/scripts/data.js",
+  "/scripts/boardwalk.js",
   "/scripts/app.js",
-  "/assets/img/looks/lace-trim.jpg",
-  "/assets/img/looks/denim-cutoffs.jpg",
-  "/assets/img/looks/seersucker-ruffle.jpg",
   "/assets/img/brand/sea-badge.jpg",
+  "/assets/img/brand/sea-header.png",
+  "/assets/img/beachclub/beachclub-banner.png",
+  "/assets/img/beachclub/beachclub-bg.jpg",
+  "/assets/img/blue/something-blue-banner.png",
+  "/assets/img/blue/something-blue-bg.jpg",
   "/assets/img/rainbow/rainbow-bg.png",
   "/assets/img/rainbow/rainbow-banner.png",
+  "/assets/img/coconuts/coconuts-banner.png",
+  "/assets/img/coconuts/coconuts-bg.png",
+  "/assets/img/looks/denim-cutoffs-normal.png",
+  "/assets/img/looks/denim-cutoffs-crop.png",
+  "/assets/img/looks/lace-trim-normal.png",
+  "/assets/img/looks/lace-trim-crop.png",
+  "/assets/img/looks/smocked-ruffle-normal.png",
+  "/assets/img/looks/smocked-ruffle-crop.png",
+  "/assets/img/looks/gingham-tiered-normal.png",
+  "/assets/img/looks/gingham-tiered-crop.png",
   "/assets/icons/icon-192.png",
   "/assets/icons/icon-512.png",
   "/assets/icons/apple-touch-icon.png"

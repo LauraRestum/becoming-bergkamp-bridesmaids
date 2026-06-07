@@ -70,31 +70,118 @@
     if (day.theme === "day--coconuts") glyph = "&#129373;"; // coconut
     if (day.theme === "day--boardwalk") glyph = "&#127881;";
 
-    var heading = day.banner
-      ? '<h2 class="reveal day__banner-wrap"><img class="day__banner" src="' + esc(day.banner) +
-        '" alt="' + esc(day.title) + '"></h2>'
-      : '<h2 class="reveal' + (day.rainbow ? " rainbow-title" : "") + '">' + esc(day.title) + "</h2>";
-
     var body =
       '<div class="label reveal">' + esc(day.label) + "</div>" +
-      heading;
+      headingHTML(day);
 
     if (day.hook) body += '<div class="hook reveal">' + esc(day.hook) + "</div>";
     body += '<p class="vibe reveal">' + esc(day.vibe) + "</p>";
     if (day.secondary) body += '<p class="secondary reveal">' + esc(day.secondary) + "</p>";
+    if (day.transport) body += transportHTML(day.transport);
+    if (day.sunset) body += sunsetHTML(day.sunset);
+    if (day.forms) body += formsHTML(day.forms);
     if (day.wear) {
       body += '<div class="wearchip chip reveal"><span class="lead">Wear</span>' + esc(day.wear) + "</div>";
     }
     body += swatchRow(day.swatches);
-    if (day.looksWidget) body += boardwalkWidgetHTML();
+    if (day.meals) body += mealsHTML(day.meals);
+    if (day.looksWidget && window.Boardwalk) body += window.Boardwalk.html();
     if (day.location) body += dayLocationHTML(day.location);
 
     var bgStyle = day.bg ? ' style="background-image:url(' + esc(day.bg) + ')"' : "";
+    var bgClass = day.bg ? " has-bg" : "";
 
-    return '<section class="day ' + day.theme + '" id="' + esc(day.id) + '"' + bgStyle + ">" +
+    return '<section class="day ' + day.theme + bgClass + '" id="' + esc(day.id) + '"' + bgStyle + ">" +
              '<span class="day__glyph" aria-hidden="true">' + glyph + "</span>" +
              '<div class="wrap"><div class="day__inner">' + body + "</div></div>" +
            "</section>";
+  }
+
+  /* The day title: hand-lettered banner art, a crest plus word, a placeholder
+     frame when art is still coming, or plain serif text. */
+  function headingHTML(day) {
+    if (day.banner && day.bannerKeepsTitle) {
+      return '<div class="reveal day__crest"><img class="day__banner day__banner--crest" src="' +
+        esc(day.banner) + '" alt="' + esc(day.title) + ' crest"></div>' +
+        '<h2 class="reveal day__title">' + esc(day.title) + "</h2>";
+    }
+    if (day.banner) {
+      return '<h2 class="reveal day__banner-wrap"><img class="day__banner" src="' +
+        esc(day.banner) + '" alt="' + esc(day.title) + '"></h2>';
+    }
+    if (day.bannerPlaceholder) {
+      return '<div class="reveal day__banner-ph"><span>Banner art coming soon</span></div>' +
+        '<h2 class="reveal day__title">' + esc(day.title) + "</h2>";
+    }
+    return '<h2 class="reveal">' + esc(day.title) + "</h2>";
+  }
+
+  /* A small "we have the ride" note. */
+  function transportHTML(text) {
+    return '<div class="transport reveal"><span class="transport__glyph" aria-hidden="true">&#128666;</span>' +
+      '<span>' + esc(text) + "</span></div>";
+  }
+
+  /* Warm sunset panel layered over the cruise description. */
+  function sunsetHTML(s) {
+    return '<div class="sunset reveal">' +
+      (s.eyebrow ? '<span class="eyebrow">' + esc(s.eyebrow) + "</span>" : "") +
+      (s.title ? "<h3>" + esc(s.title) + "</h3>" : "") +
+      (s.body ? '<p class="sunset__body">' + esc(s.body) + "</p>" : "") +
+      (s.cost ? '<p class="sunset__cost">' + esc(s.cost) + "</p>" : "") +
+      (s.link ? linkChips(null, [s.link]) : "") +
+      "</div>";
+  }
+
+  /* A small row of outbound link chips (a website plus any menu links). */
+  function linkChips(website, links) {
+    var items = [];
+    if (website) items.push({ label: "Website", href: website });
+    (links || []).forEach(function (l) { if (l && l.href) items.push(l); });
+    if (!items.length) return "";
+    return '<div class="linklist">' + items.map(function (it) {
+      return '<a class="linkchip" href="' + esc(it.href) + '" target="_blank" rel="noopener">' +
+        esc(it.label) + "</a>";
+    }).join("") + "</div>";
+  }
+
+  /* Where we eat for this day. Only the provided meals render (no N/A rows).
+     A meal value can be a plain string or a venue object with links. */
+  function mealsHTML(m) {
+    var order = [
+      { key: "breakfast", glyph: "&#9749;" },   // hot beverage
+      { key: "lunch", glyph: "&#127869;" },      // fork and knife with plate
+      { key: "dinner", glyph: "&#127865;" }      // clinking glasses
+    ];
+    var rows = order.filter(function (o) { return m[o.key]; }).map(function (o) {
+      var label = o.key.charAt(0).toUpperCase() + o.key.slice(1);
+      var v = (typeof m[o.key] === "string") ? { place: m[o.key] } : m[o.key];
+      return '<div class="meal">' +
+        '<span class="meal__glyph" aria-hidden="true">' + o.glyph + "</span>" +
+        '<div class="meal__body">' +
+          '<span class="meal__label">' + label + "</span>" +
+          '<span class="meal__place">' + esc(v.place) + "</span>" +
+          (v.address ? '<span class="meal__addr">' + esc(v.address) + "</span>" : "") +
+          linkChips(v.website, v.links) +
+        "</div></div>";
+    }).join("");
+    if (!rows) return "";
+    return '<div class="meals reveal"><span class="eyebrow">On the Menu</span>' +
+      '<div class="meals__list">' + rows + "</div></div>";
+  }
+
+  /* Form links that feed the games. href "" renders a non-clickable pill. */
+  function formsHTML(f) {
+    var items = f.items.map(function (it) {
+      return (it.href && it.href !== "#")
+        ? '<a class="pill-link" href="' + esc(it.href) + '" target="_blank" rel="noopener">' + esc(it.label) + "</a>"
+        : '<span class="pill-link is-ghost">' + esc(it.label) + " &middot; soon</span>";
+    }).join("");
+    return '<div class="forms reveal">' +
+      (f.eyebrow ? '<span class="eyebrow">' + esc(f.eyebrow) + "</span>" : "") +
+      (f.title ? "<h3>" + esc(f.title) + "</h3>" : "") +
+      (f.note ? '<p class="forms__note">' + esc(f.note) + "</p>" : "") +
+      '<div class="forms__links">' + items + "</div></div>";
   }
 
   /* a location marker that lives inside the day it belongs to */
@@ -103,6 +190,8 @@
       (loc.eyebrow ? '<span class="eyebrow">' + esc(loc.eyebrow) + "</span>" : "") +
       "<h3>" + esc(loc.title) + "</h3>" +
       '<div class="detail">' + esc(loc.detail) + "</div>" +
+      (loc.address ? '<div class="day-loc__addr">' + esc(loc.address) + "</div>" : "") +
+      linkChips(loc.website, loc.links) +
       mapBlock(loc.map, loc.title) + "</div>";
   }
 
@@ -123,12 +212,20 @@
 
     var days = b.days.map(renderDay).join("");
 
-    el("view-bachelorette").innerHTML =
-      '<section class="hero hero--sea">' +
-        '<img class="hero-badge reveal" src="assets/img/brand/sea-badge.jpg" alt="All I Sea is Love, Laura\'s Bachelorette, Pawleys Island" width="120" height="120">' +
+    // Lead with the full-width header banner when one is set, otherwise the
+    // round crest and hand-set lettering.
+    var heroInner = b.hero.banner
+      ? '<img class="hero-banner reveal" src="' + esc(b.hero.banner) +
+          '" alt="' + esc(b.hero.kicker) + " " + esc(b.hero.headline) + '">' +
+        '<div class="sub reveal">' + esc(b.hero.subtitle) + "</div>"
+      : '<img class="hero-badge reveal" src="assets/img/brand/sea-badge.jpg" alt="All I Sea is Love, Laura\'s Bachelorette, Pawleys Island" width="120" height="120">' +
         '<div class="kicker reveal">' + esc(b.hero.kicker) + "</div>" +
         '<h1 class="reveal">' + esc(b.hero.headline) + "</h1>" +
-        '<div class="sub reveal">' + esc(b.hero.subtitle) + "</div>" +
+        '<div class="sub reveal">' + esc(b.hero.subtitle) + "</div>";
+
+    el("view-bachelorette").innerHTML =
+      '<section class="hero hero--sea' + (b.hero.banner ? " hero--banner" : "") + '">' +
+        heroInner +
         '<div class="wavewrap">' + waveSVG("#FBF7EF") + "</div>" +
       "</section>" +
       '<nav class="jumpnav"><div class="jumpnav__scroll">' + pills + "</div></nav>" +
@@ -137,6 +234,7 @@
       '<div class="wrap">' + pagefoot(b.footerScript, b.footerLine) + "</div>";
 
     initJumpNav();
+    if (window.Boardwalk) window.Boardwalk.init(el("view-bachelorette"));
   }
 
   /* -------------------------------------------------- DAY BEFORE / OF */
@@ -193,32 +291,6 @@
           '<p class="body">' + esc(d.attire.body) + "</p>" +
           '<span class="tag">' + esc(d.attire.tag) + "</span></section>" +
         pagefoot(d.footerScript, d.footerLine) + "</div>";
-  }
-
-  /* -------------------------------------------------- BOARDWALK WIDGET */
-  function boardwalkWidgetHTML() {
-    var w = DATA.boardwalk;
-    var looks = w.looks.map(function (lk, i) {
-      var shop = (lk.shop && lk.shop !== "#")
-        ? '<a class="pill-link" href="' + esc(lk.shop) + '" target="_blank" rel="noopener">Shop the shorts</a>'
-        : '<span class="pill-link is-ghost">Link coming soon</span>';
-      return '<article class="look-card reveal">' +
-        '<div class="look-tile" data-zoom="' + esc(lk.img) + '" data-look="' + esc(lk.name) + '">' +
-          '<img loading="lazy" src="' + esc(lk.img) + '" alt="' + esc(lk.name) + ', front and back">' +
-          '<span class="ov ov-num">LOOK ' + esc(lk.num) + "</span>" +
-          '<span class="ov ov-fb">front &amp; back</span>' +
-          '<span class="ov ov-zoom">tap to zoom</span>' +
-        "</div>" +
-        '<div class="look-meta"><h3>' + esc(lk.name) + "</h3>" +
-          '<p class="desc">' + esc(lk.desc) + "</p>" + shop + "</div>" +
-        "</article>";
-    }).join("");
-
-    return '<div class="boardwalk-widget reveal">' +
-      '<div class="tee-note"><span class="glyph" aria-hidden="true">&#128085;</span>' +
-        '<div><div class="t">' + esc(w.teeNote) + "</div>" +
-        '<div class="s">' + esc(w.teeSub) + "</div></div></div>" +
-      '<div class="looks">' + looks + "</div></div>";
   }
 
   /* -------------------------------------------------- wave divider */
