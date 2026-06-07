@@ -3,7 +3,7 @@
   Network-first for the document, cache-first for assets.
   Bump CACHE when shipping new content so clients pick it up.
 */
-var CACHE = "bergkamp-v2";
+var CACHE = "bergkamp-v3";
 
 var SHELL = [
   "/",
@@ -51,22 +51,29 @@ self.addEventListener("fetch", function (e) {
 
   var url = new URL(req.url);
   var sameOrigin = url.origin === self.location.origin;
+  var accept = req.headers.get("accept") || "";
+  var isDoc = req.mode === "navigate" || accept.indexOf("text/html") !== -1;
+  // Our own app code and content. These change often, so never trust the cache
+  // first or edits will not show up after a deploy.
+  var isAppCode = sameOrigin && /\.(?:css|js)$/.test(url.pathname);
 
-  // Network-first for navigations / the document
-  if (req.mode === "navigate" || (req.headers.get("accept") || "").indexOf("text/html") !== -1) {
+  // Network-first for the document and our CSS/JS, with cache as offline fallback.
+  if (isDoc || isAppCode) {
     e.respondWith(
       fetch(req).then(function (res) {
         var copy = res.clone();
         caches.open(CACHE).then(function (c) { c.put(req, copy); });
         return res;
       }).catch(function () {
-        return caches.match(req).then(function (m) { return m || caches.match("/index.html"); });
+        return caches.match(req).then(function (m) {
+          return m || (isDoc ? caches.match("/index.html") : m);
+        });
       })
     );
     return;
   }
 
-  // Cache-first for everything else (styles, scripts, images, fonts)
+  // Cache-first for everything else (images, fonts, icons): rarely changes.
   e.respondWith(
     caches.match(req).then(function (cached) {
       if (cached) return cached;
