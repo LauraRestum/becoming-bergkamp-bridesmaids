@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Becoming Bergkamp · Wedding Party Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="The wedding party hub for Laura and William. Bachelorette trip, the day before, and the day of.">
+
+  <!-- PWA / app-like -->
+  <meta name="theme-color" content="#15130F">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Bergkamp">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+
+  <!-- Fonts: Fraunces, Jost, Sacramento -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Jost:wght@300;400;500;600&family=Sacramento&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <!-- film grain texture -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- fixed top bar -->
+  <header class="topbar">
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <a class="wordmark" href="#/home">Becoming <span class="gold">Bergkamp</span></a>
+    <span class="shellglyph" aria-hidden="true">&#128025;</span>
+  </header>
+
+  <!-- slide-in drawer -->
+  <div class="scrim" id="scrim"></div>
+  <aside class="drawer" id="drawer" aria-label="Main menu">
+    <div class="drawer__kicker">welcome to the</div>
+    <div class="drawer__title">Wedding Party Hub</div>
+    <div class="drawer__rule"></div>
+    <nav>
+      <a class="drawer__link" href="#/home"><span class="idx">00</span><span class="label">Home</span></a>
+      <a class="drawer__link" href="#/bachelorette"><span class="idx">01</span><span class="label">Bachelorette Trip</span></a>
+      <a class="drawer__link" href="#/day-before"><span class="idx">02</span><span class="label">The Day Before</span></a>
+      <a class="drawer__link" href="#/day-of"><span class="idx">03</span><span class="label">The Day Of</span></a>
+    </nav>
+    <div class="drawer__soon">
+      <div class="ey">Coming soon</div>
+      <div class="items">Bridesmaids portal &middot; Groomsmen portal</div>
+    </div>
+  </aside>
+
+  <!-- routed views (filled by app.js from data.js) -->
+  <main>
+    <section class="view" id="view-home"></section>
+    <section class="view" id="view-bachelorette"></section>
+    <section class="view" id="view-day-before"></section>
+    <section class="view" id="view-day-of"></section>
+  </main>
+
+  <!-- shared lightbox for the Boardwalk looks -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox__close" aria-label="Close">&times;</button>
+    <img src="" alt="">
+  </div>
+
+  <script src="scripts/data.js"></script>
+  <script src="scripts/app.js"></script>
+</body>
+</html>

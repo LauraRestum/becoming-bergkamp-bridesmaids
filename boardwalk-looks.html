@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Pick Your Shorts · All You SEA is Love</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Boardwalk day look builder. Same tee for everyone, your choice of shorts.">
+  <meta name="theme-color" content="#15130F">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Jost:wght@300;400;500;600&family=Sacramento&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body class="standalone">
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="hamburger" href="index.html#/bachelorette" aria-label="Back to the hub" style="text-decoration:none;display:grid;place-items:center;font-size:20px;">&#8592;</a>
+    <a class="wordmark" href="index.html#/home">Becoming <span class="gold">Bergkamp</span></a>
+    <span class="shellglyph" aria-hidden="true">&#128025;</span>
+  </header>
+
+  <main>
+    <section class="day day--boardwalk" style="padding-top:46px;">
+      <div class="wrap"><div class="day__inner">
+        <div class="label" id="bw-kicker"></div>
+        <h2 id="bw-title"></h2>
+        <p class="vibe" id="bw-intro"></p>
+        <div id="bw-widget"></div>
+        <footer class="pagefoot">
+          <div class="script" id="bw-foot-script"></div>
+          <div class="line" id="bw-foot-line"></div>
+        </footer>
+      </div></div>
+    </section>
+  </main>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox__close" aria-label="Close">&times;</button>
+    <img src="" alt="">
+  </div>
+
+  <script src="scripts/data.js"></script>
+  <script>
+  (function () {
+    "use strict";
+    function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");}
+    var w = DATA.boardwalk;
+    document.getElementById("bw-kicker").textContent = w.kicker;
+    document.getElementById("bw-title").textContent = w.title;
+    document.getElementById("bw-intro").textContent = w.intro;
+    document.getElementById("bw-foot-script").textContent = w.footerScript;
+    document.getElementById("bw-foot-line").textContent = w.footerLine;
+
+    var looks = w.looks.map(function (lk) {
+      var shop = (lk.shop && lk.shop !== "#")
+        ? '<a class="pill-link" href="' + esc(lk.shop) + '" target="_blank" rel="noopener">Shop the shorts</a>'
+        : '<span class="pill-link is-ghost">Link coming soon</span>';
+      return '<article class="look-card">' +
+        '<div class="look-tile" data-zoom="' + esc(lk.img) + '" data-look="' + esc(lk.name) + '">' +
+          '<img loading="lazy" src="' + esc(lk.img) + '" alt="' + esc(lk.name) + ', front and back">' +
+          '<span class="ov ov-num">LOOK ' + esc(lk.num) + '</span>' +
+          '<span class="ov ov-fb">front &amp; back</span>' +
+          '<span class="ov ov-zoom">tap to zoom</span>' +
+        '</div>' +
+        '<div class="look-meta"><h3>' + esc(lk.name) + '</h3>' +
+          '<p class="desc">' + esc(lk.desc) + '</p>' + shop + '</div></article>';
+    }).join("");
+
+    document.getElementById("bw-widget").innerHTML =
+      '<div class="boardwalk-widget">' +
+        '<div class="tee-note"><span class="glyph" aria-hidden="true">&#128085;</span>' +
+          '<div><div class="t">' + esc(w.teeNote) + '</div>' +
+          '<div class="s">' + esc(w.teeSub) + '</div></div></div>' +
+        '<div class="looks">' + looks + '</div></div>';
+
+    // lightbox
+    var lb = document.getElementById("lightbox");
+    var img = lb.querySelector("img");
+    document.addEventListener("click", function (e) {
+      var tile = e.target.closest && e.target.closest(".look-tile");
+      if (tile) { img.src = tile.getAttribute("data-zoom"); img.alt = (tile.getAttribute("data-look")||"Look") + ", front and back"; lb.classList.add("is-open"); }
+    });
+    function close(){ lb.classList.remove("is-open"); img.src=""; }
+    lb.addEventListener("click", close);
+    document.addEventListener("keydown", function(e){ if(e.key==="Escape") close(); });
+  })();
+  </script>
+</body>
+</html>
