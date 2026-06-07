@@ -367,12 +367,72 @@
     window.addEventListener("hashchange", route);
     route();
 
-    // register service worker for offline / installable PWA
+    // register service worker for offline / installable PWA, with an
+    // in-app prompt when a fresh version has been deployed
     if ("serviceWorker" in navigator) {
-      window.addEventListener("load", function () {
-        navigator.serviceWorker.register("service-worker.js").catch(function () {});
-      });
+      window.addEventListener("load", initServiceWorker);
     }
+  }
+
+  /* -------------------------------------------------- AUTO UPDATE */
+  function initServiceWorker() {
+    var reloading = false;
+
+    // When the new worker takes control, reload once onto the fresh version.
+    navigator.serviceWorker.addEventListener("controllerchange", function () {
+      if (reloading) return;
+      reloading = true;
+      window.location.reload();
+    });
+
+    navigator.serviceWorker.register("service-worker.js").then(function (reg) {
+      // A worker may already be waiting from a previous visit.
+      if (reg.waiting && navigator.serviceWorker.controller) showUpdatePrompt(reg.waiting);
+
+      reg.addEventListener("updatefound", function () {
+        var fresh = reg.installing;
+        if (!fresh) return;
+        fresh.addEventListener("statechange", function () {
+          // "installed" with an existing controller means this is an update,
+          // not the very first install, so it is safe to prompt.
+          if (fresh.state === "installed" && navigator.serviceWorker.controller) {
+            showUpdatePrompt(fresh);
+          }
+        });
+      });
+
+      // Check for a new deploy now, when the tab regains focus, and hourly.
+      reg.update();
+      document.addEventListener("visibilitychange", function () {
+        if (document.visibilityState === "visible") reg.update();
+      });
+      setInterval(function () { reg.update(); }, 60 * 60 * 1000);
+    }).catch(function () {});
+  }
+
+  var updateShown = false;
+  function showUpdatePrompt(worker) {
+    if (updateShown) return;
+    updateShown = true;
+
+    var bar = document.createElement("div");
+    bar.className = "update-toast";
+    bar.setAttribute("role", "status");
+    bar.innerHTML =
+      '<span class="update-toast__text">A fresh version is ready.</span>' +
+      '<button type="button" class="update-toast__btn">Update</button>';
+
+    var btn = bar.querySelector(".update-toast__btn");
+    btn.addEventListener("click", function () {
+      btn.disabled = true;
+      btn.textContent = "Updating";
+      // Ask the waiting worker to activate; controllerchange then reloads.
+      worker.postMessage({ type: "SKIP_WAITING" });
+    });
+
+    document.body.appendChild(bar);
+    // next frame so the entrance transition runs
+    requestAnimationFrame(function () { bar.classList.add("is-in"); });
   }
 
   if (document.readyState === "loading") {
