@@ -1,9 +1,16 @@
 /*
   Becoming Bergkamp :: service worker
-  Network-first for the document, cache-first for assets.
-  Bump CACHE when shipping new content so clients pick it up.
+  Network-first for the document and same-origin app code (HTML, CSS, JS) so
+  new deploys are picked up automatically. Cache-first for binary assets
+  (images, icons, fonts) that rarely change.
+
+  Update flow: a new worker waits instead of taking over silently. The page
+  detects the waiting worker, prompts the user, and on confirm posts
+  SKIP_WAITING. We then activate and the page reloads onto the fresh version.
+
+  Bump CACHE when shipping so clients pick up a new worker and get prompted.
 */
-var CACHE = "bergkamp-v2";
+var CACHE = "bergkamp-v3";
 
 var SHELL = [
   "/",
@@ -31,7 +38,8 @@ self.addEventListener("install", function (e) {
       return Promise.all(SHELL.map(function (url) {
         return c.add(url).catch(function () {});
       }));
-    }).then(function () { return self.skipWaiting(); })
+    })
+    // Note: no skipWaiting here. The new worker waits so the page can prompt.
   );
 });
 
@@ -45,28 +53,43 @@ self.addEventListener("activate", function (e) {
   );
 });
 
+// The page posts this when the user accepts the update prompt.
+self.addEventListener("message", function (e) {
+  if (e.data && e.data.type === "SKIP_WAITING") self.skipWaiting();
+});
+
+// Same-origin app code we want to keep fresh on every load.
+function isAppCode(url) {
+  if (url.origin !== self.location.origin) return false;
+  return /\.(?:html|css|js)$/.test(url.pathname);
+}
+
 self.addEventListener("fetch", function (e) {
   var req = e.request;
   if (req.method !== "GET") return;
 
   var url = new URL(req.url);
   var sameOrigin = url.origin === self.location.origin;
+  var isDoc = req.mode === "navigate" ||
+    (req.headers.get("accept") || "").indexOf("text/html") !== -1;
 
-  // Network-first for navigations / the document
-  if (req.mode === "navigate" || (req.headers.get("accept") || "").indexOf("text/html") !== -1) {
+  // Network-first for the document and same-origin app code (auto updates)
+  if (isDoc || isAppCode(url)) {
     e.respondWith(
       fetch(req).then(function (res) {
         var copy = res.clone();
         caches.open(CACHE).then(function (c) { c.put(req, copy); });
         return res;
       }).catch(function () {
-        return caches.match(req).then(function (m) { return m || caches.match("/index.html"); });
+        return caches.match(req).then(function (m) {
+          return m || (isDoc ? caches.match("/index.html") : m);
+        });
       })
     );
     return;
   }
 
-  // Cache-first for everything else (styles, scripts, images, fonts)
+  // Cache-first for everything else (images, icons, fonts)
   e.respondWith(
     caches.match(req).then(function (cached) {
       if (cached) return cached;
