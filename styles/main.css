@@ -744,7 +744,7 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 
 /* ============================================ PAGE HEADER BANNER */
 /* full-width hand-lettered header art for the bachelorette page */
-.hero--banner { padding-top: 0; }
+.hero--banner { padding: 0 0 0; }
 .hero--banner .hero-banner {
   width: 100%;
   height: auto;
@@ -754,7 +754,8 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   border-bottom-right-radius: var(--radius-l);
   box-shadow: 0 12px 34px rgba(21,19,15,.26);
 }
-.hero--banner .sub { margin-top: 18px; }
+.hero--banner .sub { margin-top: 20px; padding: 0 22px; }
+.hero--banner .wavewrap { margin-top: var(--space-6); }
 
 /* ============================================ DAY EXTRAS */
 /* "we have the ride" transport note */
@@ -788,6 +789,40 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .forms__note { font-size: 13.5px; line-height: 1.6; opacity: .92; margin: 0 0 16px; }
 .forms__links { display: flex; flex-wrap: wrap; gap: 10px; }
 .forms__links .pill-link { font-size: 12.5px; padding: 11px 18px; }
+
+/* "On the Menu" dining block, adapts to light or dark day worlds */
+.meals {
+  margin-top: var(--space-6);
+  max-width: 34em;
+  background: rgba(255,255,255,.14);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: var(--radius-l);
+  padding: var(--space-5);
+}
+.meals .eyebrow { display: block; opacity: .92; }
+.meals__list { display: grid; gap: 12px; margin-top: 14px; }
+.meal {
+  display: grid;
+  grid-template-columns: 22px 78px 1fr;
+  align-items: baseline;
+  gap: 10px;
+}
+.meal__glyph { font-size: 15px; line-height: 1; }
+.meal__label {
+  font-size: 11px; letter-spacing: var(--track-label); text-transform: uppercase;
+  opacity: .72;
+}
+.meal__place {
+  font-family: var(--serif); font-size: 15px; line-height: 1.4;
+  font-variation-settings: "opsz" 32;
+}
+/* dark-text day worlds get a light frosted card instead */
+.day--rainbow .meals, .day--boardwalk .meals {
+  background: rgba(255,255,255,.55);
+  border-color: rgba(21,19,15,.12);
+}
 
 /* warm sunset panel layered over the cruise description (Coco Nuts) */
 .sunset {

@@ -84,6 +84,7 @@
       body += '<div class="wearchip chip reveal"><span class="lead">Wear</span>' + esc(day.wear) + "</div>";
     }
     body += swatchRow(day.swatches);
+    if (day.meals) body += mealsHTML(day.meals);
     if (day.looksWidget && window.Boardwalk) body += window.Boardwalk.html();
     if (day.location) body += dayLocationHTML(day.location);
 
@@ -129,6 +130,25 @@
       (s.body ? '<p class="sunset__body">' + esc(s.body) + "</p>" : "") +
       (s.cost ? '<p class="sunset__cost">' + esc(s.cost) + "</p>" : "") +
       "</div>";
+  }
+
+  /* Where we eat for this day. Only the provided meals render (no N/A rows). */
+  function mealsHTML(m) {
+    var order = [
+      { key: "breakfast", glyph: "&#9749;" },   // hot beverage
+      { key: "lunch", glyph: "&#127869;" },      // fork and knife with plate
+      { key: "dinner", glyph: "&#127865;" }      // clinking glasses
+    ];
+    var rows = order.filter(function (o) { return m[o.key]; }).map(function (o) {
+      var label = o.key.charAt(0).toUpperCase() + o.key.slice(1);
+      return '<div class="meal">' +
+        '<span class="meal__glyph" aria-hidden="true">' + o.glyph + "</span>" +
+        '<span class="meal__label">' + label + "</span>" +
+        '<span class="meal__place">' + esc(m[o.key]) + "</span></div>";
+    }).join("");
+    if (!rows) return "";
+    return '<div class="meals reveal"><span class="eyebrow">On the Menu</span>' +
+      '<div class="meals__list">' + rows + "</div></div>";
   }
 
   /* Form links that feed the games. href "" renders a non-clickable pill. */

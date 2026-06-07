@@ -22,6 +22,7 @@ var SHELL = [
   "/scripts/boardwalk.js",
   "/scripts/app.js",
   "/assets/img/brand/sea-badge.jpg",
+  "/assets/img/brand/sea-header.png",
   "/assets/img/beachclub/beachclub-banner.png",
   "/assets/img/beachclub/beachclub-bg.jpg",
   "/assets/img/blue/something-blue-banner.png",

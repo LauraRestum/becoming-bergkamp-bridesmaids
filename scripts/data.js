@@ -59,10 +59,10 @@ var DATA = {
       kicker: "all you",
       headline: "SEA is Love",
       subtitle: "Myrtle Beach, South Carolina · August 2026",
-      // Full-width header art for the whole bachelorette page. Drop the file in
-      // and set the path here to lead the page with the banner instead of the
-      // round badge. Leave "" to fall back to the badge + lettering hero.
-      banner: ""
+      // Full-width header art for the whole bachelorette page. Leads the page
+      // with the banner instead of the round badge. Set to "" to fall back to
+      // the badge + lettering hero.
+      banner: "assets/img/brand/sea-header.png"
     },
 
     // Sticky day-jump pills. anchor matches each day's id.
@@ -97,6 +97,9 @@ var DATA = {
         hook: "Members Only",
         vibe: "We kick the weekend off with a cozy night in at the house. Crafts at the table, a few rounds of trivia, and silly get to know you games to break the ice. Low key, low pressure, and where all the inside jokes start.",
         wear: "comfy and cute, beach club lounge",
+        meals: {
+          dinner: "Dinner in at the house"
+        },
         // Forms feed the trivia and games. Links land here later (href "" shows
         // a non-clickable "coming soon" pill, no submissions on this site).
         forms: {
@@ -129,6 +132,10 @@ var DATA = {
         vibe: "Beach day, all in blue. We post up at Litchfield Beach, drinks the color of the ocean, the brightest, easiest day of the trip.",
         wear: "a blue swimsuit, any blue you love",
         transport: "Litchfield Beach is a quick three minute drive from the house, and we have the ride covered. Just hop in.",
+        meals: {
+          breakfast: "At the house",
+          lunch: "Beach picnic at Litchfield, packed from the house"
+        },
         swatches: [
           { name: "sky", hex: "#8EC5E8" },
           { name: "cobalt", hex: "#1366C9" },
@@ -155,6 +162,9 @@ var DATA = {
         vibe: "The showstopper. Iridescent everything, glitter scales on our arms, the whole crew shimmering as we head out for the night.",
         wear: "any rainbow color, shimmery, glittery or silky",
         secondary: "No need to match anyone. Pick your shade and shine.",
+        meals: {
+          dinner: "RipTydz Oceanfront Grille & Rooftop Bar"
+        },
         swatches: [
           { name: "opal", hex: "#EAE6F2" },
           { name: "pink", hex: "#FF3FA4" },
@@ -165,10 +175,10 @@ var DATA = {
           { name: "violet", hex: "#8A4FFF" }
         ],
         location: {
-          eyebrow: "Out on the town",
-          title: "Night out, spot to come",
-          detail: "After we shimmer up at the house we head out somewhere around Myrtle Beach. The spot is still being picked, so stay tuned."
-          // no map yet
+          eyebrow: "Dinner & Out",
+          title: "RipTydz Oceanfront Grille & Rooftop Bar",
+          detail: "Myrtle Beach, SC · oceanfront dinner and a rooftop bar to kick the night off",
+          map: mapFor("RipTydz Oceanfront Grille Myrtle Beach SC")
         }
       },
       {
@@ -181,6 +191,10 @@ var DATA = {
         hook: "Boardwalk & Chill",
         vibe: "Slow morning, then we wander Broadway at the Beach. Shops, snacks, sunshine, and string lights when the sky goes pink.",
         wear: "whatever's comfy, sundress and sneakers",
+        meals: {
+          breakfast: "At the house",
+          lunch: "Margaritaville at Broadway at the Beach"
+        },
         looksWidget: true, // renders the Pick Your Shorts carousel inline
         location: {
           eyebrow: "On the Map",
@@ -198,15 +212,18 @@ var DATA = {
         banner: "assets/img/coconuts/coconuts-banner.png",
         bg: "assets/img/coconuts/coconuts-bg.png",
         hook: "Golden Hour, Golden Crew",
-        vibe: "Our fancy night. Dressed to the nines, dinner along the Murrells Inlet MarshWalk, then we keep the night going right there in the inlet.",
+        vibe: "Our fancy night. Dressed to the nines, out on the water, then dinner along the Murrells Inlet MarshWalk as we keep the night going right there in the inlet.",
         // Sunset tour gets its own warm, layered sunset panel.
         sunset: {
           eyebrow: "The Sunset Tour",
-          title: "Catamaran at golden hour",
-          body: "First a sunset catamaran cruise through the Murrells Inlet marsh as the sky turns gold and pink.",
-          cost: "Sunset cruises run about $30 to $60 per person depending on the boat and the season."
+          title: "Happy hour on the water",
+          body: "First a happy hour catamaran cruise through the Murrells Inlet marsh as the sky turns gold and pink.",
+          cost: "Happy hour and sunset cruises run about $30 to $60 per person depending on the boat and the season."
         },
         wear: "any shade of brown, bronze, coconut or coffee",
+        meals: {
+          dinner: "Happy hour cruise, then dinner at Wicked Tuna on the MarshWalk"
+        },
         swatches: [
           { name: "bronze", hex: "#A9742E" },
           { name: "coconut", hex: "#6B4226" },
@@ -217,7 +234,7 @@ var DATA = {
         location: {
           eyebrow: "On the Map",
           title: "Murrells Inlet MarshWalk",
-          detail: "Murrells Inlet, SC · cruise, dinner, and drinks along the MarshWalk",
+          detail: "Murrells Inlet, SC · happy hour cruise, then dinner and drinks at Wicked Tuna on the MarshWalk",
           map: mapFor("Murrells Inlet MarshWalk SC")
         }
       },
@@ -227,7 +244,11 @@ var DATA = {
         label: "sunday",
         title: "Slow Goodbyes",
         hook: "Relax · Debrief · Head Home",
-        vibe: "One last easy breakfast, a slow debrief of the whole weekend, big hugs, and home we go. Travel safe, and sea you soon."
+        vibe: "One last easy breakfast, a slow debrief of the whole weekend, big hugs, and home we go. Travel safe, and sea you soon.",
+        meals: {
+          breakfast: "At the house, depending on departure times",
+          lunch: "House or grab and go, depending on departure times"
+        }
       }
     ],
 
