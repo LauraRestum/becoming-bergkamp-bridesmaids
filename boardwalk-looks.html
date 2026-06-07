@@ -9,7 +9,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Jost:wght@300;400;500;600&family=Sacramento&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Jost:wght@300;400;500;600&family=Sacramento&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/main.css">
 </head>
 <body class="standalone">
@@ -78,11 +78,18 @@
     // lightbox
     var lb = document.getElementById("lightbox");
     var img = lb.querySelector("img");
+    var closeBtn = lb.querySelector(".lightbox__close");
     document.addEventListener("click", function (e) {
       var tile = e.target.closest && e.target.closest(".look-tile");
-      if (tile) { img.src = tile.getAttribute("data-zoom"); img.alt = (tile.getAttribute("data-look")||"Look") + ", front and back"; lb.classList.add("is-open"); }
+      if (tile) {
+        img.src = tile.getAttribute("data-zoom");
+        img.alt = (tile.getAttribute("data-look")||"Look") + ", front and back";
+        lb.classList.add("is-open");
+        lb.setAttribute("aria-hidden", "false");
+        if (closeBtn) closeBtn.focus();
+      }
     });
-    function close(){ lb.classList.remove("is-open"); img.src=""; }
+    function close(){ lb.classList.remove("is-open"); lb.setAttribute("aria-hidden","true"); img.src=""; }
     lb.addEventListener("click", close);
     document.addEventListener("keydown", function(e){ if(e.key==="Escape") close(); });
   })();
