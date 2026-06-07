@@ -42,10 +42,10 @@
   </div>
 
   <script src="scripts/data.js"></script>
+  <script src="scripts/boardwalk.js"></script>
   <script>
   (function () {
     "use strict";
-    function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");}
     var w = DATA.boardwalk;
     document.getElementById("bw-kicker").textContent = w.kicker;
     document.getElementById("bw-title").textContent = w.title;
@@ -53,27 +53,9 @@
     document.getElementById("bw-foot-script").textContent = w.footerScript;
     document.getElementById("bw-foot-line").textContent = w.footerLine;
 
-    var looks = w.looks.map(function (lk) {
-      var shop = (lk.shop && lk.shop !== "#")
-        ? '<a class="pill-link" href="' + esc(lk.shop) + '" target="_blank" rel="noopener">Shop the shorts</a>'
-        : '<span class="pill-link is-ghost">Link coming soon</span>';
-      return '<article class="look-card">' +
-        '<div class="look-tile" data-zoom="' + esc(lk.img) + '" data-look="' + esc(lk.name) + '">' +
-          '<img loading="lazy" src="' + esc(lk.img) + '" alt="' + esc(lk.name) + ', front and back">' +
-          '<span class="ov ov-num">LOOK ' + esc(lk.num) + '</span>' +
-          '<span class="ov ov-fb">front &amp; back</span>' +
-          '<span class="ov ov-zoom">tap to zoom</span>' +
-        '</div>' +
-        '<div class="look-meta"><h3>' + esc(lk.name) + '</h3>' +
-          '<p class="desc">' + esc(lk.desc) + '</p>' + shop + '</div></article>';
-    }).join("");
-
-    document.getElementById("bw-widget").innerHTML =
-      '<div class="boardwalk-widget">' +
-        '<div class="tee-note"><span class="glyph" aria-hidden="true">&#128085;</span>' +
-          '<div><div class="t">' + esc(w.teeNote) + '</div>' +
-          '<div class="s">' + esc(w.teeSub) + '</div></div></div>' +
-        '<div class="looks">' + looks + '</div></div>';
+    var host = document.getElementById("bw-widget");
+    host.innerHTML = window.Boardwalk.html();
+    window.Boardwalk.init(host);
 
     // lightbox
     var lb = document.getElementById("lightbox");
