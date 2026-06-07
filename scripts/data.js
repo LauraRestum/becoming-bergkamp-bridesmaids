@@ -118,7 +118,9 @@ var DATA = {
         theme: "day--rainbow",
         label: "friday · night",
         title: "Rainbow Fish",
-        rainbow: true, // animated shimmer title
+        // Iridescent background and hand-lettered banner for this section.
+        bg: "assets/img/rainbow/rainbow-bg.png",
+        banner: "assets/img/rainbow/rainbow-banner.png",
         hook: "Catch the Shimmer",
         vibe: "The showstopper. Iridescent everything, glitter scales on our arms, the whole crew shimmering under the lights.",
         wear: "any rainbow color, shimmery, glittery or silky",

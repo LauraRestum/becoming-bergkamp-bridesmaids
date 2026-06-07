@@ -410,23 +410,24 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 
 /* --- Friday night, Rainbow Fish --- */
 .day--rainbow {
-  background: #0c1230;
-  color: #EAE6F2;
-}
-.day--rainbow::before {
-  /* faint iridescent scale texture */
-  content: "";
-  position: absolute; inset: 0; z-index: 0;
-  opacity: .14;
-  background-image:
-    radial-gradient(circle at 0 0, rgba(63,169,255,.9) 0 8px, transparent 9px),
-    radial-gradient(circle at 14px 12px, rgba(255,63,164,.9) 0 8px, transparent 9px);
-  background-size: 28px 24px;
-  mix-blend-mode: screen;
+  /* iridescent background image set inline from data; fallback opal */
+  background-color: #EAE6F2;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: var(--ink);
 }
 .day--rainbow .day__inner { position: relative; z-index: 2; }
-.day--rainbow .label { color: #cfe6ff; }
-.day--rainbow .hook  { color: #ffd23f; }
+.day--rainbow .day__glyph { display: none; }
+.day--rainbow .label { color: #6f54a8; }
+.day--rainbow .hook  { color: #d6398a; }
+/* hand-lettered RAINBOW FISH banner replaces the text title */
+.day__banner-wrap { margin-top: 2px; line-height: 0; }
+.day__banner {
+  display: block;
+  width: min(440px, 90%);
+  height: auto;
+}
 .rainbow-title {
   background: linear-gradient(90deg, #FF3FA4, #FF8A3D, #FFD23F, #2FBF71, #3FA9FF, #8A4FFF, #FF3FA4);
   background-size: 300% 100%;

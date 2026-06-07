@@ -70,9 +70,14 @@
     if (day.theme === "day--coconuts") glyph = "&#129373;"; // coconut
     if (day.theme === "day--boardwalk") glyph = "&#127881;";
 
+    var heading = day.banner
+      ? '<h2 class="reveal day__banner-wrap"><img class="day__banner" src="' + esc(day.banner) +
+        '" alt="' + esc(day.title) + '"></h2>'
+      : '<h2 class="reveal' + (day.rainbow ? " rainbow-title" : "") + '">' + esc(day.title) + "</h2>";
+
     var body =
       '<div class="label reveal">' + esc(day.label) + "</div>" +
-      '<h2 class="reveal' + (day.rainbow ? " rainbow-title" : "") + '">' + esc(day.title) + "</h2>";
+      heading;
 
     if (day.hook) body += '<div class="hook reveal">' + esc(day.hook) + "</div>";
     body += '<p class="vibe reveal">' + esc(day.vibe) + "</p>";
@@ -83,7 +88,9 @@
     body += swatchRow(day.swatches);
     if (day.looksWidget) body += boardwalkWidgetHTML();
 
-    return '<section class="day ' + day.theme + '" id="' + esc(day.id) + '">' +
+    var bgStyle = day.bg ? ' style="background-image:url(' + esc(day.bg) + ')"' : "";
+
+    return '<section class="day ' + day.theme + '" id="' + esc(day.id) + '"' + bgStyle + ">" +
              '<span class="day__glyph" aria-hidden="true">' + glyph + "</span>" +
              '<div class="wrap"><div class="day__inner">' + body + "</div></div>" +
            "</section>";
