@@ -3,7 +3,7 @@
   Network-first for the document, cache-first for assets.
   Bump CACHE when shipping new content so clients pick it up.
 */
-var CACHE = "bergkamp-v2";
+var CACHE = "bergkamp-v3";
 
 var SHELL = [
   "/",

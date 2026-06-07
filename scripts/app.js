@@ -228,12 +228,25 @@
   }
 
   /* -------------------------------------------------- REVEAL */
+  /* Containers whose direct reveal children animate in with a soft stagger. */
+  var STAGGER_PARENTS = ".home-cards, .schedule, .looks";
+
+  function applyStagger(scope) {
+    (scope || document).querySelectorAll(STAGGER_PARENTS).forEach(function (group) {
+      var kids = group.querySelectorAll(":scope > .reveal");
+      kids.forEach(function (kid, i) {
+        kid.style.transitionDelay = (i * 80) + "ms";
+      });
+    });
+  }
+
   var revealObserver;
   function initReveal(scope) {
     if (!("IntersectionObserver" in window)) {
       (scope || document).querySelectorAll(".reveal").forEach(function (n) { n.classList.add("is-in"); });
       return;
     }
+    applyStagger(scope);
     if (!revealObserver) {
       revealObserver = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
@@ -286,20 +299,31 @@
     var lb = el("lightbox");
     if (!lb) return;
     var img = lb.querySelector("img");
+    var closeBtn = lb.querySelector(".lightbox__close");
+    var lastFocus = null;
 
     document.addEventListener("click", function (e) {
       var tile = e.target.closest && e.target.closest(".look-tile");
       if (tile) {
+        lastFocus = document.activeElement;
         img.src = tile.getAttribute("data-zoom");
         img.alt = (tile.getAttribute("data-look") || "Look") + ", front and back";
         lb.classList.add("is-open");
+        lb.setAttribute("aria-hidden", "false");
+        if (closeBtn) closeBtn.focus();
       }
     });
 
-    function close() { lb.classList.remove("is-open"); img.src = ""; }
+    function close() {
+      if (!lb.classList.contains("is-open")) return;
+      lb.classList.remove("is-open");
+      lb.setAttribute("aria-hidden", "true");
+      img.src = "";
+      if (lastFocus && lastFocus.focus) { lastFocus.focus(); lastFocus = null; }
+    }
     lb.addEventListener("click", close);
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && lb.classList.contains("is-open")) close();
+      if (e.key === "Escape") close();
     });
   }
 
@@ -307,15 +331,28 @@
   function initDrawer() {
     var burger = el("hamburger");
     var scrim = el("scrim");
+    var drawer = el("drawer");
 
-    function open() { document.body.classList.add("drawer-open"); burger.setAttribute("aria-expanded", "true"); }
-    function close() { document.body.classList.remove("drawer-open"); burger.setAttribute("aria-expanded", "false"); }
-    function toggle() { document.body.classList.contains("drawer-open") ? close() : open(); }
+    function isOpen() { return document.body.classList.contains("drawer-open"); }
+    function open() {
+      document.body.classList.add("drawer-open");
+      burger.setAttribute("aria-expanded", "true");
+      // move focus into the drawer for keyboard and screen reader users
+      var first = drawer && drawer.querySelector(".drawer__link");
+      if (first) first.focus();
+    }
+    function close() {
+      var wasOpen = isOpen();
+      document.body.classList.remove("drawer-open");
+      burger.setAttribute("aria-expanded", "false");
+      if (wasOpen) burger.focus();
+    }
+    function toggle() { isOpen() ? close() : open(); }
 
     burger.addEventListener("click", toggle);
     scrim.addEventListener("click", close);
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") close();
+      if (e.key === "Escape" && isOpen()) close();
     });
     // close when a drawer link is tapped
     document.querySelectorAll(".drawer__link").forEach(function (a) {
