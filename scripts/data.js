@@ -162,9 +162,6 @@ var DATA = {
         vibe: "The showstopper. Iridescent everything, glitter scales on our arms, the whole crew shimmering as we head out for the night.",
         wear: "any rainbow color, shimmery, glittery or silky",
         secondary: "No need to match anyone. Pick your shade and shine.",
-        meals: {
-          dinner: "RipTydz Oceanfront Grille & Rooftop Bar"
-        },
         swatches: [
           { name: "opal", hex: "#EAE6F2" },
           { name: "pink", hex: "#FF3FA4" },
@@ -178,7 +175,13 @@ var DATA = {
           eyebrow: "Dinner & Out",
           title: "RipTydz Oceanfront Grille & Rooftop Bar",
           detail: "Myrtle Beach, SC · oceanfront dinner and a rooftop bar to kick the night off",
-          map: mapFor("RipTydz Oceanfront Grille Myrtle Beach SC")
+          address: "1210 N Ocean Blvd, Myrtle Beach, SC 29577",
+          website: "https://riptydz.com",
+          links: [
+            { label: "Food menu", href: "https://riptydz.com/food-menu" },
+            { label: "Drink menu", href: "https://riptydz.com/drink-menu" }
+          ],
+          map: mapFor("RipTydz 1210 N Ocean Blvd Myrtle Beach SC 29577")
         }
       },
       {
@@ -193,13 +196,21 @@ var DATA = {
         wear: "whatever's comfy, sundress and sneakers",
         meals: {
           breakfast: "At the house",
-          lunch: "Margaritaville at Broadway at the Beach"
+          lunch: {
+            place: "Margaritaville at Broadway at the Beach",
+            address: "1114 Celebrity Circle, Myrtle Beach, SC 29577",
+            website: "https://www.margaritavillemyrtlebeach.com",
+            links: [
+              { label: "Menu", href: "https://www.margaritavillemyrtlebeach.com/menu" }
+            ]
+          }
         },
         looksWidget: true, // renders the Pick Your Shorts carousel inline
         location: {
           eyebrow: "On the Map",
           title: "Broadway at the Beach",
           detail: "Myrtle Beach, SC · about 30 minutes north of the house",
+          website: "https://www.broadwayatthebeach.com",
           map: mapFor("Broadway at the Beach Myrtle Beach SC")
         }
       },
@@ -218,11 +229,20 @@ var DATA = {
           eyebrow: "The Sunset Tour",
           title: "Happy hour on the water",
           body: "First a happy hour catamaran cruise through the Murrells Inlet marsh as the sky turns gold and pink.",
-          cost: "Happy hour and sunset cruises run about $30 to $60 per person depending on the boat and the season."
+          cost: "Happy hour and sunset cruises run about $30 to $60 per person depending on the boat and the season.",
+          link: { label: "Sunset cruise details", href: "https://myrtlebeachsailingcruises.com/sunset-cruise" }
         },
         wear: "any shade of brown, bronze, coconut or coffee",
         meals: {
-          dinner: "Happy hour cruise, then dinner at Wicked Tuna on the MarshWalk"
+          dinner: {
+            place: "Wicked Tuna on the MarshWalk",
+            address: "4123 US-17 BUS, Murrells Inlet, SC 29576",
+            website: "https://www.thewickedtuna.com",
+            links: [
+              { label: "Menus", href: "https://www.thewickedtuna.com/murrells-inlet-menus" },
+              { label: "Drink menu", href: "https://www.thewickedtuna.com/menu/drink-menu" }
+            ]
+          }
         },
         swatches: [
           { name: "bronze", hex: "#A9742E" },
@@ -235,6 +255,7 @@ var DATA = {
           eyebrow: "On the Map",
           title: "Murrells Inlet MarshWalk",
           detail: "Murrells Inlet, SC · happy hour cruise, then dinner and drinks at Wicked Tuna on the MarshWalk",
+          website: "https://marshwalk.com",
           map: mapFor("Murrells Inlet MarshWalk SC")
         }
       },

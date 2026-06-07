@@ -129,10 +129,24 @@
       (s.title ? "<h3>" + esc(s.title) + "</h3>" : "") +
       (s.body ? '<p class="sunset__body">' + esc(s.body) + "</p>" : "") +
       (s.cost ? '<p class="sunset__cost">' + esc(s.cost) + "</p>" : "") +
+      (s.link ? linkChips(null, [s.link]) : "") +
       "</div>";
   }
 
-  /* Where we eat for this day. Only the provided meals render (no N/A rows). */
+  /* A small row of outbound link chips (a website plus any menu links). */
+  function linkChips(website, links) {
+    var items = [];
+    if (website) items.push({ label: "Website", href: website });
+    (links || []).forEach(function (l) { if (l && l.href) items.push(l); });
+    if (!items.length) return "";
+    return '<div class="linklist">' + items.map(function (it) {
+      return '<a class="linkchip" href="' + esc(it.href) + '" target="_blank" rel="noopener">' +
+        esc(it.label) + "</a>";
+    }).join("") + "</div>";
+  }
+
+  /* Where we eat for this day. Only the provided meals render (no N/A rows).
+     A meal value can be a plain string or a venue object with links. */
   function mealsHTML(m) {
     var order = [
       { key: "breakfast", glyph: "&#9749;" },   // hot beverage
@@ -141,10 +155,15 @@
     ];
     var rows = order.filter(function (o) { return m[o.key]; }).map(function (o) {
       var label = o.key.charAt(0).toUpperCase() + o.key.slice(1);
+      var v = (typeof m[o.key] === "string") ? { place: m[o.key] } : m[o.key];
       return '<div class="meal">' +
         '<span class="meal__glyph" aria-hidden="true">' + o.glyph + "</span>" +
-        '<span class="meal__label">' + label + "</span>" +
-        '<span class="meal__place">' + esc(m[o.key]) + "</span></div>";
+        '<div class="meal__body">' +
+          '<span class="meal__label">' + label + "</span>" +
+          '<span class="meal__place">' + esc(v.place) + "</span>" +
+          (v.address ? '<span class="meal__addr">' + esc(v.address) + "</span>" : "") +
+          linkChips(v.website, v.links) +
+        "</div></div>";
     }).join("");
     if (!rows) return "";
     return '<div class="meals reveal"><span class="eyebrow">On the Menu</span>' +
@@ -171,6 +190,8 @@
       (loc.eyebrow ? '<span class="eyebrow">' + esc(loc.eyebrow) + "</span>" : "") +
       "<h3>" + esc(loc.title) + "</h3>" +
       '<div class="detail">' + esc(loc.detail) + "</div>" +
+      (loc.address ? '<div class="day-loc__addr">' + esc(loc.address) + "</div>" : "") +
+      linkChips(loc.website, loc.links) +
       mapBlock(loc.map, loc.title) + "</div>";
   }
 
