@@ -141,7 +141,13 @@ var DATA = {
         hook: "Boardwalk & Chill",
         vibe: "Slow morning, then we wander Broadway at the Beach. Shops, snacks, sunshine and string lights when the sky goes pink.",
         wear: "whatever's comfy, sundress and sneakers",
-        looksWidget: true // renders the Pick Your Shorts widget inline
+        looksWidget: true, // renders the Pick Your Shorts widget inline
+        location: {
+          eyebrow: "On the Map",
+          title: "Broadway at the Beach",
+          detail: "Myrtle Beach, SC · about 30 minutes north of the house",
+          map: mapFor("Broadway at the Beach Myrtle Beach SC")
+        }
       },
       {
         id: "coconuts",
@@ -157,7 +163,13 @@ var DATA = {
           { name: "terracotta", hex: "#C56B4A" },
           { name: "coral", hex: "#E58A6F" },
           { name: "sungold", hex: "#E8B14C" }
-        ]
+        ],
+        location: {
+          eyebrow: "On the Map",
+          title: "Murrells Inlet Sunset Cruise",
+          detail: "MarshWalk, Murrells Inlet, SC · catamaran departs at golden hour",
+          map: mapFor("Murrells Inlet MarshWalk SC")
+        }
       },
       {
         id: "sunday",
@@ -167,25 +179,6 @@ var DATA = {
         vibe: "One last coffee, big hugs, and home we go. Travel safe, and sea you soon."
       }
     ],
-
-    whereWeGoing: {
-      eyebrow: "On the Map",
-      heading: "Where We're Going",
-      cards: [
-        {
-          eyebrow: "Saturday Day",
-          title: "Broadway at the Beach",
-          detail: "Myrtle Beach, SC · about 30 minutes north of the house",
-          map: mapFor("Broadway at the Beach Myrtle Beach SC")
-        },
-        {
-          eyebrow: "Saturday Night",
-          title: "Murrells Inlet Sunset Cruise",
-          detail: "MarshWalk, Murrells Inlet, SC · catamaran departs at golden hour",
-          map: mapFor("Murrells Inlet MarshWalk SC")
-        }
-      ]
-    },
 
     footerScript: "all you sea is love",
     footerLine: "Bachelorette · Myrtle Beach 2026"
