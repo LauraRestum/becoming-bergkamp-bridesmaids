@@ -20,14 +20,18 @@ before making structural changes.
 2. The wedding colors are always written exactly as:
    **"black and white with hints of greenery and notes of antique gold."**
    Never shorten to "green" or "gold."
-3. Fonts are **Fraunces** (display serif), **Jost** (UI sans), and
-   **Sacramento** (script). Never fall back to Inter, Roboto, Arial, or system
-   fonts in the design.
+3. Fonts are **Bricolage Grotesque** (modern display) and **Jost** (UI and
+   body). No cursive or script faces (Sacramento was removed at Laura's request
+   for a more modern, bolder look). Never fall back to Inter, Roboto, Arial,
+   Montserrat, or system fonts in the design.
 4. This is **not an Envision project**. Do not apply any Envision brand system
    and do not use Montserrat.
 5. The Boardwalk widget tee is a **surprise**. Never render any graphic or text
    on the tee.
 6. "SEA" in "All You SEA is Love" is intentionally capitalized.
+7. The look is **editorial, not card-heavy**. Prefer hairline rules, flowing
+   full-bleed sections, and oversized display type over boxed cards with drop
+   shadows.
 
 ## Brand color tokens
 

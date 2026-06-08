@@ -39,15 +39,29 @@
            '</div><div class="line">' + esc(line) + "</div></footer>";
   }
 
+  /* A scrolling brand band. The set is duplicated so the loop is seamless. */
+  function marqueeHTML(items) {
+    var unit = items.map(function (t) {
+      return '<span><span class="star" aria-hidden="true">&#9670;</span> ' + esc(t) + "</span>";
+    }).join("");
+    return '<div class="marquee reveal" aria-hidden="true">' +
+      '<div class="marquee__track">' + unit + unit + "</div></div>";
+  }
+
   /* -------------------------------------------------- HOME */
   function renderHome() {
     var d = DATA.home;
-    var cards = d.cards.map(function (c) {
-      return '<a class="tapcard ' + c.theme + ' reveal" href="' + esc(c.route) + '">' +
-        '<span class="tag">' + esc(c.tag) + "</span>" +
-        "<h3>" + esc(c.title) + "</h3>" +
-        '<span class="sub">' + esc(c.subtitle) + "</span>" +
-        '<span class="arrow">&rarr;</span></a>';
+    var rows = d.cards.map(function (c, i) {
+      var num = (i + 1 < 10 ? "0" : "") + (i + 1);
+      return '<a class="indexrow ' + c.theme + ' reveal" href="' + esc(c.route) + '">' +
+        '<span class="indexrow__wash" aria-hidden="true"></span>' +
+        '<span class="indexrow__num">' + num + "</span>" +
+        '<span class="indexrow__body">' +
+          '<span class="indexrow__tag">' + esc(c.tag) + "</span>" +
+          '<span class="indexrow__title">' + esc(c.title) + "</span>" +
+          '<span class="indexrow__sub">' + esc(c.subtitle) + "</span>" +
+        "</span>" +
+        '<span class="indexrow__arrow" aria-hidden="true">&rarr;</span></a>';
     }).join("");
 
     el("view-home").innerHTML =
@@ -55,11 +69,10 @@
         '<div class="kicker reveal">' + esc(d.kicker) + "</div>" +
         '<h1 class="reveal">' + esc(d.headline[0]) +
           '<span class="italic">' + esc(d.headline[1]) + "</span></h1>" +
-        '<div class="gold-rule reveal"><span class="dot"></span><span class="line"></span>' +
-          '<span class="dot"></span><span class="line"></span><span class="dot"></span></div>' +
         '<div class="meta reveal">' + esc(d.meta) + "</div>" +
       "</section>" +
-      '<div class="wrap"><div class="home-cards">' + cards + "</div></div>" +
+      marqueeHTML(["Becoming Bergkamp", "March 20 2027", "Wichita Kansas", "All You SEA is Love"]) +
+      '<div class="wrap"><div class="home-cards">' + rows + "</div></div>" +
       '<div class="wrap">' + pagefoot(d.footerScript, d.footerLine) + "</div>";
   }
 
