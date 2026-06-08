@@ -48,21 +48,19 @@ var DATA = {
 
   /* ---------------------------------------------------------------- HOME */
   home: {
-    kicker: "we're getting married",
-    headline: ["Becoming ", "Bergkamp"], // second word renders italic gold
-    meta: "March 20, 2027 · Wichita, Kansas",
+    // The hub leads with one line, "Laura's Bridal Party", set over the curtain.
+    title: "Laura’s Bridal Party",
     // The two signatures carried over from the main wedding site so the hub
-    // reads as one family. They sit behind the page as soft background layers:
-    // the curtain (with "The Bergkamps" in gold script) glows behind the
-    // masthead so Home favors white, and the black and white checkerboard dance
-    // floor settles behind the foot. Decorative, so they carry no caption.
+    // reads as one family. The curtain projection sits in the top left corner of
+    // the hero, clearly seen, with the title riding on top of it. The black and
+    // white checkerboard is the backdrop behind the option buttons.
     curtain: {
       image: "assets/img/home/curtain.png",
-      alt: "A softly lit white curtain with The Bergkamps glowing in gold script"
+      alt: "A softly lit white curtain with a glowing projection"
     },
-    danceFloor: {
-      image: "assets/img/home/dance-floor.png",
-      alt: "A black and white checkerboard dance floor receding into the dark"
+    checkerboard: {
+      image: "assets/img/home/checkerboard.jpg",
+      alt: "A black and white checkerboard"
     },
     cards: [
       {
