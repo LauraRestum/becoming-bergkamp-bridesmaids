@@ -640,16 +640,14 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   pointer-events: none; user-select: none;
 }
 
-/* ====================== DAY ACCORDION (full-width banners, color journey) ======================
-   Each day's banner runs the full width of its section. There are no borders
-   between days; instead every section is a vertical color gradient that ends
-   on the next day's color, so the whole trip flows as one continuous blend
-   from one color into the next. Tapping a banner expands its plan in place.
+/* ====================== DAY ACCORDION (full-width banners, themed worlds) ======================
+   Each day's banner runs the full width of its section. Each day holds a single,
+   solid theme color, so the hero banners sit on their own color and do not blend
+   into the next day. Tapping a banner expands its plan in place, and the panel
+   below keeps that same theme color with images and elements throughout.
 
-   Per theme we set --c-this (this day's color) and --c-next (the next day's
-   color). A collapsed tile blends --c-this to --c-next, so it melts straight
-   into the day below. An open day settles to a solid --c-this so its plan
-   stays easy to read. */
+   Per theme we set --c-this (this day's color). The banner tile and its panel
+   both use it, so the whole day reads as one themed world. */
 .bach-days { position: relative; }
 
 .day.day--acc {
@@ -657,11 +655,13 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   overflow: visible;
   border: 0;
   background: transparent;
-  --c-this: var(--ivory);
-  --c-next: var(--ivory);
+  /* Each day sets its own --c-this below. We deliberately do not default it
+     here: a default on this two-class selector would outweigh the per-day
+     theme color and force every panel back to ivory (white text vanished on
+     it). Consumers fall back to ivory inline instead. */
 }
 
-/* the banner tile: the art spans the full width, the color blend sits behind */
+/* the banner tile: the art spans the full width on this day's solid theme color */
 .day__head {
   position: relative;
   display: flex;
@@ -673,12 +673,10 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   padding: 0;
   border: 0;
   color: inherit;
-  background: linear-gradient(180deg, var(--c-this) 0%, var(--c-next) 100%);
+  background: var(--c-this, var(--ivory));
   -webkit-tap-highlight-color: transparent;
   transition: background .4s var(--ease);
 }
-/* an open day holds a single, readable color */
-.day--acc.is-open .day__head { background: var(--c-this); }
 
 /* the banner art is the hero and runs edge to edge */
 .day__hero { width: 100%; line-height: 0; }
@@ -739,7 +737,7 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   position: relative;
   height: 0;
   overflow: hidden;
-  background: var(--c-this);
+  background: var(--c-this, var(--ivory));
   color: inherit;
   transition: height .45s var(--ease);
 }
@@ -756,7 +754,8 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .day--thursday {
   --day-base: #C6DDED;
   --c-this: #AECEE3;   /* soft cabana blue */
-  --c-next: #2E7FB4;   /* into Friday's ocean */
+  --word-1: #3E6E92;   /* word panel gradient: cabana blues */
+  --word-2: #16314E;
   background:
     radial-gradient(70% 45% at 50% 6%, rgba(255,255,255,.55), rgba(255,255,255,0) 60%),
     linear-gradient(170deg, #DFEBF4 0%, #C6DDED 55%, #AECEE3 100%);
@@ -770,7 +769,8 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .day--blue {
   --day-base: #16314E;
   --c-this: #2E7FB4;   /* ocean */
-  --c-next: #E7E1F0;   /* into the iridescent night */
+  --word-1: #1366C9;   /* word panel gradient: ocean to navy */
+  --word-2: #16314E;
   background:
     radial-gradient(70% 45% at 50% 6%, rgba(255,255,255,.22), rgba(255,255,255,0) 60%),
     linear-gradient(170deg, #8EC5E8 0%, #2BB3C0 38%, #1366C9 70%, #16314E 100%);
@@ -784,7 +784,8 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .day--rainbow {
   --day-base: #EAE6F2;
   --c-this: #E7E1F0;   /* iridescent opal */
-  --c-next: #EAD5AD;   /* into the boardwalk sand */
+  --word-1: #d6398a;   /* word panel gradient: pink to violet */
+  --word-2: #6f54a8;
   background-color: #EAE6F2; color: var(--ink);
 }
 .day--rainbow .day__glyph { display: none; }
@@ -815,41 +816,58 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .day__banner--crest { width: 100%; }
 .day__title { margin-top: 6px; font-size: clamp(48px, 15vw, 96px); font-weight: 800; }
 
-/* ============================================ FULL-BLEED VENUE PHOTOS */
-/* Photos run the full width of the day and melt into its background at the top
-   and bottom. No border, no radius, no shadow. Each one sits right beside the
-   place it shows, so the section flows place -> plan -> place. */
-.photoband {
+/* ============================================ INLINE IMAGE + WORDS */
+/* Each venue photo sits inline beside its words: the picture runs about two
+   thirds of the width, and a themed gradient panel fills the remaining third
+   with the label set in display type. The gradient pulls from the day's own
+   palette (--word-1, --word-2), so the images carry the theme straight through
+   the expanded plan. */
+.photo-split {
   position: relative;
   z-index: 2;
-  width: 100%;
-  margin: clamp(26px, 6vw, 52px) 0;
-  line-height: 0;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  align-items: stretch;
+  width: calc(100% - 2 * max(18px, env(safe-area-inset-left)));
+  max-width: var(--maxw);
+  margin: clamp(22px, 5vw, 44px) auto;
+  border-radius: var(--radius-s);
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(21,19,15,.16);
 }
-.photoband__img {
+.photo-split__img { position: relative; line-height: 0; }
+.photo-split__img img {
   width: 100%;
-  height: clamp(230px, 56vw, 460px);
+  height: 100%;
+  min-height: clamp(190px, 46vw, 340px);
   object-fit: cover;
-  /* dissolve the top and bottom edges into the day background */
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 16%, #000 84%, transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0, #000 16%, #000 84%, transparent 100%);
 }
-.photoband__cap {
-  position: absolute;
-  left: max(22px, env(safe-area-inset-left));
-  bottom: 20px;
-  font-family: var(--sans);
-  font-size: 10px; letter-spacing: var(--track-label); text-transform: uppercase; font-weight: 600;
-  line-height: 1.4;
-  color: rgba(255,255,255,.94);
-  text-shadow: 0 1px 12px rgba(0,0,0,.6);
+.photo-split__words {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: clamp(13px, 3.4vw, 22px);
+  background: linear-gradient(155deg, var(--word-1, var(--greenery)) 0%, var(--word-2, var(--ink)) 100%);
+  color: #fff;
 }
+.photo-split__label {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(15px, 4.2vw, 23px);
+  line-height: 1.04;
+  letter-spacing: var(--track-tight);
+  text-shadow: 0 1px 14px rgba(0,0,0,.28);
+}
+/* a labelless photo simply spans the full width on its own */
+.photo-split--solo { grid-template-columns: 1fr; }
 
 /* --- Saturday day, Boardwalk --- */
 .day--boardwalk {
   --day-base: #EAD5AD;
   --c-this: #EAD5AD;   /* warm boardwalk sand */
-  --c-next: #C56B4A;   /* into the sunset terracotta */
+  --word-1: #C56B4A;   /* word panel gradient: sand into terracotta */
+  --word-2: #7A3B33;
   background:
     radial-gradient(60% 40% at 78% 6%, rgba(255,255,255,.5), rgba(255,255,255,0) 60%),
     linear-gradient(165deg, #F8EDD7 0%, #EAD5AD 100%);
@@ -862,7 +880,8 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .day--coconuts {
   --day-base: #6B4226;
   --c-this: #C56B4A;   /* sunset terracotta */
-  --c-next: #F3ECDD;   /* into Sunday's calm sand */
+  --word-1: #C2554E;   /* word panel gradient: terracotta into coconut */
+  --word-2: #7A3B33;
   background:
     radial-gradient(70% 45% at 50% 4%, rgba(255,255,255,.2), rgba(255,255,255,0) 58%),
     linear-gradient(170deg, #E8B14C 0%, #C56B4A 45%, #6B4226 100%);
@@ -876,7 +895,8 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .day--sunday {
   --day-base: var(--ivory);
   --c-this: #F3ECDD;   /* calm sand */
-  --c-next: var(--ivory);  /* settles back into the page */
+  --word-1: var(--greenery);   /* word panel gradient: greenery into gold */
+  --word-2: #8A6A2A;
   background: var(--ivory); color: var(--ink); text-align: center;
 }
 .day--sunday .day__inner { margin: 0 auto; }

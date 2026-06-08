@@ -153,15 +153,22 @@
       '" alt="' + esc(day.title) + (day.bannerKeepsTitle ? " crest" : "") + '"></figure>';
   }
 
-  /* Full-bleed venue photos. They run edge to edge and dissolve top and bottom
-     into the day background, no frame, no shadow, set right beside the place
-     they show. */
+  /* Inline image, set beside the words. The photo runs about two thirds of the
+     width and a themed gradient panel holds its label in the remaining third,
+     so each place reads as picture plus caption side by side rather than a
+     full-bleed band. The gradient uses the day's theme colors. */
   function photoFigure(p) {
     if (!p || !p.src) return "";
-    return '<figure class="photoband reveal">' +
-      '<img class="photoband__img" loading="lazy" src="' + esc(p.src) + '" alt="' + esc(p.alt || "") + '">' +
-      (p.label ? '<figcaption class="photoband__cap">' + esc(p.label) + "</figcaption>" : "") +
-      "</figure>";
+    var words = p.label
+      ? '<figcaption class="photo-split__words">' +
+          '<span class="photo-split__label">' + esc(p.label) + "</span>" +
+        "</figcaption>"
+      : "";
+    return '<figure class="photo-split' + (words ? "" : " photo-split--solo") + ' reveal">' +
+      '<div class="photo-split__img">' +
+        '<img loading="lazy" src="' + esc(p.src) + '" alt="' + esc(p.alt || "") + '">' +
+      "</div>" + words +
+    "</figure>";
   }
   function photosHTML(list) {
     if (!list || !list.length) return "";
