@@ -135,8 +135,21 @@
     if (day.looksWidget && window.Boardwalk) body += seg(window.Boardwalk.html());
     if (day.location) { body += seg(dayLocationHTML(day.location)); body += photosHTML(day.location.photos); }
 
+    // A close affordance at the foot of the plan, so a long day can be folded
+    // back up without scrolling all the way to its banner.
+    body += closeHTML(day);
+
     return '<div class="day__panel" id="panel-' + esc(day.id) + '" hidden>' +
       '<div class="day__panel-in">' + stickersHTML(day.stickers) + body + "</div></div>";
+  }
+
+  /* The collapse control that lives at the bottom of an open day. Tapping it
+     folds the day shut and returns to its banner. */
+  function closeHTML(day) {
+    return '<div class="wrap"><button class="day__close reveal" type="button" ' +
+      'aria-controls="panel-' + esc(day.id) + '">' +
+      '<span class="day__close-chev" aria-hidden="true"></span>' +
+      '<span>Close ' + esc(day.label) + "</span></button></div>";
   }
 
   /* Fun, sticker-like elements scattered over an expanded plan. Purely
@@ -346,11 +359,22 @@
   function initAccordion(scope) {
     (scope || document).querySelectorAll(".day--acc").forEach(function (sec) {
       var head = sec.querySelector(".day__head");
-      if (!head || head.dataset.accBound) return;
-      head.dataset.accBound = "1";
-      head.addEventListener("click", function () {
-        toggleDay(sec, !sec.classList.contains("is-open"));
-      });
+      if (head && !head.dataset.accBound) {
+        head.dataset.accBound = "1";
+        head.addEventListener("click", function () {
+          toggleDay(sec, !sec.classList.contains("is-open"));
+        });
+      }
+      // the close control at the foot of the plan folds the day back up and
+      // returns to its banner so the next day is right there
+      var closer = sec.querySelector(".day__close");
+      if (closer && !closer.dataset.accBound) {
+        closer.dataset.accBound = "1";
+        closer.addEventListener("click", function () {
+          toggleDay(sec, false);
+          if (head) head.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      }
     });
   }
 
