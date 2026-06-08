@@ -2060,11 +2060,11 @@ body.theme-editorial.theme-light .ed-portal--main {
 }
 
 /* -------------------------------------------- HOME HERO (curtain + title) */
-/* The hero tucks the curtain projection into the top left corner, clearly
-   seen, with the single line "Laura's Bridal Party" riding on top. The curtain
-   feathers into the paper on its right and lower edges so the title lands on
-   clean paper where the two overlap. The scene is clipped to the hero so the
-   curtain never bleeds onto the rest of the page. No em dashes anywhere. */
+/* The curtain projection is the full backdrop of the hero, filling it edge to
+   edge, with the single line "Laura's Bridal Party" reading on top of it. The
+   image only feathers into the paper at its very bottom so the section flows
+   into the page below. Nothing floats and there are no see-through edges. No em
+   dashes anywhere. */
 .home-hero {
   position: relative;
   overflow: hidden;
@@ -2075,21 +2075,25 @@ body.theme-editorial.theme-light .ed-portal--main {
 }
 .home-hero__curtain {
   position: absolute;
-  top: 0; left: 0;
-  width: min(88%, 580px);
-  aspect-ratio: 1672 / 941;
-  background-position: left top;
+  inset: 0;
+  background-position: center top;
   background-size: cover;
   background-repeat: no-repeat;
   z-index: 0;
-  -webkit-mask-image:
-    linear-gradient(to right, #000 58%, transparent 100%),
-    linear-gradient(to bottom, #000 52%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(to right, #000 58%, transparent 100%),
-    linear-gradient(to bottom, #000 52%, transparent 100%);
-  mask-composite: intersect;
+}
+/* A soft ivory wash lifts off the title and dissolves the curtain into the
+   paper at the bottom edge, so the dark script reads cleanly and the image
+   never stops on a hard line. */
+.home-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to bottom,
+    rgba(251, 247, 239, 0) 34%,
+    rgba(251, 247, 239, .50) 66%,
+    rgba(251, 247, 239, 1) 100%);
 }
 .home-hero__title {
   position: relative;

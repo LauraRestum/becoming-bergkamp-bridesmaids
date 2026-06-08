@@ -188,11 +188,11 @@
         "<p>Our story, the ceremony, travel, the wedding party, the honeymoon, and the RSVP. Everything for the big day.</p>" +
         '<span class="ed-portal__arrow">Visit the site &#8599;</span></a>';
 
-    // The hero leads with the curtain projection tucked into the top left
-    // corner, clearly seen, and the one line "Laura's Bridal Party" riding on
-    // top of it. The curtain feathers into the paper so the title sits clean
-    // where the two meet. The curtain is set as a CSS background (path from
-    // data.js) and labelled for screen readers.
+    // The hero leads with the curtain projection as a full backdrop, with the
+    // one line "Laura's Bridal Party" reading on top of it. The curtain fills
+    // the hero and feathers into the paper at its bottom edge so the title sits
+    // clean and the image flows into the page. The curtain is set as a CSS
+    // background (path from data.js) and labelled for screen readers.
     var curtainCorner = (d.curtain && d.curtain.image)
       ? '<div class="home-hero__curtain" role="img" aria-label="' + esc(d.curtain.alt) +
           '" style="background-image:url(&quot;' + esc(d.curtain.image) + '&quot;)"></div>'
