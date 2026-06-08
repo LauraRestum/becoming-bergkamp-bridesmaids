@@ -83,10 +83,13 @@
     if (day.theme === "day--coconuts") glyph = "&#129373;"; // coconut
     if (day.theme === "day--boardwalk") glyph = "&#127881;";
 
-    var body =
+    // The header (label + title art) sits on its own so a full-bleed lead
+    // photo can drop in right under it before the rest of the day flows on.
+    var head =
       '<div class="label reveal">' + esc(day.label) + "</div>" +
       headingHTML(day);
 
+    var body = "";
     if (day.hook) body += '<div class="hook reveal">' + esc(day.hook) + "</div>";
     body += '<p class="vibe reveal">' + esc(day.vibe) + "</p>";
     if (day.secondary) body += '<p class="secondary reveal">' + esc(day.secondary) + "</p>";
@@ -106,8 +109,30 @@
 
     return '<section class="day ' + day.theme + bgClass + '" id="' + esc(day.id) + '"' + bgStyle + ">" +
              '<span class="day__glyph" aria-hidden="true">' + glyph + "</span>" +
+             '<div class="wrap"><div class="day__inner">' + head + "</div></div>" +
+             leadPhotoHTML(day) +
              '<div class="wrap"><div class="day__inner">' + body + "</div></div>" +
+             restPhotosHTML(day) +
            "</section>";
+  }
+
+  /* Full-bleed venue photos. They run edge to edge and dissolve top and bottom
+     into the day background, no frame, no shadow. The first photo leads the
+     day right under the title, the rest flow in after the details. */
+  function photoFigure(p, extra) {
+    if (!p || !p.src) return "";
+    return '<figure class="photoband' + (extra ? " " + extra : "") + ' reveal">' +
+      '<img class="photoband__img" loading="lazy" src="' + esc(p.src) + '" alt="' + esc(p.alt || "") + '">' +
+      (p.label ? '<figcaption class="photoband__cap">' + esc(p.label) + "</figcaption>" : "") +
+      "</figure>";
+  }
+  function leadPhotoHTML(day) {
+    if (!day.gallery || !day.gallery.length) return "";
+    return photoFigure(day.gallery[0], "photoband--lead");
+  }
+  function restPhotosHTML(day) {
+    if (!day.gallery || day.gallery.length < 2) return "";
+    return day.gallery.slice(1).map(function (p) { return photoFigure(p, ""); }).join("");
   }
 
   /* The day title: hand-lettered banner art, a crest plus word, a placeholder
@@ -121,10 +146,6 @@
     if (day.banner) {
       return '<h2 class="reveal day__banner-wrap"><img class="day__banner" src="' +
         esc(day.banner) + '" alt="' + esc(day.title) + '"></h2>';
-    }
-    if (day.bannerPlaceholder) {
-      return '<div class="reveal day__banner-ph"><span>Banner art coming soon</span></div>' +
-        '<h2 class="reveal day__title">' + esc(day.title) + "</h2>";
     }
     return '<h2 class="reveal">' + esc(day.title) + "</h2>";
   }
