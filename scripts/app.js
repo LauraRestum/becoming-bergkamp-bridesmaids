@@ -43,8 +43,27 @@
   }
 
   function pagefoot(script, line) {
-    return '<footer class="pagefoot reveal"><div class="script">' + esc(script) +
+    return '<footer class="pagefoot reveal">' + contactList() +
+           '<div class="script">' + esc(script) +
            '</div><div class="line">' + esc(line) + "</div></footer>";
+  }
+
+  /* The wedding party phone list, shared by every footer. Names are already in
+     alphabetical order in the data; each number is a tappable tel: link. */
+  function contactList() {
+    var c = DATA.contacts;
+    if (!c || !c.people || !c.people.length) return "";
+    var rows = c.people.map(function (p) {
+      return '<li class="contact">' +
+        '<span class="contact__name">' + esc(p.name) + "</span>" +
+        '<a class="contact__num" href="tel:' + esc(p.tel) + '">' + esc(p.display) + "</a>" +
+        "</li>";
+    }).join("");
+    return '<section class="contacts reveal">' +
+      (c.eyebrow ? '<div class="contacts__eyebrow">' + esc(c.eyebrow) + "</div>" : "") +
+      (c.title ? '<h3 class="contacts__title">' + esc(c.title) + "</h3>" : "") +
+      '<ul class="contacts__list">' + rows + "</ul>" +
+    "</section>";
   }
 
 
@@ -92,6 +111,7 @@
   function edFoot(script, line) {
     var site = DATA.mainSite;
     return '<footer class="ed-foot reveal">' +
+      contactList() +
       '<div class="mono">LBR &middot; WJB</div>' +
       '<div class="sub">' + esc(script) + "</div>" +
       '<a class="ed-sitelink" href="' + esc(site.url) + '" target="_blank" rel="noopener">' +
