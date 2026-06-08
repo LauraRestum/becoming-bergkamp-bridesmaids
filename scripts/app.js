@@ -42,22 +42,30 @@
     return '<div class="swatches reveal">' + dots + "</div>";
   }
 
-  /* A single outfit inspiration collage for a day. The art is a transparent
-     PNG, set on a solid on-theme color so the looks stand out, under a small
-     label. Tapping it opens the shared lightbox at full size. */
+  /* A single outfit inspiration collage for a day, run full bleed (edge to
+     edge) as its own band so the looks fill the screen. The art is a
+     transparent PNG that sits straight on the day color, or on an optional
+     on-theme band color set inline. A small gold label and a quiet hint ride
+     in the padded margins above and below. The collage already carries the
+     palette, so the swatch dots are dropped wherever it appears. Tapping the
+     image opens the shared lightbox at full size. */
   function outfitInspoHTML(inspo) {
     if (!inspo || !inspo.src) return "";
     var alt = inspo.alt || "Outfit inspiration";
     var bg = inspo.bg ? ' style="background:' + esc(inspo.bg) + '"' : "";
-    return '<figure class="outfit-inspo reveal">' +
-      '<figcaption class="outfit-inspo__label">Outfit inspo</figcaption>' +
+    return '<section class="outfit-inspo reveal">' +
+      '<div class="wrap"><div class="day__inner">' +
+        '<p class="outfit-inspo__label">Outfit inspo</p>' +
+      "</div></div>" +
       '<button class="outfit-inspo__btn" type="button"' + bg + ' data-zoom="' + esc(inspo.src) +
         '" data-zoom-alt="' + esc(alt) + '" aria-label="Expand outfit inspiration">' +
         '<img class="outfit-inspo__img" src="' + esc(inspo.src) +
           '" alt="' + esc(alt) + '" loading="lazy">' +
       "</button>" +
-      '<span class="outfit-inspo__hint" aria-hidden="true">Tap to expand</span>' +
-    "</figure>";
+      '<div class="wrap"><div class="day__inner">' +
+        '<span class="outfit-inspo__hint" aria-hidden="true">Tap to expand</span>' +
+      "</div></div>" +
+    "</section>";
   }
 
   function pagefoot(script, line) {
@@ -275,9 +283,13 @@
     var plan = "";
     if (day.forms) plan += formsHTML(day.forms);
     if (day.wear) plan += '<div class="wearchip chip reveal"><span class="lead">Wear</span>' + esc(day.wear) + "</div>";
-    plan += swatchRow(day.swatches);
-    plan += outfitInspoHTML(day.outfitInspo);
+    // The outfit inspo collage already carries the palette, so the swatch dots
+    // would be redundant. Show the dots only on days without a collage.
+    if (!day.outfitInspo) plan += swatchRow(day.swatches);
     body += seg(plan);
+
+    // The outfit inspo collage runs full bleed in its own band below the plan.
+    body += outfitInspoHTML(day.outfitInspo);
 
     if (day.meals) body += seg(mealsHTML(day.meals));
     // The boardwalk tee is a surprise, so its widget keeps a plain background.
