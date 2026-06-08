@@ -807,13 +807,14 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 }
 
 /* ====================== DAY ACCORDION (full-width banners, themed worlds) ======================
-   Each day's banner runs the full width of its section. Each day holds a single,
-   solid theme color, so the hero banners sit on their own color and do not blend
-   into the next day. Tapping a banner expands its plan in place, and the panel
-   below keeps that same theme color with images and elements throughout.
+   Each day's banner runs the full width of its section. Collapsed, the banner
+   sits on the plain page so the trip reads as a clean stack of banners. Tapping
+   a banner expands its plan in place, and only then does the day's theme color
+   fill the head and flow into the panel gradient below, with images and elements
+   throughout.
 
-   Per theme we set --c-this (this day's color). The banner tile and its panel
-   both use it, so the whole day reads as one themed world. */
+   Per theme we set --c-this (this day's color). The open head and the panel both
+   use it, so an opened day reads as one themed world. */
 .bach-days { position: relative; }
 
 .day.day--acc {
@@ -827,9 +828,11 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
      it). Consumers fall back to ivory inline instead. */
 }
 
-/* the banner tile: the art spans the full width on this day's solid theme color.
-   Each day is its own clean block of one color, set apart from the day above by a
-   crisp antique-gold rule. No melted gradient between sections. */
+/* the banner tile: the art spans the full width, and when collapsed it sits on
+   the plain page so the closed trip reads as a clean stack of banners, set apart
+   from the day above by a crisp antique-gold rule. The theme color (and any
+   photo wash) fills in only once the day is open, where it flows into the panel
+   gradient below. No block of color behind a collapsed banner. */
 .day__head {
   position: relative;
   display: flex;
@@ -841,15 +844,22 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   border: 0;
   border-top: 2px solid var(--gold);   /* the clear line between sections */
   color: inherit;
-  background: var(--c-this, var(--ivory));
+  background: transparent;
   background-size: cover;
   background-position: center;
   -webkit-tap-highlight-color: transparent;
   transition: background-color .4s var(--ease);
 }
 
-/* When a day has a themed photo, it washes the hero band behind the banner. */
-.day--acc.has-bg .day__head {
+/* Open, the head takes on this day's theme color so it flows into the panel
+   gradient below. Collapsed, it stays transparent (just the banner). */
+.day--acc.is-open .day__head {
+  background-color: var(--c-this, var(--ivory));
+}
+
+/* When an open day has a themed photo, it washes the hero band behind the
+   banner. Hidden while collapsed so the closed banner stands on its own. */
+.day--acc.is-open.has-bg .day__head {
   background-image: var(--day-bg);
 }
 
