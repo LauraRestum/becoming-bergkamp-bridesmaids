@@ -51,10 +51,18 @@ var DATA = {
     kicker: "we're getting married",
     headline: ["Becoming ", "Bergkamp"], // second word renders italic gold
     meta: "March 20, 2027 · Wichita, Kansas",
-    // Central Community Church, where it all happens, carried over as the home hero.
-    hero: {
-      image: "assets/img/venue/central-community-exterior.jpg",
-      alt: "Central Community Church, stone gables and a cross against the Kansas sky"
+    // The two signatures carried over from the main wedding site so the hub
+    // reads as one family. The curtain (with "The Bergkamps" in gold script)
+    // leads as the bright hero so Home favors white, and the black and white
+    // checkerboard dance floor is the reception feature lower down.
+    curtain: {
+      image: "assets/img/home/curtain.png",
+      alt: "A softly lit white curtain with The Bergkamps glowing in gold script"
+    },
+    danceFloor: {
+      image: "assets/img/home/dance-floor.png",
+      alt: "A black and white checkerboard dance floor receding into the dark",
+      caption: "The dance floor, set in black and white"
     },
     cards: [
       {

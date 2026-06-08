@@ -2010,3 +2010,89 @@ body.theme-editorial .contact__num:active { color: var(--ed-paper); }
 /* drawer link out to the main wedding site */
 .drawer__link--ext { margin-top: 12px; border-top: 1px solid rgba(227,207,156,.22); }
 .drawer__link--ext .idx { font-size: 15px; opacity: .9; }
+
+/* ============================================================
+   HOME, LIGHT VARIANT  (body.theme-editorial.theme-light)
+   ------------------------------------------------------------
+   At Laura's request the Home screen wears the same editorial dress as the
+   main wedding site, but flipped to favor white: black on white, not white on
+   black. The router adds .theme-light only on the Home route, so The Day Before
+   and The Day Of keep their near black ground. We flip the --ed tokens to a
+   paper ground with antique gold accents, lead with the bright curtain hero
+   ("The Bergkamps" already glows in the art), and feature the black and white
+   checkerboard dance floor lower down. No em dashes anywhere.
+   ============================================================ */
+body.theme-editorial.theme-light {
+  --ed-bg:        #FBF7EF;
+  --ed-bg-2:      #ffffff;
+  --ed-paper:     #15130F;            /* ink: now the text color, on paper */
+  --ed-soft:      rgba(21,19,15,.70);
+  --ed-faint:     rgba(21,19,15,.45);
+  --ed-gold:      #9C7B33;            /* deeper antique gold, legible on white */
+  --ed-rule:      rgba(21,19,15,.22);
+  --ed-rule-soft: rgba(21,19,15,.10);
+  background: var(--ed-bg);
+  color: var(--ed-paper);
+}
+
+/* grain reads as the faintest tooth on paper, not light specks on black */
+body.theme-editorial.theme-light .grain { mix-blend-mode: multiply; opacity: .035; }
+
+/* top bar returns to ivory glass with ink lettering */
+body.theme-editorial.theme-light .topbar {
+  background: rgba(251,247,239,.82);
+  border-bottom: 1px solid var(--line-soft);
+}
+body.theme-editorial.theme-light .wordmark { color: var(--ed-paper); }
+body.theme-editorial.theme-light .wordmark .gold { color: var(--ed-gold); }
+body.theme-editorial.theme-light .hamburger span { background: var(--ink); }
+body.theme-editorial.theme-light .shellglyph { color: var(--ed-gold); }
+
+/* portal cards: white plates with hairline rules on the paper ground */
+@media (hover: hover) {
+  body.theme-editorial.theme-light .ed-portal:hover {
+    background: #fff; border-color: var(--ed-gold);
+  }
+}
+body.theme-editorial.theme-light .ed-portal--main {
+  background: #FBF4E2; border-color: var(--ed-gold);
+}
+
+/* -------------------------------------------- HOME CURTAIN HERO */
+/* The bright curtain leads the page so Home favors white. It feathers into the
+   paper on every edge so it reads as imagery flowing in, not a framed box. */
+.home-curtain {
+  max-width: 940px;
+  margin: 0 auto;
+  padding: calc(var(--topbar-h) + 8px) 16px 0;
+  text-align: center;
+}
+.home-curtain img {
+  display: block;
+  width: 100%; height: auto;
+  -webkit-mask-image: radial-gradient(122% 104% at 50% 44%, #000 58%, transparent 100%);
+  mask-image: radial-gradient(122% 104% at 50% 44%, #000 58%, transparent 100%);
+}
+
+/* -------------------------------------------- HOME DANCE FLOOR FEATURE */
+/* The black and white checkerboard, run full bleed as one dramatic dark band
+   in the middle of the white page: the wedding's "black and white" made literal.
+   Its own art fades to black at the top, so it needs no frame. */
+.home-floor {
+  margin: clamp(20px, 6vw, 44px) 0;
+  padding: 0;
+  text-align: center;
+}
+.home-floor img {
+  display: block;
+  width: 100%; height: auto;
+  max-height: 72vh;
+  object-fit: cover;
+  object-position: center bottom;
+}
+.home-floor figcaption {
+  font-family: var(--ed-serif); font-style: italic;
+  font-size: 14px; letter-spacing: .04em;
+  color: var(--ed-soft);
+  margin-top: 14px; padding: 0 22px;
+}

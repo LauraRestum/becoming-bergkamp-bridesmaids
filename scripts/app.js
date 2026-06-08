@@ -188,7 +188,28 @@
         "<p>Our story, the ceremony, travel, the wedding party, the honeymoon, and the RSVP. Everything for the big day.</p>" +
         '<span class="ed-portal__arrow">Visit the site &#8599;</span></a>';
 
+    // The bright curtain leads as the hero so the screen favors white, with
+    // "The Bergkamps" already glowing in the art itself.
+    var curtainHero = (d.curtain && d.curtain.image)
+      ? '<figure class="home-curtain reveal">' +
+          '<img src="' + esc(d.curtain.image) + '" alt="' + esc(d.curtain.alt) +
+            '" loading="eager" decoding="async">' +
+        "</figure>"
+      : "";
+
+    // The black and white checkerboard dance floor, a dramatic feature band
+    // that lands the wedding's "black and white" right on the page.
+    var floorFeature = (d.danceFloor && d.danceFloor.image)
+      ? '<figure class="home-floor reveal">' +
+          '<img src="' + esc(d.danceFloor.image) + '" alt="' + esc(d.danceFloor.alt) +
+            '" loading="lazy" decoding="async">' +
+          (d.danceFloor.caption
+            ? "<figcaption>" + esc(d.danceFloor.caption) + "</figcaption>" : "") +
+        "</figure>"
+      : "";
+
     el("view-home").innerHTML =
+      curtainHero +
       '<header class="ed-masthead reveal">' +
         '<div class="ed-rule-top"></div>' +
         '<div class="ed-dateline">' +
@@ -203,9 +224,6 @@
         '<div class="ed-masthead__motto">' + esc(d.meta) + "</div>" +
         '<div class="ed-rule-thin"></div>' +
       "</header>" +
-      (d.hero && d.hero.image
-        ? edFigure({ src: d.hero.image, alt: d.hero.alt }, "ed-figure--bleed")
-        : "") +
       '<section class="ed-hero">' +
         '<div class="eyebrow reveal">' + esc(d.kicker) + "</div>" +
         '<div class="ed-names reveal">Laura Beth<span class="amp">&amp;</span>William James</div>' +
@@ -213,6 +231,7 @@
           '<span class="place">Wichita, Kansas</span></div>' +
       "</section>" +
       edOrnament() +
+      floorFeature +
       '<section class="ed-portals">' +
         '<div class="ed-kicker reveal">The Weekend, In Parts</div>' +
         '<h2 class="ed-h reveal">Where To Begin</h2>' +
@@ -818,8 +837,11 @@
       if (v) v.classList.toggle("is-active", ROUTES[key] === viewId);
     });
 
-    // swap the page theme for the active route (only the dark routes get it)
+    // swap the page theme for the active route (only the dark routes get it).
+    // Home wears the light variant: the same editorial dress flipped to black
+    // on white, so it favors white while The Day Before and The Day Of stay dark.
     document.body.classList.toggle("theme-editorial", !!EDITORIAL_ROUTES[r]);
+    document.body.classList.toggle("theme-light", r === "/home");
 
     document.querySelectorAll(".drawer__link").forEach(function (a) {
       a.classList.toggle("is-active", a.getAttribute("href") === "#" + r);
