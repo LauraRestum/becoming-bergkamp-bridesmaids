@@ -207,22 +207,18 @@
     "</button>";
   }
 
-  /* The collapsible panel holds the full plan for a day. Each block of copy
-     sits over one of the day's photos, washed back with a heavy themed veil so
-     the image reads as a background behind the words (running through the whole
-     panel, not just at its foot) and the text stays legible. No captions. */
+  /* The collapsible panel holds the full plan for a day. The words ride on the
+     day's own soft gradient so they stay clean and easy to read. Photos are used
+     sparingly, in two deliberate treatments rather than behind every block: one
+     quiet full-bleed band that melts into the day color (no framed box), and a
+     half image, half words split for the location. A day only ever uses a couple
+     of its photos, so the panel reads calm instead of busy. */
   function dayPanel(day) {
-    // The day's photos, in reading order, become the background washes. They
-    // are cycled across the blocks so the imagery runs through the whole panel.
-    var pics = dayPhotos(day);
-    var pi = 0;
-    function bgFor() { return pics.length ? pics[pi++ % pics.length] : null; }
-
     var body = "";
 
-    // Intro copy. A koozie prop, when set, tucks into the corner of the copy
-    // as a small fun element the text flows around. The banner art is not
-    // repeated here, it is already the hero of the tile above.
+    // Intro copy on the clean gradient. A koozie prop, when set, tucks into the
+    // corner as a small fun element the text flows around. The banner art is
+    // not repeated here, it is already the hero of the tile above.
     var intro = "";
     if (day.koozie) {
       intro += '<img class="day__koozie" src="' + esc(day.koozie) +
@@ -231,20 +227,29 @@
     intro += '<p class="vibe reveal">' + esc(day.vibe) + "</p>";
     if (day.secondary) intro += '<p class="secondary reveal">' + esc(day.secondary) + "</p>";
     if (day.transport) intro += transportHTML(day.transport);
-    body += washSeg(intro, bgFor());
+    body += seg(intro);
 
-    if (day.sunset) body += washSeg(sunsetHTML(day.sunset), bgFor());
+    // One quiet, full-bleed photo that fades into the day at top and bottom: a
+    // natural gradient, never a picture sitting in a box, and no copy over it to
+    // fight for legibility.
+    var atmos = atmospherePhoto(day);
+    if (atmos) body += bandSeg(atmos);
+
+    if (day.sunset) body += seg(sunsetHTML(day.sunset));
 
     var plan = "";
     if (day.forms) plan += formsHTML(day.forms);
     if (day.wear) plan += '<div class="wearchip chip reveal"><span class="lead">Wear</span>' + esc(day.wear) + "</div>";
     plan += swatchRow(day.swatches);
-    body += washSeg(plan, bgFor());
+    body += seg(plan);
 
-    if (day.meals) body += washSeg(mealsHTML(day.meals), bgFor());
+    if (day.meals) body += seg(mealsHTML(day.meals));
     // The boardwalk tee is a surprise, so its widget keeps a plain background.
     if (day.looksWidget && window.Boardwalk) body += seg(window.Boardwalk.html());
-    if (day.location) body += washSeg(dayLocationHTML(day.location), bgFor());
+
+    // The location reads as half image, half words: the photo bleeds off one
+    // side and melts into the day color where it meets the copy.
+    if (day.location) body += splitSeg(dayLocationHTML(day.location), splitPhoto(day));
 
     // A close affordance at the foot of the plan, so a long day can be folded
     // back up without scrolling all the way to its banner.
@@ -276,9 +281,9 @@
   }
 
   function renderDay(day) {
-    // A themed photo, when set, washes the whole day world (the hero band and
-    // the expanded plan share it). It rides on a CSS custom property so the
-    // stylesheet owns the scrims that keep the text readable.
+    // A themed photo, when set, gives the banner band its textured backing. It
+    // rides on a CSS custom property; the expanded plan below sits on the day's
+    // own soft gradient so the words stay clean and easy to read.
     var cls = "day day--acc " + day.theme + (day.bg ? " has-bg" : "");
     var style = day.bg ? ' style="--day-bg:url(&quot;' + esc(day.bg) + '&quot;)"' : "";
     return '<section class="' + cls + '" id="' + esc(day.id) + '"' + style + ">" +
@@ -297,28 +302,44 @@
       '" alt="' + esc(day.title) + (day.bannerKeepsTitle ? " crest" : "") + '"></figure>';
   }
 
-  /* A block of copy laid over one of the day's photos. The image fills the full
-     width of the block as a background and is washed back with a heavy themed
-     veil so it reads as a quiet backdrop and the words stay legible. Blocks with
-     no photo fall back to a plain segment. */
-  function washSeg(html, p) {
+  /* A single quiet photo, run full bleed, that dissolves into the day color at
+     its top and bottom edges through a soft gradient mask. It reads as imagery
+     living in the background of the day, not a picture framed in a box, and
+     carries no copy of its own so nothing has to fight it to stay legible. */
+  function bandSeg(p) {
+    if (!p || !p.src) return "";
+    return '<section class="photoband reveal" style="background-image:url(' +
+      esc(p.src) + ')" aria-hidden="true"></section>';
+  }
+
+  /* Half image, half words. The photo bleeds off one edge and melts into the day
+     color along a gradient seam where it meets the copy, so picture and words
+     read as one flowing panel. Falls back to a plain copy block with no photo. */
+  function splitSeg(html, p) {
     if (!html) return "";
     if (!p || !p.src) return seg(html);
-    // The photo is a decorative background wash behind the copy, so it carries
-    // no alt text of its own (the words in the block describe the day).
-    return '<section class="washseg reveal" style="background-image:url(' + esc(p.src) + ')">' +
-      '<span class="washseg__veil" aria-hidden="true"></span>' +
-      '<div class="wrap"><div class="day__inner">' + html + "</div></div>" +
+    return '<section class="splitseg reveal">' +
+      '<div class="splitseg__media" style="background-image:url(' + esc(p.src) +
+        ')" aria-hidden="true"></div>' +
+      '<div class="splitseg__copy"><div class="wrap"><div class="day__inner">' +
+        html + "</div></div></div>" +
     "</section>";
   }
 
-  /* Every photo for a day, in reading order, used as the panel's backgrounds. */
-  function dayPhotos(day) {
-    var out = [];
-    if (day.sunset && day.sunset.photos) out = out.concat(day.sunset.photos);
-    if (day.meals) out = out.concat(mealPhotos(day.meals));
-    if (day.location && day.location.photos) out = out.concat(day.location.photos);
-    return out;
+  /* The quiet atmosphere photo for the full-bleed band. Pulled from the day's
+     sunset or meal photos (the location shot is saved for the split), so a day
+     only ever leans on a couple of its images. */
+  function atmospherePhoto(day) {
+    if (day.sunset && day.sunset.photos && day.sunset.photos[0]) return day.sunset.photos[0];
+    var mp = day.meals ? mealPhotos(day.meals) : [];
+    return mp[0] || null;
+  }
+  /* The image half of the location split: its first photo, or any day photo. */
+  function splitPhoto(day) {
+    if (day.location && day.location.photos && day.location.photos[0]) {
+      return day.location.photos[0];
+    }
+    return atmospherePhoto(day);
   }
   /* Pull the photos hung on each named meal, in serving order. */
   function mealPhotos(m) {
