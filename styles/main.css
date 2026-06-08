@@ -507,16 +507,17 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 
 /* The mockup art on a clean white field, centered, no beach behind it. The
    artwork carries the lettering, so no separate headline sits with it. */
-.hero--white { background: #fff; color: var(--ink); }
+.hero--white { background: #fff; color: var(--ink); padding-top: clamp(32px, 9vw, 68px); }
 .hero--white .sub { color: var(--ink); opacity: .72; }
 .hero--white .hero-mockup {
   display: block;
   width: auto; height: auto;
-  max-width: min(360px, 76vw);
-  max-height: 56vh;
+  max-width: min(280px, 64vw);
+  max-height: 38vh;
   margin: 0 auto;
 }
-.hero--white .sub { margin-top: 20px; }
+.hero--white .sub { margin-top: 16px; }
+.hero--white .wavewrap { margin-top: var(--space-5); }
 
 /* =================================== BACHELORETTE STICKY JUMP */
 .jumpnav {
@@ -559,17 +560,31 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .jumpnav__pill.is-active::after { transform: scaleX(1); }
 @media (hover: hover) { .jumpnav__pill:hover { opacity: 1; } }
 
-/* The House: editorial split, no box */
+/* The House: one compact, tappable home base. No box, no embedded map. */
 .house {
+  display: block;
   margin: var(--space-8) 0;
   padding-top: var(--space-5);
   border-top: 2px solid var(--ink);
+  text-decoration: none;
+  color: var(--ink);
 }
 .house .eyebrow { color: var(--greenery); display: block; }
 .house h2 { font-size: clamp(36px, 9vw, 64px); margin: 14px 0 12px; }
 .house .addr { font-size: 15px; opacity: .85; }
 .house .note { font-size: 14px; opacity: .7; margin-top: 8px; max-width: 38em; }
-.house .pill-link { margin-top: var(--space-5); }
+
+/* the small "open in maps" cue, tracked like a label so it sits quietly */
+.maptap {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: var(--space-4);
+  font-size: 11px; letter-spacing: var(--track-label); text-transform: uppercase;
+  font-weight: 600; color: var(--greenery);
+  transition: color .25s var(--ease);
+}
+.maptap__pin { display: inline-flex; color: var(--gold); }
+@media (hover: hover) { .house:hover .maptap { color: var(--gold); } }
+.house:active .maptap { color: var(--gold); }
 
 /* ============================================ DAY WORLDS */
 .day {
