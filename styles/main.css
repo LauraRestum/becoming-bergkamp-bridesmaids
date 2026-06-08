@@ -847,7 +847,7 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   padding: 0 0 clamp(12px, 3.2vw, 24px);
   margin: 0;
   border: 0;
-  border-top: 2px solid #9CC0DB;   /* the clear nautical line between sections */
+  border-top: 2px solid #16314E;   /* the crisp nautical navy line between sections */
   color: inherit;
   background: transparent;
   background-size: cover;
