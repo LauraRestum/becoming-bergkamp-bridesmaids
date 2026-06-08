@@ -505,6 +505,19 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .hero--banner .sub { margin-top: 22px; padding: 0 22px; }
 .hero--banner .wavewrap { margin-top: var(--space-7); }
 
+/* The mockup art on a clean white field, centered, no beach behind it. The
+   artwork carries the lettering, so no separate headline sits with it. */
+.hero--white { background: #fff; color: var(--ink); }
+.hero--white .sub { color: var(--ink); opacity: .72; }
+.hero--white .hero-mockup {
+  display: block;
+  width: auto; height: auto;
+  max-width: min(360px, 76vw);
+  max-height: 56vh;
+  margin: 0 auto;
+}
+.hero--white .sub { margin-top: 20px; }
+
 /* =================================== BACHELORETTE STICKY JUMP */
 .jumpnav {
   position: sticky;
@@ -591,6 +604,19 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 }
 .day .vibe { font-size: 17px; line-height: 1.75; margin-top: var(--space-4); max-width: 34em; }
 .day .secondary { opacity: .85; margin-top: 12px; }
+
+/* A little koozie prop tucked into the corner of the day copy, gently tilted,
+   the text wrapping around it. A fun beach-day element, kept small. */
+.day__koozie {
+  float: right;
+  width: clamp(96px, 27vw, 140px);
+  height: auto;
+  margin: 4px -6px 10px 18px;
+  transform: rotate(7deg);
+  filter: drop-shadow(0 12px 20px rgba(22, 49, 78, .28));
+  pointer-events: none;
+  user-select: none;
+}
 .day .wearchip { margin-top: var(--space-6); }
 .day .wearchip .lead { display: block; margin-bottom: 8px; }
 
@@ -1006,6 +1032,7 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .tee-note .glyph { font-size: 24px; }
 .tee-note .t { font-family: var(--display); font-weight: 600; font-size: 17px; }
 .tee-note .s { font-size: 13px; opacity: .8; margin-top: 3px; }
+.tee-note .tee-size { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); }
 
 /* lookbook grid (standalone uses .looks; embedded uses the carousel below) */
 .looks { display: grid; gap: var(--space-5); }
