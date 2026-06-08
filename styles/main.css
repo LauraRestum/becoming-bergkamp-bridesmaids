@@ -614,11 +614,16 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   pointer-events: none; user-select: none;
 }
 
-/* --- Thursday, Beach Club --- */
-.day--thursday { background: radial-gradient(120% 120% at 70% 10%, #5b9bc4 0%, #3E84B0 45%, #1E5680 100%); color: #FBFAF6; }
-.day--thursday.has-bg::before { background: linear-gradient(180deg, rgba(30,86,128,0) 0%, rgba(30,86,128,.18) 40%, rgba(18,52,79,.72) 100%); }
-.day--thursday .label { color: #EAF4FB; }
-.day--thursday .hook  { color: #EAF4FB; }
+/* --- Thursday, Beach Club (soft blue cabana stripes, light and airy) --- */
+.day--thursday {
+  background:
+    radial-gradient(70% 45% at 50% 6%, rgba(255,255,255,.55), rgba(255,255,255,0) 60%),
+    linear-gradient(170deg, #DFEBF4 0%, #C6DDED 55%, #AECEE3 100%);
+  color: var(--ink);
+}
+.day--thursday.has-bg::before { background: linear-gradient(180deg, rgba(223,235,244,.34) 0%, rgba(198,221,237,.10) 45%, rgba(223,235,244,.40) 100%); }
+.day--thursday .label { color: #3E6E92; }
+.day--thursday .hook  { color: #2E6A8E; }
 
 /* --- Friday day, Something Blue --- */
 .day--blue {
@@ -850,11 +855,12 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 
 .day-loc__addr { font-size: 13px; opacity: .78; margin-top: 5px; }
 /* dark-text day worlds get a light frosted panel instead */
-.day--rainbow .meals, .day--boardwalk .meals,
-.day--rainbow .forms, .day--boardwalk .forms {
+.day--rainbow .meals, .day--boardwalk .meals, .day--thursday .meals,
+.day--rainbow .forms, .day--boardwalk .forms, .day--thursday .forms {
   background: rgba(255,255,255,.5);
   border-color: var(--line);
 }
+.day--thursday .forms .eyebrow { color: #2E6A8E; }
 
 /* warm sunset panel layered over the cruise description (Coco Nuts) */
 .sunset {

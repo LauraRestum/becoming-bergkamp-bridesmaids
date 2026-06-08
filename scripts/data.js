@@ -93,7 +93,7 @@ var DATA = {
         // Hero crest on blue, plus the matching no-text wash behind the section.
         banner: "assets/img/beachclub/beachclub-banner.png",
         bannerKeepsTitle: true, // crest art does not spell the day, keep the word
-        bg: "assets/img/beachclub/beachclub-bg.jpg",
+        bg: "assets/img/beachclub/beachclub-bg.png",
         hook: "Members Only",
         vibe: "We kick the weekend off with a cozy night in at the house. Crafts at the table, a few rounds of trivia, and silly get to know you games to break the ice. Low key, low pressure, and where all the inside jokes start.",
         wear: "comfy and cute, beach club lounge",
