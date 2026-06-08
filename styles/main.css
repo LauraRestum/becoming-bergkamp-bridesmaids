@@ -835,7 +835,7 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 
 /* the banner tile: the art spans the full width, and when collapsed it sits on
    the plain page so the closed trip reads as a clean stack of banners, set apart
-   from the day above by a crisp antique-gold rule. The theme color (and any
+   from the day above by a crisp soft-blue rule. The theme color (and any
    photo wash) fills in only once the day is open, where it flows into the panel
    gradient below. No block of color behind a collapsed banner. */
 .day__head {
@@ -847,7 +847,7 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   padding: 0 0 clamp(12px, 3.2vw, 24px);
   margin: 0;
   border: 0;
-  border-top: 2px solid var(--gold);   /* the clear line between sections */
+  border-top: 2px solid #9CC0DB;   /* the clear nautical line between sections */
   color: inherit;
   background: transparent;
   background-size: cover;
@@ -919,14 +919,14 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   text-align: center;
   text-shadow: var(--cap-halo, 0 1px 4px rgba(255,255,255,.55));
 }
-/* short gold strokes flank the title like a hand-set editorial dateline */
+/* short soft-blue strokes flank the title like a hand-set nautical dateline */
 .day__cap::before,
 .day__cap::after {
   content: "";
   flex: 0 0 auto;
   width: clamp(14px, 4vw, 22px);
   height: 2px;
-  background: var(--gold);
+  background: #9CC0DB;
   opacity: .92;
 }
 
