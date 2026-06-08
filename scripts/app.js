@@ -77,29 +77,48 @@
   }
 
   /* -------------------------------------------------- BACHELORETTE */
-  /* A day is built as a stack of segments: text blocks sit in the reading
-     column, banner art and venue photos run full bleed as direct children of
-     the section so they reach edge to edge and melt into the background. */
+  /* Each day is a click-to-expand section. Collapsed, it is a tall glance
+     card: the day's image fills roughly three quarters of the screen and
+     bleeds into a small info plate (label, title, hook) in the lower quarter.
+     Expanded, the panel below reveals the full plan. Inside the panel, text
+     blocks sit in the reading column and venue photos run full bleed. */
   function seg(html) {
     return html ? '<div class="wrap"><div class="day__inner">' + html + "</div></div>" : "";
   }
 
-  function renderDay(day) {
-    var glyph = "&#127796;"; // palm tree default
-    if (day.theme === "day--rainbow") glyph = "&#128031;"; // tropical fish
-    if (day.theme === "day--coconuts") glyph = "&#129373;"; // coconut
-    if (day.theme === "day--boardwalk") glyph = "&#127881;";
+  function dayGlyph(theme) {
+    if (theme === "day--rainbow") return "&#128031;"; // tropical fish
+    if (theme === "day--coconuts") return "&#129373;"; // coconut
+    if (theme === "day--boardwalk") return "&#127881;";
+    return "&#127796;"; // palm tree default
+  }
 
-    var out = '<span class="day__glyph" aria-hidden="true">' + glyph + "</span>";
+  /* The always-visible glance card. A photo bleeds into a small info plate,
+     and the whole thing is the toggle button for the panel below. */
+  function dayHead(day) {
+    var media = day.bg || day.banner || "";
+    var mediaStyle = media ? ' style="background-image:url(' + esc(media) + ')"' : "";
+    return '<button class="day__head reveal" type="button" aria-expanded="false" ' +
+        'aria-controls="panel-' + esc(day.id) + '">' +
+      '<span class="day__head-media"' + mediaStyle + ' aria-hidden="true"></span>' +
+      '<span class="day__head-scrim" aria-hidden="true"></span>' +
+      '<span class="day__glyph" aria-hidden="true">' + dayGlyph(day.theme) + "</span>" +
+      '<span class="day__plate">' +
+        '<span class="label">' + esc(day.label) + "</span>" +
+        '<span class="day__name">' + esc(day.title) + "</span>" +
+        (day.hook ? '<span class="hook">' + esc(day.hook) + "</span>" : "") +
+        '<span class="day__open"><span class="day__open-txt"></span>' +
+          '<span class="day__chev" aria-hidden="true"></span></span>' +
+      "</span>" +
+    "</button>";
+  }
 
-    // Header. The label sits above, the banner art runs full bleed below it,
-    // and a crest banner keeps its spelled-out title underneath.
-    out += seg('<div class="label reveal">' + esc(day.label) + "</div>" +
-      (day.banner ? "" : '<h2 class="reveal">' + esc(day.title) + "</h2>"));
-    out += bannerHTML(day);
-    if (day.banner && day.bannerKeepsTitle) {
-      out += seg('<h2 class="reveal day__title">' + esc(day.title) + "</h2>");
-    }
+  /* The collapsible panel holds the full plan for a day. */
+  function dayPanel(day) {
+    var body = "";
+
+    // Hand-lettered banner art leads the panel for days that carry one.
+    if (day.banner) body += bannerHTML(day);
 
     // Intro copy. A koozie prop, when set, tucks into the corner of the copy
     // as a small fun element the text flows around.
@@ -108,30 +127,32 @@
       intro += '<img class="day__koozie" src="' + esc(day.koozie) +
         '" alt="All I Sea is Love koozie" loading="lazy">';
     }
-    if (day.hook) intro += '<div class="hook reveal">' + esc(day.hook) + "</div>";
     intro += '<p class="vibe reveal">' + esc(day.vibe) + "</p>";
     if (day.secondary) intro += '<p class="secondary reveal">' + esc(day.secondary) + "</p>";
     if (day.transport) intro += transportHTML(day.transport);
-    out += seg(intro);
+    body += seg(intro);
 
     // Each place sits next to the photos that show it.
-    if (day.sunset) { out += seg(sunsetHTML(day.sunset)); out += photosHTML(day.sunset.photos); }
+    if (day.sunset) { body += seg(sunsetHTML(day.sunset)); body += photosHTML(day.sunset.photos); }
 
     var plan = "";
     if (day.forms) plan += formsHTML(day.forms);
     if (day.wear) plan += '<div class="wearchip chip reveal"><span class="lead">Wear</span>' + esc(day.wear) + "</div>";
     plan += swatchRow(day.swatches);
-    out += seg(plan);
+    body += seg(plan);
 
-    if (day.meals) { out += seg(mealsHTML(day.meals)); out += photosHTML(mealPhotos(day.meals)); }
-    if (day.looksWidget && window.Boardwalk) out += seg(window.Boardwalk.html());
-    if (day.location) { out += seg(dayLocationHTML(day.location)); out += photosHTML(day.location.photos); }
+    if (day.meals) { body += seg(mealsHTML(day.meals)); body += photosHTML(mealPhotos(day.meals)); }
+    if (day.looksWidget && window.Boardwalk) body += seg(window.Boardwalk.html());
+    if (day.location) { body += seg(dayLocationHTML(day.location)); body += photosHTML(day.location.photos); }
 
-    var bgStyle = day.bg ? ' style="background-image:url(' + esc(day.bg) + ')"' : "";
-    var bgClass = day.bg ? " has-bg" : "";
+    return '<div class="day__panel" id="panel-' + esc(day.id) + '" hidden>' +
+      '<div class="day__panel-in">' + body + "</div></div>";
+  }
 
-    return '<section class="day ' + day.theme + bgClass + '" id="' + esc(day.id) + '"' + bgStyle + ">" +
-             out +
+  function renderDay(day) {
+    var noMedia = (day.bg || day.banner) ? "" : " no-media";
+    return '<section class="day day--acc ' + day.theme + noMedia + '" id="' + esc(day.id) + '">' +
+             dayHead(day) + dayPanel(day) +
            "</section>";
   }
 
@@ -301,7 +322,57 @@
       '<div class="wrap">' + pagefoot(b.footerScript, b.footerLine) + "</div>";
 
     initJumpNav();
+    initAccordion(el("view-bachelorette"));
     if (window.Boardwalk) window.Boardwalk.init(el("view-bachelorette"));
+  }
+
+  /* -------------------------------------------------- DAY ACCORDION */
+  /* Days start collapsed so every one is scannable at a glance. Tapping a
+     glance card opens its panel with a smooth height transition. Several can
+     be open at once. */
+  function initAccordion(scope) {
+    (scope || document).querySelectorAll(".day--acc").forEach(function (sec) {
+      var head = sec.querySelector(".day__head");
+      if (!head || head.dataset.accBound) return;
+      head.dataset.accBound = "1";
+      head.addEventListener("click", function () {
+        toggleDay(sec, !sec.classList.contains("is-open"));
+      });
+    });
+  }
+
+  function toggleDay(sec, open) {
+    var head = sec.querySelector(".day__head");
+    var panel = sec.querySelector(".day__panel");
+    if (!head || !panel) return;
+
+    sec.classList.toggle("is-open", open);
+    head.setAttribute("aria-expanded", open ? "true" : "false");
+
+    if (open) {
+      panel.hidden = false;
+      // content inside the panel reveals immediately when it opens
+      panel.querySelectorAll(".reveal").forEach(function (n) { n.classList.add("is-in"); });
+      var target = panel.scrollHeight;
+      panel.style.height = "0px";
+      // next frame so the browser registers the start height before animating
+      requestAnimationFrame(function () { panel.style.height = target + "px"; });
+      panel.addEventListener("transitionend", function done(e) {
+        if (e.propertyName !== "height") return;
+        panel.style.height = "auto"; // let later-loading images grow the panel
+        panel.removeEventListener("transitionend", done);
+      });
+    } else {
+      // from auto height back to a fixed value, then to zero
+      panel.style.height = panel.scrollHeight + "px";
+      requestAnimationFrame(function () { panel.style.height = "0px"; });
+      panel.addEventListener("transitionend", function done(e) {
+        if (e.propertyName !== "height") return;
+        panel.hidden = true;
+        panel.style.height = "";
+        panel.removeEventListener("transitionend", done);
+      });
+    }
   }
 
   /* -------------------------------------------------- DAY BEFORE / OF */
@@ -406,7 +477,12 @@
     pills.forEach(function (p) {
       p.addEventListener("click", function () {
         var target = document.getElementById(p.getAttribute("data-anchor"));
-        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (!target) return;
+        // open a collapsed day before jumping to it
+        if (target.classList.contains("day--acc") && !target.classList.contains("is-open")) {
+          toggleDay(target, true);
+        }
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     });
 

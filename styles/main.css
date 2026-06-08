@@ -640,8 +640,131 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   pointer-events: none; user-select: none;
 }
 
+/* ====================== DAY ACCORDION (glance card + expand) ======================
+   Collapsed, a day is a tall glance card: the image fills about three quarters
+   of the screen, then bleeds into a small info plate (label, title, hook) in
+   the lower quarter. The whole card is the toggle button. Expanded, the panel
+   below slides open with the full plan. Several days can be open at once, and
+   every day starts collapsed so the page reads at a glance. */
+.day--acc {
+  --day-base: var(--ivory);
+  padding: 0;
+  overflow: visible;
+  border-top: 1px solid var(--line-soft);
+}
+.day--acc:first-of-type { border-top: 0; }
+
+/* the glance card */
+.day__head {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: min(78vh, 720px);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  text-align: left;
+  color: inherit;
+  background: var(--day-base);
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+.day--acc.no-media .day__head { min-height: 0; }
+
+/* the image: roughly the top three quarters of the card */
+.day__head-media {
+  position: absolute; inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: transform 1s var(--ease);
+}
+.day--acc.is-open .day__head-media { transform: scale(1.04); }
+/* no image on this day: let the theme background carry the card */
+.day--acc.no-media .day__head { background: transparent; }
+.day--acc.no-media .day__head-media { display: none; }
+
+/* the bleed: the image dissolves into the day's base color over the lower
+   portion, so it melts into the info plate instead of ending in a hard edge */
+.day__head-scrim {
+  position: absolute; inset: 0;
+  z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg,
+    rgba(0,0,0,0) 30%,
+    var(--day-base) 96%);
+}
+.day--acc.no-media .day__head-scrim { display: none; }
+
+/* the info plate: about the lower quarter */
+.day__plate {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  z-index: 3;
+  display: flex; flex-direction: column;
+  padding: 0 max(22px, env(safe-area-inset-left)) clamp(24px, 7vw, 46px);
+}
+.day--acc.no-media .day__plate { position: static; padding-top: clamp(40px, 12vw, 80px); }
+.day__plate .label {
+  font-size: 11px; letter-spacing: var(--track-wide); text-transform: uppercase; font-weight: 600;
+}
+.day__name {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(42px, 13vw, 84px);
+  line-height: .9;
+  letter-spacing: var(--track-tight);
+  margin-top: 8px;
+}
+.day__plate .hook {
+  font-size: 11px; letter-spacing: var(--track-label); text-transform: uppercase;
+  font-weight: 600; opacity: .92; margin-top: 12px;
+}
+.day__open {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-top: 20px;
+  font-size: 10px; letter-spacing: var(--track-label); text-transform: uppercase; font-weight: 600;
+}
+.day__open-txt::after { content: "Open"; }
+.day--acc.is-open .day__open-txt::after { content: "Close"; }
+.day__chev {
+  position: relative;
+  width: 24px; height: 24px; flex: 0 0 auto;
+  border: 1px solid currentColor; border-radius: 50%;
+  transition: transform .4s var(--ease);
+}
+.day__chev::before {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 6px; height: 6px;
+  border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+  transform: translate(-50%, -70%) rotate(45deg);
+}
+.day--acc.is-open .day__chev { transform: rotate(180deg); }
+@media (hover: hover) {
+  .day__head:hover .day__open { opacity: .82; }
+}
+
+/* the expandable panel: sits on the day's base color so the bleed flows
+   straight into it, and its height animates open and shut */
+.day__panel {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  background: var(--day-base);
+  transition: height .45s var(--ease);
+}
+.day__panel[hidden] { display: none; }
+.day__panel-in {
+  padding: clamp(34px, 9vw, 60px) 0 clamp(54px, 12vw, 88px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .day__panel { transition: none; }
+  .day__head-media { transition: none; }
+}
+
 /* --- Thursday, Beach Club (soft blue cabana stripes, light and airy) --- */
 .day--thursday {
+  --day-base: #C6DDED;
   background:
     radial-gradient(70% 45% at 50% 6%, rgba(255,255,255,.55), rgba(255,255,255,0) 60%),
     linear-gradient(170deg, #DFEBF4 0%, #C6DDED 55%, #AECEE3 100%);
@@ -653,6 +776,7 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 
 /* --- Friday day, Something Blue --- */
 .day--blue {
+  --day-base: #16314E;
   background:
     radial-gradient(70% 45% at 50% 6%, rgba(255,255,255,.22), rgba(255,255,255,0) 60%),
     linear-gradient(170deg, #8EC5E8 0%, #2BB3C0 38%, #1366C9 70%, #16314E 100%);
@@ -663,7 +787,7 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .day--blue .hook  { color: #EAF6FF; }
 
 /* --- Friday night, Rainbow Fish --- */
-.day--rainbow { background-color: #EAE6F2; color: var(--ink); }
+.day--rainbow { --day-base: #EAE6F2; background-color: #EAE6F2; color: var(--ink); }
 .day--rainbow .day__glyph { display: none; }
 .day--rainbow .label { color: #6f54a8; }
 .day--rainbow .hook  { color: #d6398a; }
@@ -684,8 +808,10 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   display: block;
   width: 100%;
   height: auto;
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 17%, #000 83%, transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0, #000 17%, #000 83%, transparent 100%);
+  /* Only a whisper of fade at the very top and bottom so the edges soften
+     without the wash ever reaching the hand-lettered words. */
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 7%, #000 93%, transparent 100%);
 }
 .day__banner--crest { width: 100%; }
 .day__title { margin-top: 6px; font-size: clamp(48px, 15vw, 96px); font-weight: 800; }
@@ -722,6 +848,7 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 
 /* --- Saturday day, Boardwalk --- */
 .day--boardwalk {
+  --day-base: #EAD5AD;
   background:
     radial-gradient(60% 40% at 78% 6%, rgba(255,255,255,.5), rgba(255,255,255,0) 60%),
     linear-gradient(165deg, #F8EDD7 0%, #EAD5AD 100%);
@@ -732,6 +859,7 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 
 /* --- Saturday night, Coco Nuts --- */
 .day--coconuts {
+  --day-base: #6B4226;
   background:
     radial-gradient(70% 45% at 50% 4%, rgba(255,255,255,.2), rgba(255,255,255,0) 58%),
     linear-gradient(170deg, #E8B14C 0%, #C56B4A 45%, #6B4226 100%);
@@ -742,7 +870,7 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .day--coconuts .hook  { color: #FFF3E2; }
 
 /* --- Sunday --- */
-.day--sunday { background: var(--ivory); color: var(--ink); text-align: center; padding: clamp(70px, 14vw, 110px) 0; }
+.day--sunday { --day-base: var(--ivory); background: var(--ivory); color: var(--ink); text-align: center; }
 .day--sunday .day__inner { margin: 0 auto; }
 .day--sunday .label { color: var(--greenery); }
 .day--sunday .vibe { margin: 16px auto 0; }
@@ -925,6 +1053,7 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .tee-note .glyph { font-size: 24px; }
 .tee-note .t { font-family: var(--display); font-weight: 600; font-size: 17px; }
 .tee-note .s { font-size: 13px; opacity: .8; margin-top: 3px; }
+.tee-note .tee-size { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); }
 
 /* lookbook grid (standalone uses .looks; embedded uses the carousel below) */
 .looks { display: grid; gap: var(--space-5); }
