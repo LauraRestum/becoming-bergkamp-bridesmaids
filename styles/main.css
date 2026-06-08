@@ -633,25 +633,48 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .day--rainbow .hook  { color: #d6398a; }
 .day--rainbow.has-bg::before { background: linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,.06) 40%, rgba(255,255,255,.30)); }
 
-/* hand-lettered day banner art, integrated flush (no float, no shadow) */
+/* hand-lettered day banner art, integrated flush (no float, no frame, no shadow).
+   Headers run wide and bleed into the section instead of sitting in a box. */
 .day__banner-wrap, .day__crest { margin: 0; line-height: 0; }
 .day__banner {
   display: block;
-  width: min(520px, 100%);
+  width: min(680px, 100%);
   height: auto;
-  border-radius: var(--radius-s);
 }
 .day__banner--crest { width: min(420px, 80%); }
 .day__title { margin-top: 18px; font-size: clamp(48px, 15vw, 96px); font-weight: 800; }
-.day__banner-ph {
-  width: min(520px, 100%);
-  aspect-ratio: 851 / 315;
-  border: 1px dashed currentColor;
-  border-radius: var(--radius-s);
-  display: grid; place-items: center;
-  opacity: .4;
+
+/* ============================================ FULL-BLEED VENUE PHOTOS */
+/* Photos run the full width of the day and melt into its background at the top
+   and bottom. No border, no radius, no shadow. They sit between the header and
+   the details so the section flows header -> place -> plan -> place. */
+.photoband {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  margin: clamp(30px, 7vw, 60px) 0;
+  line-height: 0;
 }
-.day__banner-ph span { font-size: 10px; letter-spacing: var(--track-label); text-transform: uppercase; }
+.photoband--lead { margin-top: clamp(18px, 5vw, 34px); }
+.photoband__img {
+  width: 100%;
+  height: clamp(230px, 56vw, 460px);
+  object-fit: cover;
+  /* dissolve the top and bottom edges into the day background */
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 16%, #000 84%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 16%, #000 84%, transparent 100%);
+}
+.photoband--lead .photoband__img { height: clamp(260px, 64vw, 540px); }
+.photoband__cap {
+  position: absolute;
+  left: max(22px, env(safe-area-inset-left));
+  bottom: 20px;
+  font-family: var(--sans);
+  font-size: 10px; letter-spacing: var(--track-label); text-transform: uppercase; font-weight: 600;
+  line-height: 1.4;
+  color: rgba(255,255,255,.94);
+  text-shadow: 0 1px 12px rgba(0,0,0,.6);
+}
 
 /* --- Saturday day, Boardwalk --- */
 .day--boardwalk {
