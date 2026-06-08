@@ -10,7 +10,7 @@
 
   Bump CACHE when shipping so clients pick up a new worker and get prompted.
 */
-var CACHE = "bergkamp-v10";
+var CACHE = "bergkamp-v13";
 
 var SHELL = [
   "/",
@@ -24,14 +24,18 @@ var SHELL = [
   "/assets/img/brand/sea-badge.jpg",
   "/assets/img/brand/sea-header.png",
   "/assets/img/beachclub/beachclub-banner.png",
-  "/assets/img/beachclub/beachclub-bg.png",
+  "/assets/img/beachclub/beachclub-stripe-bg.jpg",
   "/assets/img/blue/something-blue-banner.png",
-  "/assets/img/blue/something-blue-bg.jpg",
-  "/assets/img/rainbow/rainbow-bg.png",
+  "/assets/img/blue/blue-water-bg.jpg",
+  "/assets/img/blue/sticker-starfish.png",
+  "/assets/img/rainbow/rainbow-scale-bg.jpg",
   "/assets/img/rainbow/rainbow-banner.png",
+  "/assets/img/rainbow/sticker-bubbles.png",
   "/assets/img/boardwalk/boardwalk-banner.png",
+  "/assets/img/boardwalk/boardwalk-deck-bg.jpg",
   "/assets/img/coconuts/coconuts-banner.png",
-  "/assets/img/coconuts/coconuts-bg.png",
+  "/assets/img/coconuts/coconuts-stripe-bg.jpg",
+  "/assets/img/coconuts/sticker-winebar.png",
   "/assets/img/looks/denim-cutoffs-normal.png",
   "/assets/img/looks/denim-cutoffs-crop.png",
   "/assets/img/looks/lace-trim-normal.png",
