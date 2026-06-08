@@ -52,7 +52,12 @@
   function outfitInspoHTML(inspo) {
     if (!inspo || !inspo.src) return "";
     var alt = inspo.alt || "Outfit inspiration";
-    var bg = inspo.bg ? ' style="background:' + esc(inspo.bg) + '"' : "";
+    // An optional band color feathers in and out so the collage melts into the
+    // day color instead of stopping on a hard line at the top and bottom edges.
+    var bg = inspo.bg
+      ? ' style="background:linear-gradient(to bottom, transparent 0%, ' +
+          esc(inspo.bg) + ' 12%, ' + esc(inspo.bg) + ' 88%, transparent 100%)"'
+      : "";
     return '<section class="outfit-inspo reveal">' +
       '<div class="wrap"><div class="day__inner">' +
         '<p class="outfit-inspo__label">Outfit inspo</p>' +
@@ -188,11 +193,11 @@
         "<p>Our story, the ceremony, travel, the wedding party, the honeymoon, and the RSVP. Everything for the big day.</p>" +
         '<span class="ed-portal__arrow">Visit the site &#8599;</span></a>';
 
-    // The hero leads with the curtain projection as a full backdrop, with the
-    // one line "Laura's Bridal Party" reading on top of it. The curtain fills
-    // the hero and feathers into the paper at its bottom edge so the title sits
-    // clean and the image flows into the page. The curtain is set as a CSS
-    // background (path from data.js) and labelled for screen readers.
+    // The hero leads with the full curtain projection at the top, shown edge to
+    // edge so "The Bergkamps" reads clearly. Its lit floor feathers into a warm
+    // dance floor that carries down to the bottom, where the one line "Laura's
+    // Bridal Party" sits in display type. The curtain is set as a CSS background
+    // (path from data.js) and labelled for screen readers.
     var curtainCorner = (d.curtain && d.curtain.image)
       ? '<div class="home-hero__curtain" role="img" aria-label="' + esc(d.curtain.alt) +
           '" style="background-image:url(&quot;' + esc(d.curtain.image) + '&quot;)"></div>'

@@ -50,10 +50,9 @@ var DATA = {
   home: {
     // The hub leads with one line, "Laura's Bridal Party", set over the curtain.
     title: "Laura’s Bridal Party",
-    // The two signatures carried over from the main wedding site so the hub
-    // reads as one family. The curtain projection sits in the top left corner of
-    // the hero, clearly seen, with the title riding on top of it. The black and
-    // white checkerboard is the backdrop behind the option buttons.
+    // The curtain projection leads the hero in full, clearly seen, with its lit
+    // floor melting into a warm dance floor that carries the title below it. The
+    // black and white checkerboard is the backdrop behind the option buttons.
     curtain: {
       image: "assets/img/home/curtain.png",
       alt: "A softly lit white curtain with a glowing projection"
