@@ -222,8 +222,8 @@ var DATA = {
         // Warm wooden boardwalk planks run behind the whole day.
         bg: "assets/img/boardwalk/boardwalk-deck-bg.jpg",
         hook: "Boardwalk & Chill",
-        vibe: "Slow morning, then we wander Broadway at the Beach. Shops, snacks, sunshine, and string lights when the sky goes pink.",
-        wear: "whatever's comfy, sundress and sneakers",
+        vibe: "Slow morning, then we head to Broadway at the Beach for lunch and a wander around the shops. This is the day for our matching tee and your own pick of shorts (choose yours below). Snacks, sunshine, and string lights when the sky goes pink.",
+        wear: "the matching tee with your pick of shorts (pick yours below), comfy sneakers",
         meals: {
           breakfast: "At the house",
           lunch: {
