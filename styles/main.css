@@ -663,14 +663,17 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 
 /* the banner tile: the art spans the full width on this day's solid theme color */
 .day__head {
+  --bleed: clamp(82px, 19vw, 140px);   /* the tall space between heroes */
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   min-height: clamp(120px, 30vw, 210px);
+  /* A generous bleed zone at the top of every hero holds the color flow from
+     the day above and the weekday label. */
+  padding: var(--bleed) 0 clamp(8px, 2.4vw, 18px);
   margin: 0;
-  padding: 0;
   border: 0;
   color: inherit;
   background: var(--c-this, var(--ivory));
@@ -684,21 +687,22 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .day--acc.has-bg .day__head {
   background-image: var(--day-bg);
 }
-/* A soft theme-tinted vignette darkens the top and bottom of each hero, so
-   where one hero meets the next the two color bands blend, the heroes bleed
-   into one another, and the weekday seam chip has something to sit on. */
-.day--acc.has-bg .day__head::after {
+
+/* The color flow. The top of every hero starts in the previous day's color and
+   dissolves down into this hero's own wash over a tall, soft gradient, so each
+   section melts naturally into the next with no hard seam. */
+.day--acc .day__head::before {
   content: "";
   position: absolute;
-  inset: 0;
+  top: 0; left: 0; right: 0;
+  height: calc(var(--bleed) + clamp(30px, 8vw, 64px));
   z-index: 1;
   pointer-events: none;
   background: linear-gradient(
     180deg,
-    var(--seam, rgba(21,19,15,.42)) 0%,
-    rgba(0,0,0,0) 26%,
-    rgba(0,0,0,0) 74%,
-    var(--seam, rgba(21,19,15,.42)) 100%);
+    var(--c-prev, var(--ivory)) 0%,
+    var(--c-prev, var(--ivory)) 24%,
+    rgba(0, 0, 0, 0) 100%);
 }
 
 /* the banner art is the hero and runs edge to edge */
@@ -709,8 +713,8 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   height: auto;
   max-width: none;
   /* the banner's own edges dissolve into the hero wash above and below it */
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 14%, #000 86%, transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0, #000 14%, #000 86%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 12%, #000 88%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 12%, #000 88%, transparent 100%);
 }
 /* days with no banner: their title carries the band, centered */
 .day__head--text { min-height: clamp(132px, 32vw, 220px); }
@@ -728,33 +732,26 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   text-align: center;
 }
 
-/* The seam is the soft band where one hero bleeds into the next. The weekday
-   label rides in it, centered and straddling the boundary, so the trip reads as
-   one continuous flow with the day name floating in the transition. */
+/* The weekday label rides in the bleed zone at the top of each hero, set to the
+   left in plain tracked caps (no pill), so the day name reads as part of the
+   color flow between one hero and the next. */
 .day__seam {
   position: absolute;
   top: 0; left: 0; right: 0;
+  height: var(--bleed, clamp(82px, 19vw, 140px));
   z-index: 6;
   display: flex;
-  justify-content: center;
-  transform: translateY(-50%);
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 max(22px, env(safe-area-inset-left));
   pointer-events: none;
 }
 .day__cap {
-  display: inline-block;
-  padding: 6px 15px;
-  border-radius: 999px;
-  background: rgba(21,19,15,.5);
-  -webkit-backdrop-filter: blur(8px) saturate(1.1);
-  backdrop-filter: blur(8px) saturate(1.1);
-  border: 1px solid rgba(255,255,255,.22);
-  color: var(--ivory);
-  font-size: 10px; letter-spacing: var(--track-wide); text-transform: uppercase;
+  color: var(--cap-color, var(--ink));
+  font-size: 11px; letter-spacing: var(--track-wide); text-transform: uppercase;
   font-weight: 600;
-  box-shadow: 0 6px 18px rgba(21,19,15,.26);
+  text-shadow: var(--cap-halo, 0 1px 4px rgba(255,255,255,.55));
 }
-/* the first hero has nothing above it, so its label sits inside the band */
-.bach-days .day--acc:first-child .day__seam { transform: none; top: 14px; }
 
 /* expand affordance, top right over the band */
 .day__chev {
@@ -833,6 +830,8 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .sticker.is-1 { top: 4%;  right: -16px; width: clamp(60px, 18vw, 108px); transform: rotate(15deg); }
 .sticker.is-2 { top: 40%; left: -20px;  width: clamp(46px, 13vw, 84px);  transform: rotate(-20deg); opacity: .9; }
 .sticker.is-3 { bottom: 6%; right: 6%;  width: clamp(52px, 15vw, 92px);  transform: rotate(-8deg); }
+.sticker.is-4 { top: 67%; right: -18px; width: clamp(50px, 14vw, 88px);  transform: rotate(22deg); opacity: .92; }
+.sticker.is-5 { top: 20%; left: 4%;     width: clamp(38px, 10vw, 64px);  transform: rotate(-12deg); opacity: .82; }
 /* The coconuts night runs dark, so its line-art stickers get a soft cream halo
    instead of a shadow so the brown lines still read. */
 .day--coconuts .sticker {
@@ -843,6 +842,7 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 }
 .day--coconuts .sticker.is-1 { bottom: 5%; top: auto; right: -14px; transform: rotate(8deg); }
 .day--coconuts .sticker.is-3 { top: 5%; bottom: auto; left: -16px; right: auto; transform: rotate(-10deg); }
+.day--coconuts .sticker.is-4 { top: 46%; bottom: auto; right: -16px; transform: rotate(-6deg); }
 
 /* --- Thursday, Beach Club (soft blue cabana stripes, light and airy) --- */
 .day--thursday {
@@ -850,8 +850,12 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   --c-this: #AECEE3;   /* soft cabana blue */
   --word-1: #3E6E92;   /* word panel gradient: cabana blues */
   --word-2: #16314E;
-  --seam: rgba(78,118,150,.50);
-  --panel-scrim: linear-gradient(180deg, rgba(231,241,248,.80), rgba(208,226,240,.88));
+  --c-prev: #FBF7EF;          /* flows out of the ivory house section above */
+  --cap-color: #2E5C78;
+  --cap-halo: 0 1px 4px rgba(255,255,255,.6);
+  --box-bg: rgba(255,255,255,.55);
+  --text-halo: 0 1px 6px rgba(255,255,255,.6);
+  --panel-scrim: linear-gradient(180deg, rgba(231,241,248,.50), rgba(206,224,238,.62));
   background:
     radial-gradient(70% 45% at 50% 6%, rgba(255,255,255,.55), rgba(255,255,255,0) 60%),
     linear-gradient(170deg, #DFEBF4 0%, #C6DDED 55%, #AECEE3 100%);
@@ -867,8 +871,12 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   --c-this: #2E7FB4;   /* ocean */
   --word-1: #1366C9;   /* word panel gradient: ocean to navy */
   --word-2: #16314E;
-  --seam: rgba(18,46,76,.58);
-  --panel-scrim: linear-gradient(180deg, rgba(26,86,128,.62), rgba(16,46,76,.82));
+  --c-prev: #BCD1E0;          /* flows out of the beach club day */
+  --cap-color: #16314E;
+  --cap-halo: 0 1px 4px rgba(255,255,255,.55);
+  --box-bg: rgba(14,42,68,.42);
+  --text-halo: 0 1px 6px rgba(6,22,38,.62);
+  --panel-scrim: linear-gradient(180deg, rgba(20,54,86,.40), rgba(13,40,66,.60));
   background:
     radial-gradient(70% 45% at 50% 6%, rgba(255,255,255,.22), rgba(255,255,255,0) 60%),
     linear-gradient(170deg, #8EC5E8 0%, #2BB3C0 38%, #1366C9 70%, #16314E 100%);
@@ -884,8 +892,12 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   --c-this: #E7E1F0;   /* iridescent opal */
   --word-1: #d6398a;   /* word panel gradient: pink to violet */
   --word-2: #6f54a8;
-  --seam: rgba(150,120,196,.40);
-  --panel-scrim: linear-gradient(180deg, rgba(255,255,255,.66), rgba(244,240,250,.78));
+  --c-prev: #96D8DD;          /* flows out of the turquoise water day */
+  --cap-color: #6f54a8;
+  --cap-halo: 0 1px 4px rgba(255,255,255,.65);
+  --box-bg: rgba(255,255,255,.55);
+  --text-halo: 0 1px 6px rgba(255,255,255,.65);
+  --panel-scrim: linear-gradient(180deg, rgba(255,255,255,.44), rgba(244,240,250,.56));
   background-color: #EAE6F2; color: var(--ink);
 }
 .day--rainbow .day__glyph { display: none; }
@@ -916,42 +928,51 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .day__banner--crest { width: 100%; }
 .day__title { margin-top: 6px; font-size: clamp(48px, 15vw, 96px); font-weight: 800; }
 
-/* ============================================ PHOTO BACKGROUND WASHES */
-/* Each block of the day's plan is laid over one of its photos. The image
-   spans the full width of the block as a background, and a heavy themed veil
-   sits on top so the picture reads as a quiet backdrop running through the
-   whole panel (not a captioned card at the foot of it) while the words stay
-   legible. The veil pulls from the day's own color so each day's imagery
-   keeps its theme. No captions. */
-.washseg {
-  position: relative;
-  z-index: 1;            /* own stacking context: keeps stickers floating above */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-/* The wash uses the day's tuned panel scrim, the same one the rest of the
-   panel uses, so a photo block and the textured backdrop around it read as one
-   themed world. The scrim is semi opaque, so the photo shows through softly and
-   every line of text stays legible. */
-.washseg__veil {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  /* the tuned per day scrim when present (lets the photo show through), else a
-     solid theme color so text stays legible on days with no scrim defined */
-  background: var(--panel-scrim, var(--c-this, var(--ivory)));
-}
-/* the words ride above the veil */
-.washseg > .wrap {
+/* ============================================ INLINE IMAGE + WORDS */
+/* Each venue photo sits inline beside its words: the picture runs about two
+   thirds of the width, and a themed gradient panel fills the remaining third
+   with the label set in display type. The gradient pulls from the day's own
+   palette (--word-1, --word-2), so the images carry the theme straight through
+   the expanded plan. */
+.photo-split {
   position: relative;
   z-index: 2;
-  padding-top: clamp(26px, 6vw, 46px);
-  padding-bottom: clamp(26px, 6vw, 46px);
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  align-items: stretch;
+  width: calc(100% - 2 * max(18px, env(safe-area-inset-left)));
+  max-width: var(--maxw);
+  margin: clamp(22px, 5vw, 44px) auto;
+  border-radius: var(--radius-s);
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(21,19,15,.16);
 }
-/* soften where one washed block meets the next */
-.washseg + .washseg { border-top: 1px solid var(--seam, rgba(21,19,15,.14)); }
+.photo-split__img { position: relative; line-height: 0; }
+.photo-split__img img {
+  width: 100%;
+  height: 100%;
+  min-height: clamp(190px, 46vw, 340px);
+  object-fit: cover;
+}
+.photo-split__words {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: clamp(13px, 3.4vw, 22px);
+  background: linear-gradient(155deg, var(--word-1, var(--greenery)) 0%, var(--word-2, var(--ink)) 100%);
+  color: #fff;
+}
+.photo-split__label {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(15px, 4.2vw, 23px);
+  line-height: 1.04;
+  letter-spacing: var(--track-tight);
+  text-shadow: 0 1px 14px rgba(0,0,0,.28);
+}
+/* a labelless photo simply spans the full width on its own */
+.photo-split--solo { grid-template-columns: 1fr; }
 
 /* --- Saturday day, Boardwalk --- */
 .day--boardwalk {
@@ -959,8 +980,12 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   --c-this: #EAD5AD;   /* warm boardwalk sand */
   --word-1: #C56B4A;   /* word panel gradient: sand into terracotta */
   --word-2: #7A3B33;
-  --seam: rgba(150,100,58,.46);
-  --panel-scrim: linear-gradient(180deg, rgba(248,237,215,.80), rgba(232,212,172,.88));
+  --c-prev: #E5E0DE;          /* flows out of the pastel rainbow day */
+  --cap-color: #7A3B22;
+  --cap-halo: 0 1px 4px rgba(255,255,255,.65);
+  --box-bg: rgba(255,255,255,.5);
+  --text-halo: 0 1px 6px rgba(255,255,255,.62);
+  --panel-scrim: linear-gradient(180deg, rgba(247,236,214,.48), rgba(232,212,172,.62));
   background:
     radial-gradient(60% 40% at 78% 6%, rgba(255,255,255,.5), rgba(255,255,255,0) 60%),
     linear-gradient(165deg, #F8EDD7 0%, #EAD5AD 100%);
@@ -975,8 +1000,12 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   --c-this: #C56B4A;   /* sunset terracotta */
   --word-1: #C2554E;   /* word panel gradient: terracotta into coconut */
   --word-2: #7A3B33;
-  --seam: rgba(107,66,38,.56);
-  --panel-scrim: linear-gradient(180deg, rgba(120,74,42,.70), rgba(74,46,26,.84));
+  --c-prev: #E8B36D;          /* flows out of the warm boardwalk day */
+  --cap-color: #5A2E18;
+  --cap-halo: 0 1px 4px rgba(255,242,224,.6);
+  --box-bg: rgba(74,46,26,.46);
+  --text-halo: 0 1px 6px rgba(40,22,12,.62);
+  --panel-scrim: linear-gradient(180deg, rgba(110,66,38,.46), rgba(74,46,26,.62));
   background:
     radial-gradient(70% 45% at 50% 4%, rgba(255,255,255,.2), rgba(255,255,255,0) 58%),
     linear-gradient(170deg, #E8B14C 0%, #C56B4A 45%, #6B4226 100%);
@@ -992,6 +1021,9 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   --c-this: #F3ECDD;   /* calm sand */
   --word-1: var(--greenery);   /* word panel gradient: greenery into gold */
   --word-2: #8A6A2A;
+  --c-prev: #EAD0AD;          /* flows out of the coconuts night */
+  --cap-color: var(--greenery);
+  --cap-halo: 0 1px 4px rgba(255,255,255,.6);
   background: var(--ivory); color: var(--ink); text-align: center;
 }
 .day--sunday .day__inner { margin: 0 auto; }
@@ -1087,8 +1119,8 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   font-size: 14px; line-height: 1.6;
   padding: 14px 16px;
   border-left: 2px solid currentColor;
-  background: rgba(255,255,255,.12);
-  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  background: var(--box-bg, rgba(255,255,255,.12));
+  -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px);
 }
 .transport__glyph { font-size: 17px; line-height: 1.5; }
 
@@ -1096,8 +1128,10 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   margin-top: var(--space-6); max-width: 34em;
   padding: var(--space-5);
   border: 1px solid var(--line-lt);
-  background: rgba(255,255,255,.1);
-  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  /* a per-day frosted backing so the plan stays legible over the now-visible
+     wallpaper, tinted to suit the day's text color */
+  background: var(--box-bg, rgba(255,255,255,.1));
+  -webkit-backdrop-filter: blur(9px); backdrop-filter: blur(9px);
   border-radius: var(--radius-s);
 }
 .forms .eyebrow { color: #FFF3E2; display: block; }
@@ -1131,13 +1165,25 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .linkchip:active { transform: scale(.96); }
 
 .day-loc__addr { font-size: 13px; opacity: .78; margin-top: 5px; }
-/* dark-text day worlds get a light frosted panel instead */
-.day--rainbow .meals, .day--boardwalk .meals, .day--thursday .meals,
-.day--rainbow .forms, .day--boardwalk .forms, .day--thursday .forms {
-  background: rgba(255,255,255,.5);
+/* dark-text day worlds get a crisper border to match their light frosted box */
+.day--rainbow .forms, .day--boardwalk .forms, .day--thursday .forms,
+.day--rainbow .meals, .day--boardwalk .meals, .day--thursday .meals {
   border-color: var(--line);
 }
 .day--thursday .forms .eyebrow { color: #2E6A8E; }
+
+/* With the wallpapers now showing through, bare headings and copy that sit
+   directly on the photo get a soft halo so every line stays readable. */
+.day--acc.has-bg .vibe,
+.day--acc.has-bg .secondary,
+.day--acc.has-bg .hook,
+.day--acc.has-bg .day-loc h3,
+.day--acc.has-bg .day-loc .eyebrow,
+.day--acc.has-bg .day-loc .detail,
+.day--acc.has-bg .day-loc__addr,
+.day--acc.has-bg .swatch .nm {
+  text-shadow: var(--text-halo, none);
+}
 
 /* warm sunset panel layered over the cruise description (Coco Nuts) */
 .sunset {

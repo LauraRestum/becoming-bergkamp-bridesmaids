@@ -138,7 +138,9 @@ var DATA = {
         stickers: [
           { src: "assets/img/blue/sticker-starfish.png", pos: "is-1" },
           { src: "assets/img/blue/sticker-starfish.png", pos: "is-2" },
-          { src: "assets/img/blue/sticker-starfish.png", pos: "is-3" }
+          { src: "assets/img/blue/sticker-starfish.png", pos: "is-3" },
+          { src: "assets/img/blue/sticker-starfish.png", pos: "is-4" },
+          { src: "assets/img/blue/sticker-starfish.png", pos: "is-5" }
         ],
         hook: "Toes in the Sand",
         vibe: "Beach day, all in blue. We post up at Litchfield Beach, drinks the color of the ocean, the brightest, easiest day of the trip.",
@@ -178,7 +180,9 @@ var DATA = {
         // Iridescent bubble stickers scattered over the rainbow plan.
         stickers: [
           { src: "assets/img/rainbow/sticker-bubbles.png", pos: "is-1" },
-          { src: "assets/img/rainbow/sticker-bubbles.png", pos: "is-2" }
+          { src: "assets/img/rainbow/sticker-bubbles.png", pos: "is-2" },
+          { src: "assets/img/rainbow/sticker-bubbles.png", pos: "is-4" },
+          { src: "assets/img/rainbow/sticker-bubbles.png", pos: "is-5" }
         ],
         hook: "Catch the Shimmer",
         vibe: "The showstopper. Iridescent everything, glitter scales on our arms, the whole crew shimmering as we head out for the night.",
@@ -264,7 +268,8 @@ var DATA = {
         // A little wine bottle and glass, hand-drawn, for the fancy night out.
         stickers: [
           { src: "assets/img/coconuts/sticker-winebar.png", pos: "is-1" },
-          { src: "assets/img/coconuts/sticker-winebar.png", pos: "is-3" }
+          { src: "assets/img/coconuts/sticker-winebar.png", pos: "is-3" },
+          { src: "assets/img/coconuts/sticker-winebar.png", pos: "is-4" }
         ],
         hook: "Golden Hour, Golden Crew",
         vibe: "Our fancy night. Dressed to the nines, out on the water, then dinner along the Murrells Inlet MarshWalk as we keep the night going right there in the inlet.",
