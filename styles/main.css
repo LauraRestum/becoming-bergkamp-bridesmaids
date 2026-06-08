@@ -754,6 +754,27 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 @media (hover: hover) { .swatch:hover .dot { transform: scale(1.12); } }
 .swatch .nm { font-size: 9px; letter-spacing: .16em; text-transform: uppercase; opacity: .8; }
 
+/* outfit inspiration collage: a small gold label over a hairline rule, then the
+   image run full width with no box or drop shadow, in keeping with the
+   editorial look. */
+.outfit-inspo {
+  margin-top: var(--space-7);
+  padding-top: var(--space-5);
+  border-top: 1px solid currentColor;
+}
+.outfit-inspo__label {
+  font-size: 10px; letter-spacing: var(--track-label); text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: var(--space-4);
+}
+.outfit-inspo__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-m);
+}
+.day--acc.has-bg .outfit-inspo__label { text-shadow: var(--text-halo, none); }
+
 /* oversized botanical glyph as quiet texture per day */
 .day__glyph {
   position: absolute; z-index: 1;

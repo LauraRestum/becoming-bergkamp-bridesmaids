@@ -42,6 +42,18 @@
     return '<div class="swatches reveal">' + dots + "</div>";
   }
 
+  /* A single outfit inspiration collage for a day, framed by a hairline rule
+     and a small label instead of a boxed card. The whole image shows, so the
+     looks read at a glance. */
+  function outfitInspoHTML(inspo) {
+    if (!inspo || !inspo.src) return "";
+    return '<figure class="outfit-inspo reveal">' +
+      '<figcaption class="outfit-inspo__label">Outfit inspo</figcaption>' +
+      '<img class="outfit-inspo__img" src="' + esc(inspo.src) +
+      '" alt="' + esc(inspo.alt || "Outfit inspiration") + '" loading="lazy">' +
+    "</figure>";
+  }
+
   function pagefoot(script, line) {
     return '<footer class="pagefoot reveal">' + contactList() +
            '<div class="script">' + esc(script) +
@@ -258,6 +270,7 @@
     if (day.forms) plan += formsHTML(day.forms);
     if (day.wear) plan += '<div class="wearchip chip reveal"><span class="lead">Wear</span>' + esc(day.wear) + "</div>";
     plan += swatchRow(day.swatches);
+    plan += outfitInspoHTML(day.outfitInspo);
     body += seg(plan);
 
     if (day.meals) body += seg(mealsHTML(day.meals));
