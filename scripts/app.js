@@ -105,8 +105,17 @@
     "</button>";
   }
 
-  /* The collapsible panel holds the full plan for a day. */
+  /* The collapsible panel holds the full plan for a day. Each block of copy
+     sits over one of the day's photos, washed back to a heavy opacity so the
+     image reads as a background behind the words (top to bottom, not just at
+     the foot of the panel) and the text stays legible. No captions. */
   function dayPanel(day) {
+    // The day's photos, in reading order, become the background washes. They
+    // are cycled across the blocks so the imagery runs through the whole panel.
+    var pics = dayPhotos(day);
+    var pi = 0;
+    function bgFor() { return pics.length ? pics[pi++ % pics.length] : null; }
+
     var body = "";
 
     // Intro copy. A koozie prop, when set, tucks into the corner of the copy
@@ -120,20 +129,20 @@
     intro += '<p class="vibe reveal">' + esc(day.vibe) + "</p>";
     if (day.secondary) intro += '<p class="secondary reveal">' + esc(day.secondary) + "</p>";
     if (day.transport) intro += transportHTML(day.transport);
-    body += seg(intro);
+    body += washSeg(intro, bgFor());
 
-    // Each place sits next to the photos that show it.
-    if (day.sunset) { body += seg(sunsetHTML(day.sunset)); body += photosHTML(day.sunset.photos); }
+    if (day.sunset) body += washSeg(sunsetHTML(day.sunset), bgFor());
 
     var plan = "";
     if (day.forms) plan += formsHTML(day.forms);
     if (day.wear) plan += '<div class="wearchip chip reveal"><span class="lead">Wear</span>' + esc(day.wear) + "</div>";
     plan += swatchRow(day.swatches);
-    body += seg(plan);
+    body += washSeg(plan, bgFor());
 
-    if (day.meals) { body += seg(mealsHTML(day.meals)); body += photosHTML(mealPhotos(day.meals)); }
+    if (day.meals) body += washSeg(mealsHTML(day.meals), bgFor());
+    // The boardwalk tee is a surprise, so its widget keeps a plain background.
     if (day.looksWidget && window.Boardwalk) body += seg(window.Boardwalk.html());
-    if (day.location) { body += seg(dayLocationHTML(day.location)); body += photosHTML(day.location.photos); }
+    if (day.location) body += washSeg(dayLocationHTML(day.location), bgFor());
 
     return '<div class="day__panel" id="panel-' + esc(day.id) + '" hidden>' +
       '<div class="day__panel-in">' + stickersHTML(day.stickers) + body + "</div></div>";
@@ -173,26 +182,28 @@
       '" alt="' + esc(day.title) + (day.bannerKeepsTitle ? " crest" : "") + '"></figure>';
   }
 
-  /* Inline image, set beside the words. The photo runs about two thirds of the
-     width and a themed gradient panel holds its label in the remaining third,
-     so each place reads as picture plus caption side by side rather than a
-     full-bleed band. The gradient uses the day's theme colors. */
-  function photoFigure(p) {
-    if (!p || !p.src) return "";
-    var words = p.label
-      ? '<figcaption class="photo-split__words">' +
-          '<span class="photo-split__label">' + esc(p.label) + "</span>" +
-        "</figcaption>"
-      : "";
-    return '<figure class="photo-split' + (words ? "" : " photo-split--solo") + ' reveal">' +
-      '<div class="photo-split__img">' +
-        '<img loading="lazy" src="' + esc(p.src) + '" alt="' + esc(p.alt || "") + '">' +
-      "</div>" + words +
-    "</figure>";
+  /* A block of copy laid over one of the day's photos. The image fills the
+     full width of the block as a background and is washed back with a heavy
+     themed overlay so it reads as a quiet backdrop and the words stay legible.
+     Blocks with no photo fall back to a plain segment. */
+  function washSeg(html, p) {
+    if (!html) return "";
+    if (!p || !p.src) return seg(html);
+    // The photo is a decorative background wash behind the copy, so it carries
+    // no alt text of its own (the words in the block describe the day).
+    return '<section class="washseg reveal" style="background-image:url(' + esc(p.src) + ')">' +
+      '<span class="washseg__veil" aria-hidden="true"></span>' +
+      '<div class="wrap"><div class="day__inner">' + html + "</div></div>" +
+    "</section>";
   }
-  function photosHTML(list) {
-    if (!list || !list.length) return "";
-    return list.map(photoFigure).join("");
+
+  /* Every photo for a day, in reading order, used as the panel's backgrounds. */
+  function dayPhotos(day) {
+    var out = [];
+    if (day.sunset && day.sunset.photos) out = out.concat(day.sunset.photos);
+    if (day.meals) out = out.concat(mealPhotos(day.meals));
+    if (day.location && day.location.photos) out = out.concat(day.location.photos);
+    return out;
   }
   /* Pull the photos hung on each named meal, in serving order. */
   function mealPhotos(m) {

@@ -916,51 +916,42 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .day__banner--crest { width: 100%; }
 .day__title { margin-top: 6px; font-size: clamp(48px, 15vw, 96px); font-weight: 800; }
 
-/* ============================================ INLINE IMAGE + WORDS */
-/* Each venue photo sits inline beside its words: the picture runs about two
-   thirds of the width, and a themed gradient panel fills the remaining third
-   with the label set in display type. The gradient pulls from the day's own
-   palette (--word-1, --word-2), so the images carry the theme straight through
-   the expanded plan. */
-.photo-split {
+/* ============================================ PHOTO BACKGROUND WASHES */
+/* Each block of the day's plan is laid over one of its photos. The image
+   spans the full width of the block as a background, and a heavy themed veil
+   sits on top so the picture reads as a quiet backdrop running through the
+   whole panel (not a captioned card at the foot of it) while the words stay
+   legible. The veil pulls from the day's own color so each day's imagery
+   keeps its theme. No captions. */
+.washseg {
+  position: relative;
+  z-index: 1;            /* own stacking context: keeps stickers floating above */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+/* The wash uses the day's tuned panel scrim, the same one the rest of the
+   panel uses, so a photo block and the textured backdrop around it read as one
+   themed world. The scrim is semi opaque, so the photo shows through softly and
+   every line of text stays legible. */
+.washseg__veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  /* the tuned per day scrim when present (lets the photo show through), else a
+     solid theme color so text stays legible on days with no scrim defined */
+  background: var(--panel-scrim, var(--c-this, var(--ivory)));
+}
+/* the words ride above the veil */
+.washseg > .wrap {
   position: relative;
   z-index: 2;
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  align-items: stretch;
-  width: calc(100% - 2 * max(18px, env(safe-area-inset-left)));
-  max-width: var(--maxw);
-  margin: clamp(22px, 5vw, 44px) auto;
-  border-radius: var(--radius-s);
-  overflow: hidden;
-  box-shadow: 0 18px 40px rgba(21,19,15,.16);
+  padding-top: clamp(26px, 6vw, 46px);
+  padding-bottom: clamp(26px, 6vw, 46px);
 }
-.photo-split__img { position: relative; line-height: 0; }
-.photo-split__img img {
-  width: 100%;
-  height: 100%;
-  min-height: clamp(190px, 46vw, 340px);
-  object-fit: cover;
-}
-.photo-split__words {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: 10px;
-  padding: clamp(13px, 3.4vw, 22px);
-  background: linear-gradient(155deg, var(--word-1, var(--greenery)) 0%, var(--word-2, var(--ink)) 100%);
-  color: #fff;
-}
-.photo-split__label {
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: clamp(15px, 4.2vw, 23px);
-  line-height: 1.04;
-  letter-spacing: var(--track-tight);
-  text-shadow: 0 1px 14px rgba(0,0,0,.28);
-}
-/* a labelless photo simply spans the full width on its own */
-.photo-split--solo { grid-template-columns: 1fr; }
+/* soften where one washed block meets the next */
+.washseg + .washseg { border-top: 1px solid var(--seam, rgba(21,19,15,.14)); }
 
 /* --- Saturday day, Boardwalk --- */
 .day--boardwalk {
