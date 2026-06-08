@@ -506,18 +506,24 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .hero--banner .wavewrap { margin-top: var(--space-7); }
 
 /* The mockup art on a clean white field, centered, no beach behind it. The
-   artwork carries the lettering, so no separate headline sits with it. */
-.hero--white { background: #fff; color: var(--ink); padding-top: clamp(32px, 9vw, 68px); }
+   artwork carries the lettering, so no separate headline sits with it. The
+   source PNG is a tall portrait with wide empty margins baked in at the top and
+   bottom, so we crop those away (object-fit cover into a near-square box) to
+   keep the section compact and let the art read larger. */
+.hero--white { background: #fff; color: var(--ink); padding-top: clamp(20px, 6vw, 44px); }
 .hero--white .sub { color: var(--ink); opacity: .72; }
 .hero--white .hero-mockup {
   display: block;
-  width: auto; height: auto;
-  max-width: min(280px, 64vw);
-  max-height: 38vh;
+  width: min(280px, 66vw);
+  aspect-ratio: 1024 / 1130;
+  height: auto;
+  max-height: 32vh;
+  object-fit: cover;
+  object-position: center;
   margin: 0 auto;
 }
-.hero--white .sub { margin-top: 16px; }
-.hero--white .wavewrap { margin-top: var(--space-5); }
+.hero--white .sub { margin-top: 14px; }
+.hero--white .wavewrap { margin-top: var(--space-4); }
 
 /* =================================== BACHELORETTE STICKY JUMP */
 .jumpnav {
