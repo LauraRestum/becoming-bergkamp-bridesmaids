@@ -93,7 +93,8 @@ var DATA = {
         // Hero crest on blue, plus the matching no-text wash behind the section.
         banner: "assets/img/beachclub/beachclub-banner.png",
         bannerKeepsTitle: true, // crest art does not spell the day, keep the word
-        bg: "assets/img/beachclub/beachclub-bg.png",
+        // Soft blue cabana stripes wash the whole beach-club world.
+        bg: "assets/img/beachclub/beachclub-stripe-bg.jpg",
         hook: "Members Only",
         vibe: "We kick the weekend off with a cozy night in at the house. Crafts at the table, a few rounds of trivia, and silly get to know you games to break the ice. Low key, low pressure, and where all the inside jokes start.",
         wear: "comfy and cute, beach club lounge",
@@ -127,9 +128,18 @@ var DATA = {
         title: "Something Blue",
         // Hand-lettered "Something Blue Before I Do" banner over clear water.
         banner: "assets/img/blue/something-blue-banner.png",
-        bg: "assets/img/blue/something-blue-bg.jpg",
+        // Clear turquoise water runs behind the whole beach day.
+        bg: "assets/img/blue/blue-water-bg.jpg",
         // A little "All I Sea is Love" koozie tucked in as a fun beach-day prop.
         koozie: "assets/img/blue/koozie.png",
+        // Fun beach-day stickers scattered over the expanded plan. Each entry is
+        // a transparent PNG; the "pos" class places and tilts it. Add more by
+        // dropping a PNG in assets/img/blue/ and appending one object here.
+        stickers: [
+          { src: "assets/img/blue/sticker-starfish.png", pos: "is-1" },
+          { src: "assets/img/blue/sticker-starfish.png", pos: "is-2" },
+          { src: "assets/img/blue/sticker-starfish.png", pos: "is-3" }
+        ],
         hook: "Toes in the Sand",
         vibe: "Beach day, all in blue. We post up at Litchfield Beach, drinks the color of the ocean, the brightest, easiest day of the trip.",
         wear: "a blue swimsuit, any blue you love",
@@ -163,8 +173,13 @@ var DATA = {
         label: "friday · night",
         title: "Rainbow Fish",
         // Iridescent mermaid-scale background and hand-lettered banner.
-        bg: "assets/img/rainbow/rainbow-bg.png",
+        bg: "assets/img/rainbow/rainbow-scale-bg.jpg",
         banner: "assets/img/rainbow/rainbow-banner.png",
+        // Iridescent bubble stickers scattered over the rainbow plan.
+        stickers: [
+          { src: "assets/img/rainbow/sticker-bubbles.png", pos: "is-1" },
+          { src: "assets/img/rainbow/sticker-bubbles.png", pos: "is-2" }
+        ],
         hook: "Catch the Shimmer",
         vibe: "The showstopper. Iridescent everything, glitter scales on our arms, the whole crew shimmering as we head out for the night.",
         wear: "any rainbow color, shimmery, glittery or silky",
@@ -204,6 +219,8 @@ var DATA = {
         // Broadway at the Beach banner art, run as the full-width hero.
         banner: "assets/img/boardwalk/boardwalk-banner.png",
         bannerKeepsTitle: true, // the art names the place, it does not spell the day
+        // Warm wooden boardwalk planks run behind the whole day.
+        bg: "assets/img/boardwalk/boardwalk-deck-bg.jpg",
         hook: "Boardwalk & Chill",
         vibe: "Slow morning, then we wander Broadway at the Beach. Shops, snacks, sunshine, and string lights when the sky goes pink.",
         wear: "whatever's comfy, sundress and sneakers",
@@ -242,7 +259,13 @@ var DATA = {
         title: "Let's Go Coco Nuts",
         // Retro "Let's Go Coconuts" banner over warm tan stripes.
         banner: "assets/img/coconuts/coconuts-banner.png",
-        bg: "assets/img/coconuts/coconuts-bg.png",
+        // Warm tan and cream stripes run behind the whole night.
+        bg: "assets/img/coconuts/coconuts-stripe-bg.jpg",
+        // A little wine bottle and glass, hand-drawn, for the fancy night out.
+        stickers: [
+          { src: "assets/img/coconuts/sticker-winebar.png", pos: "is-1" },
+          { src: "assets/img/coconuts/sticker-winebar.png", pos: "is-3" }
+        ],
         hook: "Golden Hour, Golden Crew",
         vibe: "Our fancy night. Dressed to the nines, out on the water, then dinner along the Murrells Inlet MarshWalk as we keep the night going right there in the inlet.",
         // Sunset tour gets its own warm, layered sunset panel.
