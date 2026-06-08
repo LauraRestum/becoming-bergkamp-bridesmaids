@@ -629,18 +629,18 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   .jumpnav__pill.is-active:hover { border-color: var(--greenery); }
 }
 
-/* The House: a soft, centered home base. A warm sand wash inside a hairline
-   gold frame (no drop shadow), crowned with a little shell, so it reads cute and
-   on theme rather than stark. */
+/* The House: a soft, centered home base. A soft soft blue wash inside a hairline
+   cabana-blue frame (no drop shadow), crowned with a little shell, so it reads
+   cute and nautical rather than stark. */
 .house {
   position: relative;
   display: block;
   text-align: center;
   margin: var(--space-7) 0;
   padding: clamp(28px, 7vw, 44px) clamp(20px, 5vw, 36px) clamp(26px, 6vw, 40px);
-  border: 1px solid var(--gold);
+  border: 1px solid #9CC0DB;
   border-radius: 20px;
-  background: linear-gradient(180deg, rgba(230,216,189,.26), rgba(230,216,189,.10));
+  background: linear-gradient(180deg, rgba(174,206,227,.26), rgba(174,206,227,.08));
   text-decoration: none;
   color: var(--ink);
   transition: border-color .25s var(--ease), transform .2s var(--ease);
@@ -656,7 +656,7 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   margin: 0 0 var(--space-5);
 }
 .house__glyph { display: block; font-size: 30px; line-height: 1; margin-bottom: 12px; }
-.house .eyebrow { color: var(--greenery); display: block; }
+.house .eyebrow { color: #2E6A8E; display: block; }
 .house h2 { font-size: clamp(30px, 8vw, 52px); margin: 12px 0 14px; line-height: .96; }
 .house .addr { font-size: 15px; opacity: .85; }
 .house .note { font-size: 14px; opacity: .72; margin: 8px auto 0; max-width: 32em; }
@@ -667,14 +667,14 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   margin-top: var(--space-5);
   padding: 11px 22px;
   border-radius: var(--radius-pill);
-  background: var(--greenery); color: #fff;
+  background: #16314E; color: #fff;
   font-size: 11px; letter-spacing: var(--track-label); text-transform: uppercase;
   font-weight: 600;
   transition: background-color .25s var(--ease);
 }
-.maptap__pin { display: inline-flex; color: var(--gold-soft); }
+.maptap__pin { display: inline-flex; color: #AECEE3; }
 @media (hover: hover) {
-  .house:hover { border-color: var(--greenery); }
+  .house:hover { border-color: #2E6A8E; }
   .house:hover .maptap { background: var(--ink); }
 }
 .house:active { transform: scale(.99); }
@@ -1022,14 +1022,15 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .day--coconuts .sticker.is-3 { top: 5%; bottom: auto; left: -16px; right: auto; transform: rotate(-10deg); }
 .day--coconuts .sticker.is-4 { top: 46%; bottom: auto; right: -16px; transform: rotate(-6deg); }
 
-/* --- Thursday, Beach Club (soft blue cabana stripes, light and airy) --- */
+/* --- Thursday, Beach Club (classic nautical: navy on a crisp soft-blue and
+   white field, light and airy) --- */
 .day--thursday {
   --day-base: #C6DDED;
   --c-this: #AECEE3;   /* soft cabana blue */
   --panel-bg: linear-gradient(180deg, #AECEE3 0%, #E1EEF6 100%);
-  --word-1: #3E6E92;   /* word panel gradient: cabana blues */
-  --word-2: #16314E;
-  --cap-color: #234E63;
+  --word-1: #1B4A6E;   /* word panel gradient: deep nautical navy */
+  --word-2: #0E2D49;
+  --cap-color: #16314E;
   --cap-halo: 0 1px 4px rgba(255,255,255,.6);
   --box-bg: rgba(255,255,255,.55);
   --text-halo: 0 1px 6px rgba(255,255,255,.6);
@@ -1040,8 +1041,8 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   color: var(--ink);
 }
 .day--thursday.has-bg::before { background: linear-gradient(180deg, rgba(223,235,244,.34) 0%, rgba(198,221,237,.10) 45%, rgba(223,235,244,.40) 100%); }
-.day--thursday .label { color: #3E6E92; }
-.day--thursday .hook  { color: #2E6A8E; }
+.day--thursday .label { color: #16314E; }
+.day--thursday .hook  { color: #1B4A6E; }
 
 /* --- Friday day, Something Blue --- */
 .day--blue {
