@@ -51,6 +51,12 @@ var DATA = {
     kicker: "we're getting married",
     headline: ["Becoming ", "Bergkamp"], // second word renders italic gold
     meta: "March 20, 2027 · Wichita, Kansas",
+    // The chapel glowing at night, carried over from the main wedding site. It
+    // sits on black, so it blends straight into the dark editorial ground.
+    hero: {
+      image: "assets/img/venue/chapel-night.jpg",
+      alt: "The chapel at Central Community Church glowing against the night"
+    },
     cards: [
       {
         route: "#/bachelorette",
@@ -372,7 +378,12 @@ var DATA = {
         venue: "Central Community Church",
         place: "Wichita, Kansas",
         when: "11:00 AM to 1:00 PM",
-        map: mapFor("Central Community Church Wichita KS")
+        map: mapFor("Central Community Church Wichita KS"),
+        photo: {
+          src: "assets/img/venue/chapel-exterior.jpg",
+          alt: "Watercolor of the Central Community Church chapel exterior at dusk",
+          caption: "Central Community Church, where we rehearse"
+        }
       },
       {
         time: "4:00",
@@ -400,7 +411,10 @@ var DATA = {
     hero: {
       kicker: "at last",
       headline: ["The ", "Day Of"], // first word renders gold italic
-      subtitle: "March 20, 2027 · Wichita, Kansas"
+      subtitle: "March 20, 2027 · Wichita, Kansas",
+      // The chapel at night, on black, blends into the dark editorial ground.
+      image: "assets/img/venue/chapel-night.jpg",
+      imageAlt: "The chapel at Central Community Church glowing against the night"
     },
     schedule: [
       {
@@ -409,7 +423,12 @@ var DATA = {
         venue: "Central Community Church",
         place: "Wichita, Kansas",
         when: "4:00 PM",
-        map: mapFor("Central Community Church Wichita KS")
+        map: mapFor("Central Community Church Wichita KS"),
+        photo: {
+          src: "assets/img/venue/chapel-interior.jpg",
+          alt: "Watercolor of the chapel interior, pews and a stained glass cross",
+          caption: "Inside the chapel, where we say our vows"
+        }
       },
       {
         time: "6:00",
@@ -417,9 +436,20 @@ var DATA = {
         venue: "Brick + Mortar",
         place: "Wichita, Kansas",
         when: "6:00 PM",
-        map: mapFor("Brick and Mortar Wichita KS")
+        map: mapFor("Brick and Mortar Wichita KS"),
+        photo: {
+          src: "assets/img/venue/reception-exterior.jpg",
+          alt: "Brick and Mortar event venue glowing at night",
+          caption: "Brick + Mortar, for the reception"
+        }
       }
     ],
+    // A warm look inside the reception, carried over from the main site.
+    feature: {
+      src: "assets/img/venue/reception-pavilion.jpg",
+      alt: "The string lit pavilion at Brick and Mortar, set for the reception",
+      caption: "Dinner and dancing under the lights at Brick + Mortar"
+    },
     scheduleNote: "All times are subject to change",
     colors: {
       eyebrow: "The Palette",

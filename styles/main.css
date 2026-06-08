@@ -1822,6 +1822,38 @@ body.theme-editorial .map-embed {
   margin-top: 22px;
 }
 
+/* -------------------------------------------- VENUE FIGURES (carried over) */
+.ed-figure {
+  max-width: 760px; margin: clamp(28px, 6vw, 44px) auto; padding: 0 22px;
+  text-align: center;
+}
+.ed-figure img {
+  width: 100%; height: auto;
+  border: .5px solid var(--ed-rule);
+}
+.ed-figure figcaption {
+  font-family: var(--ed-serif); font-style: italic;
+  font-size: 14px; letter-spacing: .04em;
+  color: var(--ed-soft);
+  margin-top: 12px;
+}
+/* full bleed, frameless art that sits on black and feathers into the ground */
+.ed-figure--bleed { max-width: none; margin: 0; padding: 0; }
+.ed-figure--bleed img {
+  border: 0;
+  width: min(680px, 100%); margin: 0 auto;
+  -webkit-mask-image: radial-gradient(125% 92% at 50% 44%, #000 58%, transparent 100%);
+  mask-image: radial-gradient(125% 92% at 50% 44%, #000 58%, transparent 100%);
+}
+.ed-figure--bleed figcaption { margin-top: 4px; padding: 0 22px; }
+/* a figure that lives inside a schedule row, spanning both columns */
+.ed-figure--inline {
+  grid-column: 1 / -1;
+  max-width: none; margin: clamp(16px, 4vw, 24px) 0 2px; padding: 0;
+  text-align: left;
+}
+.ed-figure--inline figcaption { font-size: 13px; margin-top: 10px; }
+
 /* -------------------------------------------- COLORS & ATTIRE (Day Of) */
 .ed-colors {
   text-align: center;
