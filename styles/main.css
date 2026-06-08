@@ -754,9 +754,9 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 @media (hover: hover) { .swatch:hover .dot { transform: scale(1.12); } }
 .swatch .nm { font-size: 9px; letter-spacing: .16em; text-transform: uppercase; opacity: .8; }
 
-/* outfit inspiration collage: a small gold label over a hairline rule, then the
-   image run full width with no box or drop shadow, in keeping with the
-   editorial look. */
+/* outfit inspiration collage: the art is a transparent PNG, so it floats on the
+   day with no box, backing, or drop shadow, under a small gold label. The whole
+   thing is a button that opens the lightbox at full size. */
 .outfit-inspo {
   margin-top: var(--space-7);
   padding-top: var(--space-5);
@@ -767,13 +767,29 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   color: var(--gold);
   margin-bottom: var(--space-4);
 }
+.outfit-inspo__btn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+  transition: transform .25s var(--ease);
+}
+@media (hover: hover) { .outfit-inspo__btn:hover { transform: translateY(-3px); } }
 .outfit-inspo__img {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: var(--radius-m);
 }
-.day--acc.has-bg .outfit-inspo__label { text-shadow: var(--text-halo, none); }
+.outfit-inspo__hint {
+  display: block;
+  margin-top: 10px;
+  font-size: 9px; letter-spacing: var(--track-label); text-transform: uppercase;
+  opacity: .7;
+}
+.day--acc.has-bg .outfit-inspo__label,
+.day--acc.has-bg .outfit-inspo__hint { text-shadow: var(--text-halo, none); }
 
 /* oversized botanical glyph as quiet texture per day */
 .day__glyph {

@@ -42,15 +42,20 @@
     return '<div class="swatches reveal">' + dots + "</div>";
   }
 
-  /* A single outfit inspiration collage for a day, framed by a hairline rule
-     and a small label instead of a boxed card. The whole image shows, so the
-     looks read at a glance. */
+  /* A single outfit inspiration collage for a day. The art is a transparent
+     PNG, so it floats on the day with no box or backing, under a small label.
+     Tapping it opens the shared lightbox at full size. */
   function outfitInspoHTML(inspo) {
     if (!inspo || !inspo.src) return "";
+    var alt = inspo.alt || "Outfit inspiration";
     return '<figure class="outfit-inspo reveal">' +
       '<figcaption class="outfit-inspo__label">Outfit inspo</figcaption>' +
-      '<img class="outfit-inspo__img" src="' + esc(inspo.src) +
-      '" alt="' + esc(inspo.alt || "Outfit inspiration") + '" loading="lazy">' +
+      '<button class="outfit-inspo__btn" type="button" data-zoom="' + esc(inspo.src) +
+        '" data-zoom-alt="' + esc(alt) + '" aria-label="Expand outfit inspiration">' +
+        '<img class="outfit-inspo__img" src="' + esc(inspo.src) +
+          '" alt="' + esc(alt) + '" loading="lazy">' +
+        '<span class="outfit-inspo__hint" aria-hidden="true">Tap to expand</span>' +
+      "</button>" +
     "</figure>";
   }
 
@@ -714,11 +719,13 @@
     var lastFocus = null;
 
     document.addEventListener("click", function (e) {
-      var tile = e.target.closest && e.target.closest(".look-tile");
+      var tile = e.target.closest && e.target.closest(".look-tile, .outfit-inspo__btn");
       if (tile) {
         lastFocus = document.activeElement;
         img.src = tile.getAttribute("data-zoom");
-        img.alt = (tile.getAttribute("data-look") || "Look") + ", front and back";
+        var look = tile.getAttribute("data-look");
+        img.alt = look ? look + ", front and back"
+                       : (tile.getAttribute("data-zoom-alt") || "Outfit inspiration");
         lb.classList.add("is-open");
         lb.setAttribute("aria-hidden", "false");
         if (closeBtn) closeBtn.focus();
