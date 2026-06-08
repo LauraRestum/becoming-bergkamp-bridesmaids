@@ -51,11 +51,10 @@ var DATA = {
     kicker: "we're getting married",
     headline: ["Becoming ", "Bergkamp"], // second word renders italic gold
     meta: "March 20, 2027 · Wichita, Kansas",
-    // The chapel glowing at night, carried over from the main wedding site. It
-    // sits on black, so it blends straight into the dark editorial ground.
+    // Central Community Church, where it all happens, carried over as the home hero.
     hero: {
-      image: "assets/img/venue/chapel-night.jpg",
-      alt: "The chapel at Central Community Church glowing against the night"
+      image: "assets/img/venue/central-community-exterior.jpg",
+      alt: "Central Community Church, stone gables and a cross against the Kansas sky"
     },
     cards: [
       {
@@ -112,6 +111,10 @@ var DATA = {
       title: "The River Club House",
       address: "83 Carrington Dr, Pawleys Island, SC",
       note: "Inside the River Club golf community, steps from Litchfield Beach.",
+      photo: {
+        src: "assets/img/photos/house/river-club-aerial.jpg",
+        alt: "Aerial view of the River Club golf community, fairways and water winding past the houses"
+      },
       map: mapFor("83 Carrington Dr Pawleys Island SC")
     },
 
@@ -380,8 +383,8 @@ var DATA = {
         when: "11:00 AM to 1:00 PM",
         map: mapFor("Central Community Church Wichita KS"),
         photo: {
-          src: "assets/img/venue/chapel-exterior.jpg",
-          alt: "Watercolor of the Central Community Church chapel exterior at dusk",
+          src: "assets/img/venue/central-community-exterior.jpg",
+          alt: "The Central Community Church exterior, stone gables under a wide Kansas sky",
           caption: "Central Community Church, where we rehearse"
         }
       },
@@ -391,15 +394,25 @@ var DATA = {
         venue: "The Chapel at Saint Rose Mount Vernon",
         place: "Cheney, Kansas",
         when: "4:00 PM",
-        map: mapFor("Saint Rose Mount Vernon Cheney KS")
+        map: mapFor("Saint Rose Mount Vernon Cheney KS"),
+        photo: {
+          src: "assets/img/venue/st-rose-chapel.jpg",
+          alt: "The Saint Rose Mount Vernon chapel at sunset and its altar inside",
+          caption: "The Chapel at Saint Rose Mount Vernon, for the blessing"
+        }
       },
       {
         time: "After",
         name: "Rehearsal Dinner",
         venue: "The Hall at Saint Rose Mount Vernon",
         place: "Cheney, Kansas",
-        when: "to follow the blessing"
+        when: "to follow the blessing",
         // no map for this one
+        photo: {
+          src: "assets/img/venue/st-rose-hall.jpg",
+          alt: "The Saint Rose Family Center hall, set for the rehearsal dinner",
+          caption: "The Hall at Saint Rose Mount Vernon, for dinner after"
+        }
       }
     ],
     footerScript: "see you there",
@@ -412,9 +425,9 @@ var DATA = {
       kicker: "at last",
       headline: ["The ", "Day Of"], // first word renders gold italic
       subtitle: "March 20, 2027 · Wichita, Kansas",
-      // The chapel at night, on black, blends into the dark editorial ground.
-      image: "assets/img/venue/chapel-night.jpg",
-      imageAlt: "The chapel at Central Community Church glowing against the night"
+      // The church exterior, full bleed, sets the scene for the day.
+      image: "assets/img/venue/central-community-exterior.jpg",
+      imageAlt: "Central Community Church, stone gables and a cross against the Kansas sky"
     },
     schedule: [
       {
@@ -425,8 +438,8 @@ var DATA = {
         when: "4:00 PM",
         map: mapFor("Central Community Church Wichita KS"),
         photo: {
-          src: "assets/img/venue/chapel-interior.jpg",
-          alt: "Watercolor of the chapel interior, pews and a stained glass cross",
+          src: "assets/img/venue/central-community-interior.jpg",
+          alt: "Inside Central Community Church, the vaulted sanctuary with a greenery wreath at the altar",
           caption: "Inside the chapel, where we say our vows"
         }
       },
@@ -438,16 +451,16 @@ var DATA = {
         when: "6:00 PM",
         map: mapFor("Brick and Mortar Wichita KS"),
         photo: {
-          src: "assets/img/venue/reception-exterior.jpg",
-          alt: "Brick and Mortar event venue glowing at night",
+          src: "assets/img/venue/brick-mortar-exterior.jpg",
+          alt: "Brick and Mortar event venue glowing at night, with the chandelier hall inside",
           caption: "Brick + Mortar, for the reception"
         }
       }
     ],
     // A warm look inside the reception, carried over from the main site.
     feature: {
-      src: "assets/img/venue/reception-pavilion.jpg",
-      alt: "The string lit pavilion at Brick and Mortar, set for the reception",
+      src: "assets/img/venue/brick-mortar-pavilion.jpg",
+      alt: "The open pavilion at Brick and Mortar, chandeliers and a brick walk, set for the reception",
       caption: "Dinner and dancing under the lights at Brick + Mortar"
     },
     scheduleNote: "All times are subject to change",

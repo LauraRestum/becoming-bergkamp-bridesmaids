@@ -460,6 +460,10 @@
     var house =
       '<a class="house reveal" id="house" href="' + esc(b.house.map.link) +
         '" target="_blank" rel="noopener">' +
+        (b.house.photo
+          ? '<img class="house__photo" src="' + esc(b.house.photo.src) +
+            '" alt="' + esc(b.house.photo.alt || "") + '" loading="lazy" decoding="async">'
+          : "") +
         '<span class="house__glyph" aria-hidden="true">&#128026;</span>' +
         '<span class="eyebrow">' + esc(b.house.eyebrow) + "</span>" +
         "<h2>" + esc(b.house.title) + "</h2>" +
