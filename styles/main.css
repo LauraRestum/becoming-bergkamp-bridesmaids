@@ -640,79 +640,88 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   pointer-events: none; user-select: none;
 }
 
-/* ====================== DAY ACCORDION (banner tiles on one ground) ======================
-   The whole trip sits on a single background that flows from the top. Each day
-   is a compact, uniform tile led by its hand-lettered banner, so every day is
-   on screen at once with almost no scrolling. Tapping a tile expands its plan
-   in place; several can be open at the same time. */
-.bach-days {
-  position: relative;
-  /* one ground for the whole trip: a soft ocean up top settling to sand */
-  background: linear-gradient(180deg,
-    #D7E9F1 0%, #E7EEEA 20%, var(--ivory) 52%, #F1E9D7 100%);
-}
+/* ====================== DAY ACCORDION (full-width banners, color journey) ======================
+   Each day's banner runs the full width of its section. There are no borders
+   between days; instead every section is a vertical color gradient that ends
+   on the next day's color, so the whole trip flows as one continuous blend
+   from one color into the next. Tapping a banner expands its plan in place.
+
+   Per theme we set --c-this (this day's color) and --c-next (the next day's
+   color). A collapsed tile blends --c-this to --c-next, so it melts straight
+   into the day below. An open day settles to a solid --c-this so its plan
+   stays easy to read. */
+.bach-days { position: relative; }
 
 .day.day--acc {
-  --day-base: transparent;
-  background: transparent;       /* the shared ground shows through */
   padding: 0;
   overflow: visible;
-  border-top: 1px solid var(--line);
+  border: 0;
+  background: transparent;
+  --c-this: var(--ivory);
+  --c-next: var(--ivory);
 }
-.day.day--acc:first-of-type { border-top: 0; }
 
-/* the compact banner tile, all tiles the same height */
+/* the banner tile: the art spans the full width, the color blend sits behind */
 .day__head {
   position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
   width: 100%;
-  min-height: clamp(112px, 24vw, 184px);
+  min-height: clamp(120px, 30vw, 210px);
   margin: 0;
-  padding: clamp(16px, 4vw, 26px) 56px;
+  padding: 0;
   border: 0;
-  text-align: center;
-  color: var(--ink);
-  background: transparent;
+  color: inherit;
+  background: linear-gradient(180deg, var(--c-this) 0%, var(--c-next) 100%);
   -webkit-tap-highlight-color: transparent;
-  transition: background .35s var(--ease);
+  transition: background .4s var(--ease);
 }
-.day--acc.is-open .day__head { background: rgba(255,255,255,.34); }
+/* an open day holds a single, readable color */
+.day--acc.is-open .day__head { background: var(--c-this); }
 
-/* small weekday tag above the banner */
-.day__cap {
-  font-size: 10px; letter-spacing: var(--track-wide); text-transform: uppercase;
-  font-weight: 600; opacity: .6;
-}
-
-/* the banner art is the hero, contained so every tile stays the same size */
-.day__hero { display: flex; align-items: center; justify-content: center; }
+/* the banner art is the hero and runs edge to edge */
+.day__hero { width: 100%; line-height: 0; }
 .day__banner-hero {
   display: block;
-  width: auto; height: auto;
-  max-width: min(80%, 440px);
-  max-height: clamp(56px, 13vw, 96px);
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+/* days with no banner: their title carries the band, centered */
+.day__head--text { min-height: clamp(132px, 32vw, 220px); }
+.day__head--text .day__hero {
+  line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  padding: clamp(20px, 6vw, 40px);
 }
 .day__wordmark {
   font-family: var(--display);
   font-weight: 800;
-  font-size: clamp(34px, 10vw, 60px);
+  font-size: clamp(36px, 11vw, 64px);
   line-height: .92;
   letter-spacing: var(--track-tight);
+  text-align: center;
 }
 
-/* expand affordance, pinned to the right edge of the tile */
+/* small weekday tag, top left over the band */
+.day__cap {
+  position: absolute;
+  top: 12px; left: max(16px, env(safe-area-inset-left));
+  z-index: 2;
+  font-size: 10px; letter-spacing: var(--track-wide); text-transform: uppercase;
+  font-weight: 600; opacity: .65;
+}
+
+/* expand affordance, top right over the band */
 .day__chev {
   position: absolute;
-  right: max(18px, env(safe-area-inset-right));
-  top: 50%; margin-top: -12px;
+  top: 12px; right: max(14px, env(safe-area-inset-right));
+  z-index: 2;
   width: 24px; height: 24px;
-  border: 1px solid var(--line);
+  border: 1px solid currentColor;
   border-radius: 50%;
-  opacity: .7;
+  opacity: .55;
   transition: transform .4s var(--ease), opacity .25s var(--ease);
 }
 .day__chev::before {
@@ -721,29 +730,33 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
   transform: translate(-50%, -70%) rotate(45deg);
 }
-.day--acc.is-open .day__chev { transform: rotate(180deg); opacity: 1; }
-@media (hover: hover) { .day__head:hover .day__chev { opacity: 1; } }
+.day--acc.is-open .day__chev { transform: rotate(180deg); opacity: .95; }
+@media (hover: hover) { .day__head:hover .day__chev { opacity: .95; } }
 
-/* the expandable panel: airy, on the shared ground, ink text, hairline above */
+/* the expandable panel: a solid band of this day's color, so it reads cleanly
+   and the color still carries through to the day below */
 .day__panel {
   position: relative;
   height: 0;
   overflow: hidden;
-  color: var(--ink);
+  background: var(--c-this);
+  color: inherit;
   transition: height .45s var(--ease);
 }
 .day__panel[hidden] { display: none; }
 .day__panel-in {
-  padding: clamp(8px, 3vw, 24px) 0 clamp(40px, 9vw, 64px);
-  border-top: 1px solid var(--line-soft);
+  padding: clamp(20px, 6vw, 44px) 0 clamp(40px, 9vw, 64px);
 }
 @media (prefers-reduced-motion: reduce) {
   .day__panel { transition: none; }
+  .day__head { transition: none; }
 }
 
 /* --- Thursday, Beach Club (soft blue cabana stripes, light and airy) --- */
 .day--thursday {
   --day-base: #C6DDED;
+  --c-this: #AECEE3;   /* soft cabana blue */
+  --c-next: #2E7FB4;   /* into Friday's ocean */
   background:
     radial-gradient(70% 45% at 50% 6%, rgba(255,255,255,.55), rgba(255,255,255,0) 60%),
     linear-gradient(170deg, #DFEBF4 0%, #C6DDED 55%, #AECEE3 100%);
@@ -756,6 +769,8 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 /* --- Friday day, Something Blue --- */
 .day--blue {
   --day-base: #16314E;
+  --c-this: #2E7FB4;   /* ocean */
+  --c-next: #E7E1F0;   /* into the iridescent night */
   background:
     radial-gradient(70% 45% at 50% 6%, rgba(255,255,255,.22), rgba(255,255,255,0) 60%),
     linear-gradient(170deg, #8EC5E8 0%, #2BB3C0 38%, #1366C9 70%, #16314E 100%);
@@ -766,7 +781,12 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .day--blue .hook  { color: #EAF6FF; }
 
 /* --- Friday night, Rainbow Fish --- */
-.day--rainbow { --day-base: #EAE6F2; background-color: #EAE6F2; color: var(--ink); }
+.day--rainbow {
+  --day-base: #EAE6F2;
+  --c-this: #E7E1F0;   /* iridescent opal */
+  --c-next: #EAD5AD;   /* into the boardwalk sand */
+  background-color: #EAE6F2; color: var(--ink);
+}
 .day--rainbow .day__glyph { display: none; }
 .day--rainbow .label { color: #6f54a8; }
 .day--rainbow .hook  { color: #d6398a; }
@@ -828,6 +848,8 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 /* --- Saturday day, Boardwalk --- */
 .day--boardwalk {
   --day-base: #EAD5AD;
+  --c-this: #EAD5AD;   /* warm boardwalk sand */
+  --c-next: #C56B4A;   /* into the sunset terracotta */
   background:
     radial-gradient(60% 40% at 78% 6%, rgba(255,255,255,.5), rgba(255,255,255,0) 60%),
     linear-gradient(165deg, #F8EDD7 0%, #EAD5AD 100%);
@@ -839,6 +861,8 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 /* --- Saturday night, Coco Nuts --- */
 .day--coconuts {
   --day-base: #6B4226;
+  --c-this: #C56B4A;   /* sunset terracotta */
+  --c-next: #F3ECDD;   /* into Sunday's calm sand */
   background:
     radial-gradient(70% 45% at 50% 4%, rgba(255,255,255,.2), rgba(255,255,255,0) 58%),
     linear-gradient(170deg, #E8B14C 0%, #C56B4A 45%, #6B4226 100%);
@@ -849,7 +873,12 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .day--coconuts .hook  { color: #FFF3E2; }
 
 /* --- Sunday --- */
-.day--sunday { --day-base: var(--ivory); background: var(--ivory); color: var(--ink); text-align: center; }
+.day--sunday {
+  --day-base: var(--ivory);
+  --c-this: #F3ECDD;   /* calm sand */
+  --c-next: var(--ivory);  /* settles back into the page */
+  background: var(--ivory); color: var(--ink); text-align: center;
+}
 .day--sunday .day__inner { margin: 0 auto; }
 .day--sunday .label { color: var(--greenery); }
 .day--sunday .vibe { margin: 16px auto 0; }
