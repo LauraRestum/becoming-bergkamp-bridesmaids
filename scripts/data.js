@@ -162,9 +162,7 @@ var DATA = {
         // dropping a PNG in assets/img/blue/ and appending one object here.
         stickers: [
           { src: "assets/img/blue/sticker-bikini.png", pos: "is-1" },
-          { src: "assets/img/blue/sticker-starfish.png", pos: "is-2" },
-          { src: "assets/img/blue/sticker-beachset.png", pos: "is-3" },
-          { src: "assets/img/blue/sticker-starfish.png", pos: "is-4" }
+          { src: "assets/img/blue/sticker-starfish.png", pos: "is-2" }
         ],
         hook: "Toes in the Sand",
         vibe: "Beach day, all in blue. We post up at Litchfield Beach, drinks the color of the ocean, the brightest, easiest day of the trip.",
@@ -205,9 +203,7 @@ var DATA = {
         // over the rainbow plan.
         stickers: [
           { src: "assets/img/rainbow/sticker-mermaid.png", pos: "is-1" },
-          { src: "assets/img/rainbow/sticker-bubbles.png", pos: "is-3" },
-          { src: "assets/img/rainbow/sticker-shells.png", pos: "is-2" },
-          { src: "assets/img/rainbow/sticker-bubbles.png", pos: "is-5" }
+          { src: "assets/img/rainbow/sticker-shells.png", pos: "is-2" }
         ],
         hook: "Catch the Shimmer",
         vibe: "The showstopper. Iridescent everything, glitter scales on our arms, the whole crew shimmering as we head out for the night.",
@@ -294,9 +290,7 @@ var DATA = {
         // the wine bar, and oysters.
         stickers: [
           { src: "assets/img/coconuts/sticker-coconut.png", pos: "is-1" },
-          { src: "assets/img/coconuts/sticker-palm.png", pos: "is-3" },
-          { src: "assets/img/coconuts/sticker-winebar.png", pos: "is-4" },
-          { src: "assets/img/coconuts/sticker-oysters.png", pos: "is-2" }
+          { src: "assets/img/coconuts/sticker-palm.png", pos: "is-3" }
         ],
         hook: "Golden Hour, Golden Crew",
         vibe: "Our fancy night. Dressed to the nines, out on the water, then dinner along the Murrells Inlet MarshWalk as we keep the night going right there in the inlet.",
