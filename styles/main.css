@@ -645,6 +645,16 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   color: var(--ink);
   transition: border-color .25s var(--ease), transform .2s var(--ease);
 }
+/* A photo of the River Club, set inside the gold-framed home base. Rounded to
+   echo the frame, no shadow, so it stays editorial rather than card-heavy. */
+.house__photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 14px;
+  margin: 0 0 var(--space-5);
+}
 .house__glyph { display: block; font-size: 30px; line-height: 1; margin-bottom: 12px; }
 .house .eyebrow { color: var(--greenery); display: block; }
 .house h2 { font-size: clamp(30px, 8vw, 52px); margin: 12px 0 14px; line-height: .96; }
