@@ -147,7 +147,12 @@ var DATA = {
           eyebrow: "On the Map",
           title: "Litchfield Beach",
           detail: "Pawleys Island, SC · about three minutes from the house, transportation provided",
-          map: mapFor("Litchfield Beach Pawleys Island SC")
+          map: mapFor("Litchfield Beach Pawleys Island SC"),
+          photos: [
+            { src: "assets/img/photos/blue/litchfield-boardwalk-dunes.jpeg", label: "Toes in the sand", alt: "Boardwalk path through the dunes and sea oats out to Litchfield Beach" },
+            { src: "assets/img/photos/blue/litchfield-beach-cabanas.jpeg", label: "Our spot for the day", alt: "Wide Litchfield Beach with cabana tents and umbrellas along the shore" },
+            { src: "assets/img/photos/blue/litchfield-beach-houses.jpeg", label: "Pawleys Island shore", alt: "Pawleys Island beachfront houses seen from the water" }
+          ]
         }
       },
       {
