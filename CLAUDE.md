@@ -24,6 +24,14 @@ before making structural changes.
    body). No cursive or script faces (Sacramento was removed at Laura's request
    for a more modern, bolder look). Never fall back to Inter, Roboto, Arial,
    Montserrat, or system fonts in the design.
+   - **Theme exception (Home, The Day Before, The Day Of):** at Laura's request,
+     these three routes wear the main wedding site's editorial look (near black
+     ground, **Rosaline** serif, **Vintage Glamour** labels, a **Hijrnotes**
+     newspaper masthead) so the hub and `becoming-bergkamp.vercel.app` read as
+     one family. This is scoped to `body.theme-editorial` (set by the router)
+     and the self hosted faces in `fonts/`. The **Bachelorette view is never
+     touched** and keeps Bricolage Grotesque and Jost. Do not spread the serif
+     theme onto the Bachelorette.
 4. This is **not an Envision project**. Do not apply any Envision brand system
    and do not use Montserrat.
 5. The Boardwalk widget tee is a **surprise**. Never render any graphic or text

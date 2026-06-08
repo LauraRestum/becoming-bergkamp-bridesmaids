@@ -1440,3 +1440,373 @@ body.standalone main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-t
   font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
 }
 .update-toast__btn:disabled { opacity: .6; cursor: default; }
+
+/* ============================================================
+   EDITORIAL DARK THEME  ::  Home, The Day Before, The Day Of
+   ------------------------------------------------------------
+   Echoes the main wedding site (becoming-bergkamp.vercel.app): a near black
+   ground, Rosaline serif, a newspaper masthead, and antique gold hairlines, so
+   the hub and the main site read as one family. Scoped entirely under
+   body.theme-editorial, which the router sets only on these three routes. The
+   Bachelorette view keeps its own SEA brand (Bricolage Grotesque and Jost) and
+   is never reached by anything in this block. The serif faces here are a
+   deliberate, owner-approved exception to the app default, for cohesion with
+   the main site. No em dashes anywhere.
+   ============================================================ */
+@font-face {
+  font-family: 'Rosaline';
+  src: url('/fonts/RosalineRegular-9MErB.otf') format('opentype');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Vintage Glamour';
+  src: url('/fonts/VintageGlamourRegular-ALX27.ttf') format('truetype');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Vintage Glamour';
+  src: url('/fonts/VintageGlamourItalic-DO471.ttf') format('truetype');
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'Hijrnotes';
+  src: url('/fonts/HijrnotesPersonalUseOnly01-DXOD.ttf') format('truetype');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+
+body.theme-editorial {
+  --ed-bg:        #0a0a0a;
+  --ed-bg-2:      #111111;
+  --ed-paper:     #f0f0f0;
+  --ed-soft:      rgba(240,240,240,.72);
+  --ed-faint:     rgba(240,240,240,.42);
+  --ed-gold:      #b89149;
+  --ed-rule:      rgba(255,255,255,.18);
+  --ed-rule-soft: rgba(255,255,255,.10);
+  --ed-serif:     'Rosaline', Georgia, 'Times New Roman', serif;
+  --ed-label:     'Vintage Glamour', 'Rosaline', serif;
+  --ed-script:    'Hijrnotes', 'Rosaline', cursive;
+  background: var(--ed-bg);
+  color: var(--ed-paper);
+}
+
+/* the grain reads as light specks on the dark ground */
+body.theme-editorial .grain { mix-blend-mode: screen; opacity: .05; }
+
+/* top bar turns to black glass with the serif wordmark */
+body.theme-editorial .topbar {
+  background: rgba(10,10,10,.82);
+  border-bottom: .5px solid var(--ed-rule-soft);
+}
+body.theme-editorial .wordmark {
+  font-family: var(--ed-label);
+  color: var(--ed-paper);
+  letter-spacing: .28em;
+}
+body.theme-editorial .wordmark .gold { color: var(--ed-gold); }
+body.theme-editorial .hamburger span { background: var(--ed-paper); }
+body.theme-editorial .shellglyph { color: var(--ed-gold); }
+
+/* shared eyebrow / kicker pick up the serif label face on the dark ground */
+body.theme-editorial .kicker,
+body.theme-editorial .eyebrow {
+  font-family: var(--ed-label);
+  color: var(--ed-soft);
+  letter-spacing: .5em;
+}
+
+/* outbound map button and embed, tuned for the dark ground */
+body.theme-editorial .pill-link {
+  background: transparent;
+  color: var(--ed-paper);
+  border: 1px solid var(--ed-rule);
+  font-family: var(--ed-label);
+  letter-spacing: .22em;
+}
+body.theme-editorial .pill-link::before { background: var(--ed-gold); }
+@media (hover: hover) { body.theme-editorial .pill-link:hover { color: var(--ed-bg); } }
+body.theme-editorial .map-embed {
+  background: #161616;
+  filter: saturate(.9) brightness(.95);
+  border: .5px solid var(--ed-rule-soft);
+}
+
+/* -------------------------------------------- NEWSPAPER MASTHEAD */
+.ed-masthead {
+  max-width: 760px; margin: 0 auto;
+  padding: clamp(26px, 8vw, 60px) 22px 0;
+  text-align: center;
+}
+.ed-rule-top   { height: 4px; background: var(--ed-paper); }
+.ed-rule-thin  { height: 1px; background: var(--ed-rule); }
+.ed-rule-thick { height: 3px; background: var(--ed-paper); }
+.ed-dateline {
+  display: flex; align-items: center; gap: 12px;
+  font-family: var(--ed-label);
+  font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--ed-faint);
+  padding: 8px 0;
+}
+.ed-dateline span { flex: 1; min-width: 0; }
+.ed-dateline .l { text-align: left; }
+.ed-dateline .c { text-align: center; }
+.ed-dateline .r { text-align: right; }
+.ed-masthead__title {
+  font-family: var(--ed-script);
+  font-weight: 400;
+  font-size: clamp(54px, 13vw, 104px);
+  line-height: 1.02;
+  letter-spacing: .02em;
+  padding: 18px 0 6px;
+  color: var(--ed-paper);
+}
+.ed-masthead__title--page { font-size: clamp(46px, 12vw, 86px); }
+.ed-masthead__sub {
+  font-family: var(--ed-serif);
+  font-size: 15px; letter-spacing: .06em;
+  color: var(--ed-soft);
+  padding-bottom: 14px;
+}
+.ed-masthead__motto {
+  font-family: var(--ed-serif); font-style: italic;
+  font-size: 14px; letter-spacing: .04em;
+  color: var(--ed-soft);
+  padding: 12px 0;
+}
+
+/* -------------------------------------------- HOME HERO (names) */
+.ed-hero {
+  text-align: center;
+  padding: clamp(36px, 9vw, 70px) 22px clamp(26px, 7vw, 48px);
+}
+.ed-hero .eyebrow {
+  display: inline-block;
+  padding-bottom: 16px; margin-bottom: 6px;
+  border-bottom: .5px solid var(--ed-rule);
+  min-width: 240px;
+}
+.ed-names {
+  font-family: var(--ed-serif);
+  font-size: clamp(40px, 9vw, 82px);
+  line-height: .98; letter-spacing: .04em;
+  margin-top: 18px;
+  color: var(--ed-paper);
+}
+.ed-names .amp {
+  display: block;
+  font-style: italic; font-size: .5em;
+  color: var(--ed-gold);
+  margin: 12px 0;
+}
+.ed-meta {
+  margin-top: 30px; padding-top: 20px;
+  border-top: .5px solid var(--ed-rule);
+  font-family: var(--ed-label);
+  font-size: 11px; letter-spacing: .4em; text-transform: uppercase;
+  color: var(--ed-soft);
+}
+.ed-meta .place {
+  display: block; margin-top: 12px;
+  font-family: var(--ed-serif); font-style: italic;
+  font-size: 17px; letter-spacing: .05em; text-transform: none;
+  color: var(--ed-gold);
+}
+
+/* -------------------------------------------- ORNAMENT RULE */
+.ed-orn {
+  display: flex; align-items: center; justify-content: center; gap: 18px;
+  max-width: 760px; margin: clamp(28px, 7vw, 44px) auto; padding: 0 22px;
+}
+.ed-orn .ln { flex: 1; max-width: 110px; height: .5px; background: var(--ed-rule); }
+.ed-orn .om { color: var(--ed-gold); font-size: 11px; }
+
+/* -------------------------------------------- SECTION HEADINGS */
+.ed-kicker {
+  font-family: var(--ed-label);
+  font-size: 11px; letter-spacing: .5em; text-transform: uppercase;
+  color: var(--ed-gold);
+  text-align: center;
+}
+.ed-h {
+  font-family: var(--ed-serif); font-weight: 400;
+  font-size: clamp(30px, 6.5vw, 50px);
+  letter-spacing: .06em; text-transform: uppercase;
+  text-align: center; margin-top: 16px;
+}
+.ed-lede {
+  font-family: var(--ed-serif);
+  font-size: 18px; line-height: 1.8;
+  text-align: center; max-width: 560px; margin: 14px auto 0;
+  color: var(--ed-soft);
+}
+
+/* -------------------------------------------- PORTAL CARDS */
+.ed-portals { max-width: 1100px; margin: 0 auto; padding: clamp(36px, 8vw, 64px) 22px; }
+.ed-portal-grid {
+  display: grid; grid-template-columns: 1fr; gap: 14px;
+  margin-top: clamp(30px, 7vw, 52px);
+}
+@media (min-width: 760px) { .ed-portal-grid { grid-template-columns: 1fr 1fr; } }
+.ed-portal {
+  display: flex; flex-direction: column;
+  background: var(--ed-bg-2);
+  border: .5px solid var(--ed-rule);
+  padding: 38px 30px 26px;
+  min-height: 230px;
+  text-decoration: none;
+  color: var(--ed-paper);
+  position: relative; overflow: hidden;
+  transition: transform .3s var(--ease), border-color .3s var(--ease), background .3s var(--ease);
+}
+@media (hover: hover) {
+  .ed-portal:hover { transform: translateY(-4px); border-color: var(--ed-gold); background: #161616; }
+}
+.ed-portal:active { border-color: var(--ed-gold); }
+.ed-portal__num {
+  font-family: var(--ed-serif);
+  font-size: 13px; letter-spacing: .3em; text-transform: uppercase;
+  color: var(--ed-gold);
+  margin-bottom: 14px;
+}
+.ed-portal__tag {
+  font-family: var(--ed-label);
+  font-size: 10px; letter-spacing: .3em; text-transform: uppercase;
+  color: var(--ed-faint);
+  margin-bottom: 10px;
+}
+.ed-portal h3 {
+  font-family: var(--ed-serif); font-weight: 400;
+  font-size: clamp(24px, 5.5vw, 30px);
+  letter-spacing: .07em; text-transform: uppercase; line-height: 1.12;
+}
+.ed-portal p {
+  font-family: var(--ed-serif);
+  font-size: 15px; line-height: 1.6;
+  color: var(--ed-soft);
+  margin: 12px 0 24px; flex: 1;
+}
+.ed-portal__arrow {
+  font-family: var(--ed-label);
+  font-size: 10px; letter-spacing: .4em; text-transform: uppercase;
+  color: var(--ed-gold);
+  border-top: .5px solid var(--ed-rule);
+  padding-top: 16px;
+}
+.ed-portal--main { border-color: var(--ed-gold); background: #141008; }
+.ed-portal--main .ed-portal__num { color: var(--ed-paper); }
+
+/* -------------------------------------------- EDITORIAL SCHEDULE */
+.ed-schedule {
+  max-width: 760px; margin: clamp(36px, 8vw, 60px) auto 0; padding: 0 22px;
+  border-top: 1px solid var(--ed-rule);
+}
+.ed-sched {
+  display: grid; grid-template-columns: minmax(84px, 120px) 1fr; gap: 22px;
+  padding: clamp(26px, 6vw, 38px) 0;
+  border-bottom: 1px solid var(--ed-rule-soft);
+  transition: padding-left .35s var(--ease);
+}
+@media (hover: hover) { .ed-sched:hover { padding-left: 10px; } }
+.ed-sched .time {
+  font-family: var(--ed-serif);
+  font-size: clamp(28px, 7vw, 44px); line-height: 1; letter-spacing: .02em;
+  color: var(--ed-gold);
+}
+.ed-sched h3 {
+  font-family: var(--ed-serif); font-weight: 400;
+  font-size: clamp(24px, 5.5vw, 34px); letter-spacing: .05em; text-transform: uppercase;
+}
+.ed-sched .venue { font-family: var(--ed-serif); font-size: 18px; margin-top: 10px; color: var(--ed-paper); }
+.ed-sched .place { font-family: var(--ed-serif); font-size: 14px; color: var(--ed-soft); margin-top: 3px; }
+.ed-sched .when  {
+  font-family: var(--ed-label);
+  font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--ed-faint); margin-top: 8px;
+}
+.ed-sched .map-full { grid-column: 1 / -1; }
+.ed-sched-note {
+  text-align: center;
+  font-family: var(--ed-label);
+  font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--ed-faint);
+  margin-top: 22px;
+}
+
+/* -------------------------------------------- COLORS & ATTIRE (Day Of) */
+.ed-colors {
+  text-align: center;
+  padding: clamp(54px, 11vw, 92px) 22px;
+  border-top: 1px solid var(--ed-rule);
+  border-bottom: 1px solid var(--ed-rule);
+  margin-top: clamp(36px, 8vw, 64px);
+}
+.ed-colors .dots { display: flex; justify-content: center; gap: clamp(20px, 6vw, 34px); margin: 26px 0; }
+.ed-colors .d {
+  width: 42px; height: 42px; border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.22);
+  transition: transform .25s var(--ease);
+}
+@media (hover: hover) { .ed-colors .d:hover { transform: scale(1.14); } }
+.ed-colors .statement {
+  font-family: var(--ed-serif); font-style: italic;
+  font-size: clamp(20px, 5vw, 30px); line-height: 1.4;
+  color: var(--ed-gold);
+  max-width: 16em; margin: 0 auto;
+}
+.ed-attire {
+  text-align: center;
+  padding: clamp(46px, 10vw, 78px) 22px 0;
+  max-width: 640px; margin: 0 auto;
+}
+.ed-attire .body {
+  font-family: var(--ed-serif);
+  font-size: 18px; line-height: 1.8;
+  color: var(--ed-soft);
+  margin: 18px auto 22px; max-width: 32em;
+}
+.ed-attire .tag {
+  display: inline-block;
+  font-family: var(--ed-label);
+  font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--ed-faint);
+  border: 1px solid var(--ed-rule); border-radius: var(--radius-pill);
+  padding: 10px 20px;
+}
+
+/* -------------------------------------------- EDITORIAL SIGN-OFF */
+.ed-foot {
+  text-align: center;
+  padding: clamp(60px, 13vw, 104px) 22px clamp(46px, 10vw, 76px);
+}
+.ed-foot .mono {
+  font-family: var(--ed-serif);
+  font-size: clamp(22px, 6vw, 28px); letter-spacing: .22em;
+  color: var(--ed-gold);
+}
+.ed-foot .sub {
+  font-family: var(--ed-serif); font-style: italic;
+  font-size: 15px; letter-spacing: .06em;
+  color: var(--ed-soft);
+  margin-top: 14px;
+}
+.ed-sitelink {
+  display: inline-flex; align-items: center; gap: 9px;
+  margin-top: 30px; padding: 13px 26px;
+  border: .5px solid var(--ed-rule); border-radius: var(--radius-pill);
+  font-family: var(--ed-label);
+  font-size: 11px; letter-spacing: .3em; text-transform: uppercase;
+  color: var(--ed-paper); text-decoration: none;
+  transition: border-color .3s var(--ease), color .3s var(--ease);
+}
+@media (hover: hover) { .ed-sitelink:hover { border-color: var(--ed-gold); color: var(--ed-gold); } }
+.ed-sitelink:active { border-color: var(--ed-gold); color: var(--ed-gold); }
+.ed-foot .credit {
+  font-family: var(--ed-label);
+  font-size: 9px; letter-spacing: .4em; text-transform: uppercase;
+  color: var(--ed-faint);
+  margin-top: 28px;
+}
+
+/* drawer link out to the main wedding site */
+.drawer__link--ext { margin-top: 12px; border-top: 1px solid rgba(227,207,156,.22); }
+.drawer__link--ext .idx { font-size: 15px; opacity: .9; }
