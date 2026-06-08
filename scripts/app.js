@@ -25,6 +25,14 @@
     );
   }
 
+  /* A small map pin glyph for the compact "open in maps" cue. */
+  function pinSVG() {
+    return '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" ' +
+      'stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ' +
+      'aria-hidden="true"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/>' +
+      '<circle cx="12" cy="10" r="2.5"/></svg>';
+  }
+
   function swatchRow(swatches) {
     if (!swatches || !swatches.length) return "";
     var dots = swatches.map(function (s) {
@@ -301,13 +309,18 @@
       return '<button class="jumpnav__pill" data-anchor="' + esc(j.anchor) + '">' + esc(j.label) + "</button>";
     }).join("");
 
+    // The home base is one compact, tappable block: name, address and note
+    // sit together and the whole thing opens directions in maps. No bulky
+    // embedded map, it stays editorial and takes up little room.
     var house =
-      '<section class="house reveal" id="house"><span class="eyebrow">' + esc(b.house.eyebrow) + "</span>" +
+      '<a class="house reveal" id="house" href="' + esc(b.house.map.link) +
+        '" target="_blank" rel="noopener">' +
+        '<span class="eyebrow">' + esc(b.house.eyebrow) + "</span>" +
         "<h2>" + esc(b.house.title) + "</h2>" +
         '<div class="addr">' + esc(b.house.address) + "</div>" +
         '<div class="note">' + esc(b.house.note) + "</div>" +
-        mapBlock(b.house.map, b.house.title) +
-      "</section>";
+        '<span class="maptap"><span class="maptap__pin">' + pinSVG() + "</span>Open in Maps</span>" +
+      "</a>";
 
     var days = b.days.map(renderDay).join("");
 
