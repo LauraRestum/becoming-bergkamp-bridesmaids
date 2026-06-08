@@ -810,6 +810,36 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   background: var(--panel-scrim, rgba(251,247,239,.84));
 }
 
+/* The collapse control at the foot of an open day. A quiet outlined pill,
+   centered, with an upward chevron, so a long plan folds back up without a
+   scroll to the banner. */
+.day__close {
+  position: relative;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: clamp(28px, 7vw, 48px) auto 0;
+  padding: 12px 26px;
+  background: transparent;
+  color: inherit;
+  border: 1px solid currentColor;
+  border-radius: var(--radius-pill);
+  font-family: var(--display);
+  font-size: 12px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600;
+  opacity: .72;
+  transition: opacity .25s var(--ease), transform .18s var(--ease);
+}
+.day__close-chev {
+  width: 8px; height: 8px;
+  border-left: 1.5px solid currentColor; border-top: 1.5px solid currentColor;
+  transform: translateY(2px) rotate(45deg);
+}
+@media (hover: hover) { .day__close:hover { opacity: 1; } }
+.day__close:active { transform: scale(.96); }
+/* center the pill within its wrap (the close control is the last block) */
+.day__panel-in > .wrap:last-child { text-align: center; }
+
 @media (prefers-reduced-motion: reduce) {
   .day__panel { transition: none; }
   .day__head { transition: none; }
