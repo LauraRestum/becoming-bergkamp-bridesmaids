@@ -555,10 +555,10 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .hero--banner .wavewrap { margin-top: var(--space-7); }
 
 /* The mockup art on a clean white field, centered, no beach behind it. The
-   artwork carries the lettering, so no separate headline sits with it. The
-   source PNG carries its own margins, so we show it whole (object-fit contain)
-   rather than cropping into a box, which was chopping the top line of the
-   lettering. The white field hides the baked-in margins. */
+   artwork carries the lettering, so no separate headline sits with it. The PNG
+   is cropped tight to the art (only a little breathing room), so we show it
+   whole (object-fit contain) and let it run large in a compact band with very
+   little empty space around it. */
 /* A short, all-white opener. The white runs up under the translucent top bar
    (a negative pull cancels main's top padding) so there is no tan band above the
    art, and the whole thing sits high and compact. */
@@ -569,13 +569,11 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   padding-bottom: 0;
 }
 .hero--white .sub { color: var(--ink); opacity: .72; }
-/* Show the whole logo, never cropped. A generous max-height keeps it compact
-   while letting every line of the lettering read. */
+/* Show the whole logo, never cropped, and run it large so it fills the band. */
 .hero--white .hero-mockup {
   display: block;
-  width: min(360px, 88vw);
+  width: min(460px, 92vw);
   height: auto;
-  max-height: 44vh;
   object-fit: contain;
   margin: 0 auto;
 }
