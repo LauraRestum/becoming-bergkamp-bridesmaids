@@ -218,6 +218,13 @@ var DATA = {
         vibe: "The showstopper. Iridescent everything, glitter scales on our arms, the whole crew shimmering as we head out for the night.",
         wear: "any rainbow color, shimmery, glittery or silky",
         secondary: "No need to match anyone. Pick your shade and shine.",
+        // A few outfit ideas to spark inspiration, shown as one collage.
+        outfitInspo: {
+          src: "assets/img/rainbow/rainbow-outfits.png",
+          alt: "Outfit inspiration for the Rainbow Fish night: shimmery, glittery, and silky looks in every rainbow color",
+          // Deep night violet so the iridescent looks pop on a pale opal day.
+          bg: "#2E2152"
+        },
         swatches: [
           { name: "opal", hex: "#EAE6F2" },
           { name: "pink", hex: "#FF3FA4" },
@@ -315,6 +322,13 @@ var DATA = {
           ]
         },
         wear: "any shade of brown, bronze, coconut or coffee",
+        // A few outfit ideas to spark inspiration, shown as one collage.
+        outfitInspo: {
+          src: "assets/img/coconuts/coconuts-outfits.png",
+          alt: "Outfit inspiration for the Coco Nuts night: dressy looks in brown, bronze, coconut, and coffee tones",
+          // Warm cream so the brown and bronze looks lift off the dark panel.
+          bg: "#F6ECD9"
+        },
         meals: {
           dinner: {
             place: "Wicked Tuna on the MarshWalk",
