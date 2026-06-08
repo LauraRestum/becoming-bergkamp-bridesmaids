@@ -556,9 +556,9 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 
 /* The mockup art on a clean white field, centered, no beach behind it. The
    artwork carries the lettering, so no separate headline sits with it. The
-   source PNG is a tall portrait with wide empty margins baked in at the top and
-   bottom, so we crop those away (object-fit cover into a near-square box) to
-   keep the section compact and let the art read larger. */
+   source PNG carries its own margins, so we show it whole (object-fit contain)
+   rather than cropping into a box, which was chopping the top line of the
+   lettering. The white field hides the baked-in margins. */
 /* A short, all-white opener. The white runs up under the translucent top bar
    (a negative pull cancels main's top padding) so there is no tan band above the
    art, and the whole thing sits high and compact. */
@@ -569,22 +569,23 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   padding-bottom: 0;
 }
 .hero--white .sub { color: var(--ink); opacity: .72; }
-/* The logo reads larger and bolder. The crop is tightened (a squarer box into
-   the tall source art) so we trim the empty margins baked into the PNG and the
-   lettering fills more of the same compact section rather than the band growing
-   taller. */
+/* Show the whole logo, never cropped. A generous max-height keeps it compact
+   while letting every line of the lettering read. */
 .hero--white .hero-mockup {
   display: block;
-  width: min(340px, 84vw);
-  aspect-ratio: 1024 / 920;
+  width: min(360px, 88vw);
   height: auto;
-  max-height: 27vh;
-  object-fit: cover;
-  object-position: center;
+  max-height: 44vh;
+  object-fit: contain;
   margin: 0 auto;
 }
 .hero--white .sub { margin-top: 10px; }
 .hero--white .wavewrap { margin-top: clamp(10px, 3vw, 20px); }
+
+/* The bachelorette ground is a soft soft blue, not the warm ivory, so the
+   Home Base card and the gaps between days read clean and nautical rather than
+   tan. The white hero and each day's own background paint over it. */
+#view-bachelorette { background: #EAF1F8; }
 
 /* =================================== BACHELORETTE STICKY JUMP */
 .jumpnav {

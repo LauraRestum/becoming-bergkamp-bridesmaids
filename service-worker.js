@@ -10,7 +10,7 @@
 
   Bump CACHE when shipping so clients pick up a new worker and get prompted.
 */
-var CACHE = "bergkamp-v26";
+var CACHE = "bergkamp-v27";
 
 var SHELL = [
   "/",
