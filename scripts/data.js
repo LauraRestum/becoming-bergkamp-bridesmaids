@@ -35,14 +35,14 @@ var DATA = {
     eyebrow: "Keep in Touch",
     title: "The Wedding Party",
     people: [
-      { name: "Ali",    tel: "+13164161569", display: "(316) 416-1569" },
-      { name: "Ashtyn", tel: "+17855509934", display: "(785) 550-9934" },
-      { name: "Erica",  tel: "+14143643721", display: "(414) 364-3721" },
-      { name: "Ginger", tel: "+13166412062", display: "(316) 641-2062" },
-      { name: "Jacey",  tel: "+13163080577", display: "(316) 308-0577" },
-      { name: "Maddie", tel: "+13163056146", display: "(316) 305-6146" },
-      { name: "Paige",  tel: "+13167738250", display: "(316) 773-8250" },
-      { name: "Rachel", tel: "+13167089855", display: "(316) 708-9855" }
+      { name: "Ali",    role: "Bridesmaid",          tel: "+13164161569", display: "(316) 416-1569" },
+      { name: "Ashtyn", role: "Bridesmaid",          tel: "+17855509934", display: "(785) 550-9934" },
+      { name: "Erica",  role: "Sister of the Bride", tel: "+14143643721", display: "(414) 364-3721" },
+      { name: "Ginger", role: "Matron of Honor",     tel: "+13166412062", display: "(316) 641-2062" },
+      { name: "Jacey",  role: "Bridesmaid",          tel: "+13163080577", display: "(316) 308-0577" },
+      { name: "Maddie", role: "Bridesmaid",          tel: "+13163056146", display: "(316) 305-6146" },
+      { name: "Paige",  role: "Maid of Honor",       tel: "+13167738250", display: "(316) 773-8250" },
+      { name: "Rachel", role: "Bridesmaid",          tel: "+13167089855", display: "(316) 708-9855" }
     ]
   },
 

@@ -55,7 +55,10 @@
     if (!c || !c.people || !c.people.length) return "";
     var rows = c.people.map(function (p) {
       return '<li class="contact">' +
-        '<span class="contact__name">' + esc(p.name) + "</span>" +
+        '<span class="contact__who">' +
+          '<span class="contact__name">' + esc(p.name) + "</span>" +
+          (p.role ? '<span class="contact__role">' + esc(p.role) + "</span>" : "") +
+        "</span>" +
         '<a class="contact__num" href="tel:' + esc(p.tel) + '">' + esc(p.display) + "</a>" +
         "</li>";
     }).join("");
