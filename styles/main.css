@@ -142,6 +142,26 @@ h1, h2, h3, h4 {
   color: var(--gold);
 }
 
+/* Bachelorette dress for the top bar (body.theme-sea). The wedding wordmark
+   read as the wrong masthead over the SEA brand, so here it goes nautical: a
+   faint cabana-blue glass bar, the wordmark in navy with an ocean accent, and a
+   small anchor in place of the gold asterism. Still Bricolage, never the serif. */
+body.theme-sea .topbar {
+  background: rgba(231,241,248,.82);
+  border-bottom: 1px solid rgba(46,106,142,.20);
+}
+body.theme-sea .wordmark { color: #16314E; }
+body.theme-sea .wordmark .gold { color: #2E7FB4; }
+body.theme-sea .hamburger span { background: #16314E; }
+body.theme-sea .shellglyph {
+  color: #2E7FB4; opacity: 1;
+  font-size: 0; /* hide the asterism glyph, swap in an anchor below */
+}
+body.theme-sea .shellglyph::after {
+  content: "\2693"; /* anchor */
+  font-size: 14px;
+}
+
 /* hamburger */
 .hamburger {
   width: 44px; height: 44px;
@@ -285,7 +305,7 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   text-decoration: none;
   font-size: 12px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600;
   padding: 13px 26px;
-  border-radius: var(--radius-pill);
+  border-radius: 2px;
   background: var(--ink); color: var(--ivory);
   border: 1px solid var(--ink);
   overflow: hidden;
@@ -596,40 +616,37 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   border-bottom: 1px solid var(--line-soft);
 }
 .jumpnav__scroll {
-  display: flex; gap: 7px;
+  display: flex; gap: 18px;
   overflow-x: auto;
-  padding: 12px 18px;
+  padding: 11px 18px 9px;
   max-width: var(--maxw); margin: 0 auto;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 }
 .jumpnav__scroll::-webkit-scrollbar { display: none; }
-/* Each date is its own little rounded chip. The active one fills with greenery
-   so the row reads as a soft, cute set of tags rather than plain underlined text. */
+/* The day jump is a row of bold underline tabs, not rounded pills. The active
+   tab carries a thick navy underline so the row reads decisive and editorial. */
 .jumpnav__pill {
   position: relative;
   flex: 0 0 auto;
-  border: 1px solid var(--line-soft);
-  border-radius: var(--radius-pill);
-  background: #fff;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
   color: var(--ink);
   font-family: var(--display);
-  font-size: 12px; letter-spacing: .03em; font-weight: 600;
-  padding: 8px 15px;
+  font-size: 11px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700;
+  padding: 8px 3px 7px;
   white-space: nowrap;
-  opacity: .7;
-  transition: opacity .25s var(--ease), background-color .25s var(--ease),
-              color .25s var(--ease), border-color .25s var(--ease);
+  opacity: .55;
+  transition: opacity .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease);
 }
 .jumpnav__pill.is-active {
   opacity: 1;
-  background: var(--greenery);
-  color: #fff;
-  border-color: var(--greenery);
+  color: #16314E;
+  border-bottom-color: #16314E;
 }
 @media (hover: hover) {
-  .jumpnav__pill:hover { opacity: 1; border-color: var(--greenery); }
-  .jumpnav__pill.is-active:hover { border-color: var(--greenery); }
+  .jumpnav__pill:hover { opacity: 1; }
 }
 
 /* The House: a soft, centered home base. A soft soft blue wash inside a hairline
@@ -664,21 +681,21 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .house .addr { font-size: 15px; opacity: .85; }
 .house .note { font-size: 14px; opacity: .72; margin: 8px auto 0; max-width: 32em; }
 
-/* the "open in maps" cue, now a cute filled greenery pill */
+/* the "open in maps" cue: a bold underlined link with a pin, not a filled pill */
 .maptap {
   display: inline-flex; align-items: center; gap: 8px;
   margin-top: var(--space-5);
-  padding: 11px 22px;
-  border-radius: var(--radius-pill);
-  background: #16314E; color: #fff;
+  padding: 7px 0 6px;
+  border-bottom: 2px solid #16314E;
+  color: #16314E;
   font-size: 11px; letter-spacing: var(--track-label); text-transform: uppercase;
-  font-weight: 600;
-  transition: background-color .25s var(--ease);
+  font-weight: 700;
+  transition: opacity .25s var(--ease);
 }
-.maptap__pin { display: inline-flex; color: #AECEE3; }
+.maptap__pin { display: inline-flex; color: #2E7FB4; }
 @media (hover: hover) {
   .house:hover { border-color: #2E6A8E; }
-  .house:hover .maptap { background: var(--ink); }
+  .house:hover .maptap { opacity: .7; }
 }
 .house:active { transform: scale(.99); }
 
@@ -743,8 +760,24 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   pointer-events: none;
   user-select: none;
 }
-.day .wearchip { margin-top: var(--space-6); }
-.day .wearchip .lead { display: block; margin-bottom: 8px; }
+/* "Wear" is no longer a rounded chip. It reads as a bold statement on a thick
+   left rule: a small uppercase lead over the line in the display face. */
+.day .wearchip {
+  display: block;
+  margin-top: var(--space-6);
+  border: 0; border-radius: 0;
+  border-left: 3px solid currentColor;
+  padding: 2px 0 2px 16px;
+  font-family: var(--display);
+  font-size: clamp(17px, 4.4vw, 20px);
+  font-weight: 600; line-height: 1.25; letter-spacing: -.01em;
+}
+.day .wearchip .lead {
+  display: block; margin-bottom: 7px;
+  font-family: var(--sans);
+  font-size: 10px; letter-spacing: var(--track-label); text-transform: uppercase;
+  font-weight: 600; opacity: .7;
+}
 
 /* palette swatch row */
 .swatches { display: flex; gap: 14px; margin-top: var(--space-6); flex-wrap: wrap; }
@@ -1347,8 +1380,40 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .forms .eyebrow { color: #FFF3E2; display: block; }
 .forms h3 { font-size: clamp(24px, 6vw, 32px); margin: 10px 0 10px; }
 .forms__note { font-size: 14px; line-height: 1.65; opacity: .92; margin: 0 0 18px; }
-.forms__links { display: flex; flex-wrap: wrap; gap: 10px; }
-.forms__links .pill-link { font-size: 11px; padding: 11px 18px; }
+/* The forms are bold arrow hyperlinks stacked in a list, not pill buttons. Each
+   row is a hairline-separated link with a right arrow that nudges on hover. */
+.forms__links { display: flex; flex-direction: column; }
+.arrowlink {
+  display: flex; align-items: center; gap: 12px;
+  text-decoration: none; color: inherit;
+  padding: 15px 0;
+  border-top: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  font-family: var(--display);
+  font-size: clamp(16px, 4.4vw, 20px); font-weight: 600;
+  line-height: 1.2; letter-spacing: -.01em;
+  transition: opacity .2s var(--ease);
+}
+.forms__links .arrowlink:last-child {
+  border-bottom: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+}
+.arrowlink__txt { flex: 1 1 auto; }
+.arrowlink__arr {
+  flex: 0 0 auto; display: inline-flex;
+  transition: transform .3s var(--ease);
+}
+@media (hover: hover) {
+  .arrowlink:hover { opacity: .72; }
+  .arrowlink:hover .arrowlink__arr { transform: translateX(5px); }
+}
+.arrowlink.is-ghost { opacity: .5; cursor: default; }
+.arrowlink__soon {
+  flex: 0 0 auto;
+  font-family: var(--sans);
+  font-size: 9px; letter-spacing: var(--track-label); text-transform: uppercase;
+  font-weight: 600;
+  border: 1px solid currentColor; border-radius: 2px;
+  padding: 3px 7px;
+}
 
 .meals .eyebrow { display: block; opacity: .92; }
 .meals__list { display: grid; gap: 18px; margin-top: 16px; }
@@ -1366,7 +1431,7 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600;
   text-decoration: none;
   padding: 8px 14px;
-  border-radius: var(--radius-pill);
+  border-radius: 2px;
   border: 1px solid currentColor;
   color: inherit; opacity: .8;
   transition: opacity .2s var(--ease), transform .15s var(--ease);
@@ -1376,6 +1441,34 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 
 .day-loc__addr { font-size: 13px; opacity: .78; margin-top: 5px; }
 .day--thursday .forms .eyebrow { color: #2E6A8E; }
+
+/* The Beach Club night-in plan: a bold grid of line icons. Hairline cells, no
+   boxed cards or drop shadows, so it stays editorial. Two up on phones, three
+   up where there is room. */
+.activities { margin-top: var(--space-6); }
+.activities .eyebrow { display: block; opacity: .92; }
+.activities h3 { font-size: clamp(24px, 6vw, 32px); margin: 10px 0 18px; }
+.activities__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-top: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  border-left: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+}
+.activity {
+  display: flex; flex-direction: column; gap: 7px;
+  padding: 20px 16px;
+  border-right: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+}
+.activity__icon { display: inline-flex; color: #16314E; }
+.activity__label {
+  font-family: var(--display); font-weight: 700;
+  font-size: clamp(16px, 4.4vw, 19px); line-height: 1.1; letter-spacing: -.01em;
+}
+.activity__note { font-size: 12.5px; line-height: 1.45; opacity: .78; }
+@media (min-width: 620px) {
+  .activities__grid { grid-template-columns: repeat(3, 1fr); }
+}
 
 /* With the wallpapers now showing through, bare headings and copy that sit
    directly on the photo get a soft halo so every line stays readable. */

@@ -134,11 +134,25 @@ var DATA = {
         bannerKeepsTitle: true, // crest art does not spell the day, keep the word
         // Soft blue cabana stripes wash the whole beach-club world.
         bg: "assets/img/beachclub/beachclub-stripe-bg.jpg",
-        hook: "Members Only",
-        vibe: "We kick the weekend off with a cozy night in at the house. Crafts at the table, a few rounds of trivia, and silly get to know you games to break the ice. Low key, low pressure, and where all the inside jokes start.",
-        wear: "comfy and cute, beach club lounge",
+        hook: "Pajamas & Port",
+        vibe: "We kick the weekend off with a cozy night in at the house. Pull on your comfiest pajamas, build a plate at the taco bar, and graze the dips while we play. A few rounds of trivia on the TV, get to know you games, and an ocean in a bottle craft at the table, then a movie to wind down. Low key, low pressure, and where all the inside jokes start.",
+        wear: "your comfiest pajamas, nautical colors if you have them",
+        // The night-in plan, shown as a bold grid of line icons rather than a
+        // paragraph. Each "icon" maps to an inline SVG in app.js.
+        activities: {
+          eyebrow: "The Night In",
+          title: "What We Will Get Into",
+          items: [
+            { icon: "taco",   label: "Taco Bar",          note: "Build your own plate" },
+            { icon: "dip",    label: "Dips & Snacks",     note: "Grazing all night" },
+            { icon: "games",  label: "Games",             note: "Get to know you rounds" },
+            { icon: "trivia", label: "Trivia",            note: "On the big screen" },
+            { icon: "bottle", label: "Ocean in a Bottle", note: "A little craft at the table" },
+            { icon: "movie",  label: "Movie",             note: "To wind the night down" }
+          ]
+        },
         meals: {
-          dinner: "Dinner in at the house"
+          dinner: "Taco bar and dips, in at the house"
         },
         // Forms feed the trivia and games. Links land here later (href "" shows
         // a non-clickable "coming soon" pill, no submissions on this site).
@@ -153,11 +167,11 @@ var DATA = {
           ]
         },
         swatches: [
-          { name: "emerald", hex: "#2C5C4F" },
-          { name: "hunter", hex: "#2C5F34" },
+          { name: "navy", hex: "#16314E" },
+          { name: "nautical red", hex: "#B23A48" },
           { name: "cream", hex: "#F4EFE3" },
-          { name: "white", hex: "#FFFFFF" },
-          { name: "gold", hex: "#C9A24B" }
+          { name: "cabana blue", hex: "#AECEE3" },
+          { name: "rope", hex: "#C9A24B" }
         ]
       },
       {
@@ -273,8 +287,8 @@ var DATA = {
         bannerKeepsTitle: true, // the art names the place, it does not spell the day
         // Warm wooden boardwalk planks run behind the whole day.
         bg: "assets/img/boardwalk/boardwalk-deck-bg.jpg",
-        hook: "Boardwalk & Chill",
-        vibe: "Slow morning, then we head to Broadway at the Beach for lunch and a wander around the shops. This is the day for our matching tee and your own pick of shorts (choose yours below). Snacks, sunshine, and string lights when the sky goes pink.",
+        hook: "Boardwalk by Day",
+        vibe: "Slow morning, then we head to Broadway at the Beach for lunch and to walk the shops. This is the day for our matching tee and your own pick of shorts (choose yours below). It is a half day: we leave Broadway by 3 to 4 in the afternoon and head back to the house to change for the night out.",
         wear: "the matching tee with your pick of shorts (pick yours below), comfy sneakers",
         meals: {
           breakfast: "At the house",
