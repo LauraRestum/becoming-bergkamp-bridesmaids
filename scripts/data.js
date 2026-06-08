@@ -221,7 +221,9 @@ var DATA = {
         // A few outfit ideas to spark inspiration, shown as one collage.
         outfitInspo: {
           src: "assets/img/rainbow/rainbow-outfits.png",
-          alt: "Outfit inspiration for the Rainbow Fish night: shimmery, glittery, and silky looks in every rainbow color"
+          alt: "Outfit inspiration for the Rainbow Fish night: shimmery, glittery, and silky looks in every rainbow color",
+          // Deep night violet so the iridescent looks pop on a pale opal day.
+          bg: "#2E2152"
         },
         swatches: [
           { name: "opal", hex: "#EAE6F2" },
@@ -323,7 +325,9 @@ var DATA = {
         // A few outfit ideas to spark inspiration, shown as one collage.
         outfitInspo: {
           src: "assets/img/coconuts/coconuts-outfits.png",
-          alt: "Outfit inspiration for the Coco Nuts night: dressy looks in brown, bronze, coconut, and coffee tones"
+          alt: "Outfit inspiration for the Coco Nuts night: dressy looks in brown, bronze, coconut, and coffee tones",
+          // Warm cream so the brown and bronze looks lift off the dark panel.
+          bg: "#F6ECD9"
         },
         meals: {
           dinner: {

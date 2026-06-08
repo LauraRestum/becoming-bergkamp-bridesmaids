@@ -754,9 +754,10 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 @media (hover: hover) { .swatch:hover .dot { transform: scale(1.12); } }
 .swatch .nm { font-size: 9px; letter-spacing: .16em; text-transform: uppercase; opacity: .8; }
 
-/* outfit inspiration collage: the art is a transparent PNG, so it floats on the
-   day with no box, backing, or drop shadow, under a small gold label. The whole
-   thing is a button that opens the lightbox at full size. */
+/* outfit inspiration collage: the art is a transparent PNG, set on a solid
+   on-theme color (per day, via inline background) so the looks stand out. A
+   small gold label sits above and a quiet hint below. The whole panel is a
+   button that opens the lightbox at full size. */
 .outfit-inspo {
   margin-top: var(--space-7);
   padding-top: var(--space-5);
@@ -770,9 +771,10 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .outfit-inspo__btn {
   display: block;
   width: 100%;
-  padding: 0;
+  padding: clamp(12px, 4vw, 26px);
   border: 0;
-  background: none;
+  border-radius: var(--radius-m);
+  background: var(--sand); /* fallback; the on-theme color is set inline */
   cursor: zoom-in;
   transition: transform .25s var(--ease);
 }
