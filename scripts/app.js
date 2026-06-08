@@ -85,14 +85,16 @@
     return html ? '<div class="wrap"><div class="day__inner">' + html + "</div></div>" : "";
   }
 
-  /* The compact banner tile. The banner art is the hero. Days without banner
-     art fall back to their title set in the display face. The whole tile is
-     the toggle button for the panel below. */
+  /* The banner tile. The banner art is the hero and runs the full width of the
+     section. Days without banner art fall back to their title in the display
+     face. The whole tile is the toggle button for the panel below. */
   function dayHead(day) {
-    var hero = day.banner
+    var hasBanner = !!day.banner;
+    var hero = hasBanner
       ? '<img class="day__banner-hero" src="' + esc(day.banner) + '" alt="' + esc(day.title) + '">'
       : '<span class="day__wordmark">' + esc(day.title) + "</span>";
-    return '<button class="day__head reveal" type="button" aria-expanded="false" ' +
+    return '<button class="day__head' + (hasBanner ? "" : " day__head--text") +
+        ' reveal" type="button" aria-expanded="false" ' +
         'aria-controls="panel-' + esc(day.id) + '">' +
       '<span class="day__cap">' + esc(day.label) + "</span>" +
       '<span class="day__hero">' + hero + "</span>" +
