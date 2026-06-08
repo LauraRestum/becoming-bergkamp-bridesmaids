@@ -47,41 +47,112 @@
            '</div><div class="line">' + esc(line) + "</div></footer>";
   }
 
-  /* A scrolling brand band. The set is duplicated so the loop is seamless. */
-  function marqueeHTML(items) {
-    var unit = items.map(function (t) {
-      return '<span><span class="star" aria-hidden="true">&#9670;</span> ' + esc(t) + "</span>";
+
+  /* -------------------------------------------------- EDITORIAL THEME PIECES */
+  /* Home, The Day Before, and The Day Of share the main wedding site's look: a
+     near black ground, Rosaline serif, a newspaper masthead, and a link back to
+     the main site so the two stay interconnected. */
+
+  /* The newspaper masthead that crowns a sub page (The Day Before / Day Of). */
+  function edPageHead(kicker, headline, sub) {
+    return '<header class="ed-masthead reveal">' +
+      '<div class="ed-rule-top"></div>' +
+      '<div class="ed-dateline">' +
+        '<span class="l">Becoming Bergkamp</span>' +
+        '<span class="c">' + esc(kicker) + "</span>" +
+        '<span class="r">' + esc(sub) + "</span>" +
+      "</div>" +
+      '<div class="ed-rule-thin"></div>' +
+      '<h1 class="ed-masthead__title ed-masthead__title--page">' + esc(headline) + "</h1>" +
+      '<div class="ed-rule-thick"></div>' +
+    "</header>";
+  }
+
+  /* A centered hairline with a gold fleuron, the main site's section divider. */
+  function edOrnament() {
+    return '<div class="ed-orn reveal"><span class="ln"></span>' +
+      '<span class="om" aria-hidden="true">&#10022;</span><span class="ln"></span></div>';
+  }
+
+  /* The editorial schedule list (serif times in gold, hairline rows). */
+  function edSchedule(list) {
+    return list.map(function (s) {
+      return '<article class="ed-sched reveal">' +
+        '<div class="time">' + esc(s.time) + "</div>" +
+        "<div><h3>" + esc(s.name) + "</h3>" +
+          '<div class="venue">' + esc(s.venue) + "</div>" +
+          '<div class="place">' + esc(s.place) + "</div>" +
+          '<div class="when">' + esc(s.when) + "</div></div>" +
+        (s.map ? '<div class="map-full">' + mapBlock(s.map, s.venue) + "</div>" : "") +
+      "</article>";
     }).join("");
-    return '<div class="marquee reveal" aria-hidden="true">' +
-      '<div class="marquee__track">' + unit + unit + "</div></div>";
+  }
+
+  /* The dark sign-off, with the monogram and the link back to the main site. */
+  function edFoot(script, line) {
+    var site = DATA.mainSite;
+    return '<footer class="ed-foot reveal">' +
+      '<div class="mono">LBR &middot; WJB</div>' +
+      '<div class="sub">' + esc(script) + "</div>" +
+      '<a class="ed-sitelink" href="' + esc(site.url) + '" target="_blank" rel="noopener">' +
+        esc(site.label) + " &#8599;</a>" +
+      '<div class="credit">' + esc(line) + "</div>" +
+    "</footer>";
   }
 
   /* -------------------------------------------------- HOME */
   function renderHome() {
     var d = DATA.home;
+    var site = DATA.mainSite;
+    var chapters = ["Chapter I", "Chapter II", "Chapter III"];
+
     var rows = d.cards.map(function (c, i) {
-      var num = (i + 1 < 10 ? "0" : "") + (i + 1);
-      return '<a class="indexrow ' + c.theme + ' reveal" href="' + esc(c.route) + '">' +
-        '<span class="indexrow__wash" aria-hidden="true"></span>' +
-        '<span class="indexrow__num">' + num + "</span>" +
-        '<span class="indexrow__body">' +
-          '<span class="indexrow__tag">' + esc(c.tag) + "</span>" +
-          '<span class="indexrow__title">' + esc(c.title) + "</span>" +
-          '<span class="indexrow__sub">' + esc(c.subtitle) + "</span>" +
-        "</span>" +
-        '<span class="indexrow__arrow" aria-hidden="true">&rarr;</span></a>';
+      return '<a class="ed-portal reveal" href="' + esc(c.route) + '">' +
+        '<span class="ed-portal__num">' + (chapters[i] || "") + "</span>" +
+        '<span class="ed-portal__tag">' + esc(c.tag) + "</span>" +
+        "<h3>" + esc(c.title) + "</h3>" +
+        "<p>" + esc(c.subtitle) + "</p>" +
+        '<span class="ed-portal__arrow">Enter &rarr;</span></a>';
     }).join("");
 
+    // a fourth portal that crosses over to the main wedding website
+    var mainPortal =
+      '<a class="ed-portal ed-portal--main reveal" href="' + esc(site.url) +
+        '" target="_blank" rel="noopener">' +
+        '<span class="ed-portal__num">The Full Story</span>' +
+        '<span class="ed-portal__tag">laura &amp; william</span>' +
+        "<h3>The Wedding Website</h3>" +
+        "<p>Our story, the ceremony, travel, the wedding party, the honeymoon, and the RSVP. Everything for the big day.</p>" +
+        '<span class="ed-portal__arrow">Visit the site &#8599;</span></a>';
+
     el("view-home").innerHTML =
-      '<section class="home-hero">' +
-        '<div class="kicker reveal">' + esc(d.kicker) + "</div>" +
-        '<h1 class="reveal">' + esc(d.headline[0]) +
-          '<span class="italic">' + esc(d.headline[1]) + "</span></h1>" +
-        '<div class="meta reveal">' + esc(d.meta) + "</div>" +
+      '<header class="ed-masthead reveal">' +
+        '<div class="ed-rule-top"></div>' +
+        '<div class="ed-dateline">' +
+          '<span class="l">Vol. I &middot; No. 1</span>' +
+          '<span class="c">Wichita, Kansas</span>' +
+          '<span class="r">Wedding Party</span>' +
+        "</div>" +
+        '<div class="ed-rule-thin"></div>' +
+        '<h1 class="ed-masthead__title">Becoming Bergkamp</h1>' +
+        '<div class="ed-masthead__sub">The Wedding Party Hub of Laura &amp; William</div>' +
+        '<div class="ed-rule-thick"></div>' +
+        '<div class="ed-masthead__motto">' + esc(d.meta) + "</div>" +
+        '<div class="ed-rule-thin"></div>' +
+      "</header>" +
+      '<section class="ed-hero">' +
+        '<div class="eyebrow reveal">' + esc(d.kicker) + "</div>" +
+        '<div class="ed-names reveal">Laura Beth<span class="amp">&amp;</span>William James</div>' +
+        '<div class="ed-meta reveal">Twentieth of March &middot; Two Thousand Twenty Seven' +
+          '<span class="place">Wichita, Kansas</span></div>' +
       "</section>" +
-      marqueeHTML(["Becoming Bergkamp", "March 20 2027", "Wichita Kansas", "All You SEA is Love"]) +
-      '<div class="wrap"><div class="home-cards">' + rows + "</div></div>" +
-      '<div class="wrap">' + pagefoot(d.footerScript, d.footerLine) + "</div>";
+      edOrnament() +
+      '<section class="ed-portals">' +
+        '<div class="ed-kicker reveal">The Weekend, In Parts</div>' +
+        '<h2 class="ed-h reveal">Where To Begin</h2>' +
+        '<div class="ed-portal-grid">' + rows + mainPortal + "</div>" +
+      "</section>" +
+      edFoot(d.footerScript, d.footerLine);
   }
 
   /* -------------------------------------------------- BACHELORETTE */
@@ -437,59 +508,40 @@
   }
 
   /* -------------------------------------------------- DAY BEFORE / OF */
-  function scheduleCards(list) {
-    return list.map(function (s) {
-      return '<article class="sched-card reveal">' +
-        '<div class="time">' + esc(s.time) + "</div>" +
-        "<div><h3>" + esc(s.name) + "</h3>" +
-          '<div class="venue">' + esc(s.venue) + "</div>" +
-          '<div class="place">' + esc(s.place) + "</div>" +
-          '<div class="when">' + esc(s.when) + "</div></div>" +
-        (s.map ? '<div class="map-full">' + mapBlock(s.map, s.venue) + "</div>" : "") +
-        "</article>";
-    }).join("");
-  }
-
   function renderDayBefore() {
     var d = DATA.dayBefore;
     el("view-day-before").innerHTML =
-      '<section class="hero hero--greenery">' +
-        '<div class="kicker reveal">' + esc(d.hero.kicker) + "</div>" +
-        '<h1 class="reveal"><span class="italic">' + esc(d.hero.headline) + "</span></h1>" +
-        '<div class="sub reveal">' + esc(d.hero.subtitle) + "</div>" +
-        '<div class="wavewrap">' + waveSVG("#FBF7EF") + "</div>" +
-      "</section>" +
-      '<div class="wrap"><div class="schedule">' + scheduleCards(d.schedule) + "</div>" +
-        pagefoot(d.footerScript, d.footerLine) + "</div>";
+      edPageHead(d.hero.kicker, d.hero.headline, d.hero.subtitle) +
+      '<section class="ed-schedule reveal">' + edSchedule(d.schedule) + "</section>" +
+      edFoot(d.footerScript, d.footerLine);
   }
 
   function renderDayOf() {
     var d = DATA.dayOf;
     var colors = d.colors;
+    var headline = Array.isArray(d.hero.headline) ? d.hero.headline.join("") : d.hero.headline;
     var colorDots = colors.dots.map(function (c) {
       return '<span class="d" style="background:' + esc(c.hex) + '" title="' + esc(c.name) + '"></span>';
     }).join("");
 
     el("view-day-of").innerHTML =
-      '<section class="hero hero--blackgold">' +
-        '<div class="kicker reveal">' + esc(d.hero.kicker) + "</div>" +
-        '<h1 class="reveal"><span class="gold">' + esc(d.hero.headline[0]) + "</span>" +
-          esc(d.hero.headline[1]) + "</h1>" +
-        '<div class="sub reveal">' + esc(d.hero.subtitle) + "</div>" +
-        '<div class="wavewrap">' + waveSVG("#FBF7EF") + "</div>" +
+      edPageHead(d.hero.kicker, headline, d.hero.subtitle) +
+      '<section class="ed-schedule reveal">' + edSchedule(d.schedule) + "</section>" +
+      '<div class="ed-sched-note reveal">' + esc(d.scheduleNote) + "</div>" +
+      edOrnament() +
+      '<section class="ed-colors reveal">' +
+        '<div class="ed-kicker">' + esc(colors.eyebrow) + "</div>" +
+        '<h2 class="ed-h">' + esc(colors.title) + "</h2>" +
+        '<div class="dots">' + colorDots + "</div>" +
+        '<p class="statement">' + esc(colors.statement) + "</p>" +
       "</section>" +
-      '<div class="wrap">' +
-        '<div class="schedule">' + scheduleCards(d.schedule) + "</div>" +
-        '<div class="sched-note reveal">' + esc(d.scheduleNote) + "</div>" +
-        '<section class="colors reveal"><span class="eyebrow">' + esc(colors.eyebrow) + "</span>" +
-          "<h2>" + esc(colors.title) + "</h2>" +
-          '<div class="dots">' + colorDots + "</div>" +
-          '<p class="statement">' + esc(colors.statement) + "</p></section>" +
-        '<section class="attire reveal"><span class="eyebrow">' + esc(d.attire.eyebrow) + "</span>" +
-          "<h2>" + esc(d.attire.title) + "</h2>" +
-          '<p class="body">' + esc(d.attire.body) + "</p>" +
-          '<span class="tag">' + esc(d.attire.tag) + "</span></section>" +
-        pagefoot(d.footerScript, d.footerLine) + "</div>";
+      '<section class="ed-attire reveal">' +
+        '<div class="ed-kicker">' + esc(d.attire.eyebrow) + "</div>" +
+        '<h2 class="ed-h">' + esc(d.attire.title) + "</h2>" +
+        '<p class="body">' + esc(d.attire.body) + "</p>" +
+        '<span class="tag">' + esc(d.attire.tag) + "</span>" +
+      "</section>" +
+      edFoot(d.footerScript, d.footerLine);
   }
 
   /* -------------------------------------------------- wave divider */
@@ -500,7 +552,7 @@
 
   /* -------------------------------------------------- REVEAL */
   /* Containers whose direct reveal children animate in with a soft stagger. */
-  var STAGGER_PARENTS = ".home-cards, .schedule, .looks";
+  var STAGGER_PARENTS = ".ed-portal-grid, .ed-schedule, .looks";
 
   function applyStagger(scope) {
     (scope || document).querySelectorAll(STAGGER_PARENTS).forEach(function (group) {
@@ -650,6 +702,10 @@
     return h;
   }
 
+  // Home, The Day Before, and The Day Of wear the dark, serif, newspaper theme
+  // that echoes the main wedding site. The Bachelorette keeps its own SEA brand.
+  var EDITORIAL_ROUTES = { "/home": 1, "/day-before": 1, "/day-of": 1 };
+
   function route() {
     var r = currentRoute();
     var viewId = ROUTES[r];
@@ -658,6 +714,9 @@
       var v = el(ROUTES[key]);
       if (v) v.classList.toggle("is-active", ROUTES[key] === viewId);
     });
+
+    // swap the page theme for the active route (only the dark routes get it)
+    document.body.classList.toggle("theme-editorial", !!EDITORIAL_ROUTES[r]);
 
     document.querySelectorAll(".drawer__link").forEach(function (a) {
       a.classList.toggle("is-active", a.getAttribute("href") === "#" + r);

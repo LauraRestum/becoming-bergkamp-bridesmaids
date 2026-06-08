@@ -21,6 +21,13 @@ function mapFor(query) {
 
 var DATA = {
 
+  /* The main wedding website, for cross links from this hub so the two stay
+     interconnected. Update the URL here in one place if it ever changes. */
+  mainSite: {
+    url: "https://becoming-bergkamp.vercel.app/",
+    label: "Main Wedding Site"
+  },
+
   /* ---------------------------------------------------------------- HOME */
   home: {
     kicker: "we're getting married",
