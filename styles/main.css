@@ -394,10 +394,15 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   border-top: 1px solid rgba(21, 19, 15, .14);
 }
 .contact:last-child { border-bottom: 1px solid rgba(21, 19, 15, .14); }
+.contact__who { display: flex; flex-direction: column; gap: 2px; }
 .contact__name {
   font-family: var(--display); font-weight: 600;
   font-size: 17px;
   color: var(--ink);
+}
+.contact__role {
+  font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--greenery);
 }
 .contact__num {
   font-size: 16px; letter-spacing: .01em;
@@ -1864,6 +1869,7 @@ body.theme-editorial .contact__name {
   font-size: 19px;
   color: var(--ed-paper);
 }
+body.theme-editorial .contact__role { color: var(--ed-gold); }
 body.theme-editorial .contact__num {
   font-family: var(--ed-serif);
   color: var(--ed-gold);
