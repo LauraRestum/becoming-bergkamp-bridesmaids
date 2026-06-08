@@ -201,6 +201,9 @@ var DATA = {
         theme: "day--boardwalk",
         label: "saturday · day",
         title: "Boardwalk",
+        // Broadway at the Beach banner art, run as the full-width hero.
+        banner: "assets/img/boardwalk/boardwalk-banner.png",
+        bannerKeepsTitle: true, // the art names the place, it does not spell the day
         hook: "Boardwalk & Chill",
         vibe: "Slow morning, then we wander Broadway at the Beach. Shops, snacks, sunshine, and string lights when the sky goes pink.",
         wear: "whatever's comfy, sundress and sneakers",
