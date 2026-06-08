@@ -162,14 +162,6 @@ var DATA = {
         vibe: "The showstopper. Iridescent everything, glitter scales on our arms, the whole crew shimmering as we head out for the night.",
         wear: "any rainbow color, shimmery, glittery or silky",
         secondary: "No need to match anyone. Pick your shade and shine.",
-        // Full bleed photos. The first is the lead, set under the heading. The
-        // rest flow in below the details. No frames, they melt into the page.
-        gallery: [
-          { src: "assets/img/photos/rainbow/riptydz-exterior.jpeg", label: "RipTydz · outside", alt: "RipTydz Oceanfront Grille seen from the beach boardwalk" },
-          { src: "assets/img/photos/rainbow/riptydz-rooftop-sunset.jpeg", label: "The rooftop bar", alt: "RipTydz rooftop bar at sunset, string lights over the ocean" },
-          { src: "assets/img/photos/rainbow/boardwalk-skywheel.jpeg", label: "The boardwalk", alt: "Myrtle Beach Boardwalk and the SkyWheel along the oceanfront" },
-          { src: "assets/img/photos/rainbow/oceanfront-pier-sunset.jpeg", label: "Oceanfront, golden hour", alt: "Myrtle Beach oceanfront, the pier and SkyWheel at sunset" }
-        ],
         swatches: [
           { name: "opal", hex: "#EAE6F2" },
           { name: "pink", hex: "#FF3FA4" },
@@ -189,7 +181,12 @@ var DATA = {
             { label: "Food menu", href: "https://riptydz.com/food-menu" },
             { label: "Drink menu", href: "https://riptydz.com/drink-menu" }
           ],
-          map: mapFor("RipTydz 1210 N Ocean Blvd Myrtle Beach SC 29577")
+          map: mapFor("RipTydz 1210 N Ocean Blvd Myrtle Beach SC 29577"),
+          photos: [
+            { src: "assets/img/photos/rainbow/riptydz-exterior.jpeg", label: "RipTydz · outside", alt: "RipTydz Oceanfront Grille seen from the beach boardwalk" },
+            { src: "assets/img/photos/rainbow/riptydz-rooftop-sunset.jpeg", label: "The rooftop bar", alt: "RipTydz rooftop bar at sunset, string lights over the ocean" },
+            { src: "assets/img/photos/rainbow/oceanfront-pier-sunset.jpeg", label: "Oceanfront, golden hour", alt: "Myrtle Beach oceanfront, the pier and SkyWheel at sunset" }
+          ]
         }
       },
       {
@@ -200,15 +197,6 @@ var DATA = {
         hook: "Boardwalk & Chill",
         vibe: "Slow morning, then we wander Broadway at the Beach. Shops, snacks, sunshine, and string lights when the sky goes pink.",
         wear: "whatever's comfy, sundress and sneakers",
-        // Lead with Broadway from above, then the shops, then Margaritaville
-        // outside and inside. Full bleed, no frames.
-        gallery: [
-          { src: "assets/img/photos/boardwalk/broadway-aerial-lighthouse.jpeg", label: "Broadway at the Beach", alt: "Aerial of Broadway at the Beach, the lake and the lighthouse" },
-          { src: "assets/img/photos/boardwalk/broadway-shops-kaldis.jpeg", label: "The promenade", alt: "Shop promenade at Broadway at the Beach" },
-          { src: "assets/img/photos/boardwalk/broadway-shops-sugar.jpeg", label: "Shops and snacks", alt: "Crowds and shops along Broadway at the Beach" },
-          { src: "assets/img/photos/boardwalk/margaritaville-exterior-fountain.jpeg", label: "Margaritaville · outside", alt: "Margaritaville exterior with the fountain and pirate ship" },
-          { src: "assets/img/photos/boardwalk/margaritaville-interior.jpeg", label: "Margaritaville · inside", alt: "Colorful Margaritaville dining room" }
-        ],
         meals: {
           breakfast: "At the house",
           lunch: {
@@ -217,6 +205,10 @@ var DATA = {
             website: "https://www.margaritavillemyrtlebeach.com",
             links: [
               { label: "Menu", href: "https://www.margaritavillemyrtlebeach.com/menu" }
+            ],
+            photos: [
+              { src: "assets/img/photos/boardwalk/margaritaville-exterior-fountain.jpeg", label: "Margaritaville · outside", alt: "Margaritaville exterior with the fountain and pirate ship" },
+              { src: "assets/img/photos/boardwalk/margaritaville-interior.jpeg", label: "Margaritaville · inside", alt: "Colorful Margaritaville dining room" }
             ]
           }
         },
@@ -226,7 +218,11 @@ var DATA = {
           title: "Broadway at the Beach",
           detail: "Myrtle Beach, SC · about 30 minutes north of the house",
           website: "https://www.broadwayatthebeach.com",
-          map: mapFor("Broadway at the Beach Myrtle Beach SC")
+          map: mapFor("Broadway at the Beach Myrtle Beach SC"),
+          photos: [
+            { src: "assets/img/photos/boardwalk/broadway-aerial-lighthouse.jpeg", label: "Broadway at the Beach", alt: "Aerial of Broadway at the Beach, the lake and the lighthouse" },
+            { src: "assets/img/photos/boardwalk/broadway-shops-kaldis.jpeg", label: "The promenade", alt: "Shop promenade at Broadway at the Beach" }
+          ]
         }
       },
       {
@@ -239,22 +235,16 @@ var DATA = {
         bg: "assets/img/coconuts/coconuts-bg.png",
         hook: "Golden Hour, Golden Crew",
         vibe: "Our fancy night. Dressed to the nines, out on the water, then dinner along the Murrells Inlet MarshWalk as we keep the night going right there in the inlet.",
-        // The MarshWalk, then the sunset cruise, then Wicked Tuna outside and
-        // inside. Full bleed, fading into the warm sunset background.
-        gallery: [
-          { src: "assets/img/photos/coconuts/marshwalk-sunset.webp", label: "Murrells Inlet MarshWalk", alt: "Murrells Inlet MarshWalk glowing at sunset" },
-          { src: "assets/img/photos/coconuts/marshwalk-boardwalk-tiki.webp", label: "Along the MarshWalk", alt: "MarshWalk boardwalk with a tiki bar and palms at golden hour" },
-          { src: "assets/img/photos/coconuts/sunset-cruise-deck.jpeg", label: "The sunset cruise", alt: "Watching the sun set from the deck of the cruise boat" },
-          { src: "assets/img/photos/coconuts/wickedtuna-deck.png", label: "Wicked Tuna · outside", alt: "Wicked Tuna waterfront deck over the marina" },
-          { src: "assets/img/photos/coconuts/wickedtuna-interior-dining.jpeg", label: "Wicked Tuna · inside", alt: "Wicked Tuna dining room over the inlet at night" }
-        ],
         // Sunset tour gets its own warm, layered sunset panel.
         sunset: {
           eyebrow: "The Sunset Tour",
           title: "Happy hour on the water",
           body: "First a happy hour catamaran cruise through the Murrells Inlet marsh as the sky turns gold and pink.",
           cost: "Happy hour and sunset cruises run about $30 to $60 per person depending on the boat and the season.",
-          link: { label: "Sunset cruise details", href: "https://myrtlebeachsailingcruises.com/sunset-cruise" }
+          link: { label: "Sunset cruise details", href: "https://myrtlebeachsailingcruises.com/sunset-cruise" },
+          photos: [
+            { src: "assets/img/photos/coconuts/sunset-cruise-deck.jpeg", label: "The sunset cruise", alt: "Watching the sun set from the deck of the cruise boat" }
+          ]
         },
         wear: "any shade of brown, bronze, coconut or coffee",
         meals: {
@@ -265,6 +255,10 @@ var DATA = {
             links: [
               { label: "Menus", href: "https://www.thewickedtuna.com/murrells-inlet-menus" },
               { label: "Drink menu", href: "https://www.thewickedtuna.com/menu/drink-menu" }
+            ],
+            photos: [
+              { src: "assets/img/photos/coconuts/wickedtuna-deck.png", label: "Wicked Tuna · outside", alt: "Wicked Tuna waterfront deck over the marina" },
+              { src: "assets/img/photos/coconuts/wickedtuna-interior-dining.jpeg", label: "Wicked Tuna · inside", alt: "Wicked Tuna dining room over the inlet at night" }
             ]
           }
         },
@@ -280,7 +274,11 @@ var DATA = {
           title: "Murrells Inlet MarshWalk",
           detail: "Murrells Inlet, SC · happy hour cruise, then dinner and drinks at Wicked Tuna on the MarshWalk",
           website: "https://marshwalk.com",
-          map: mapFor("Murrells Inlet MarshWalk SC")
+          map: mapFor("Murrells Inlet MarshWalk SC"),
+          photos: [
+            { src: "assets/img/photos/coconuts/marshwalk-sunset.webp", label: "Murrells Inlet MarshWalk", alt: "Murrells Inlet MarshWalk glowing at sunset" },
+            { src: "assets/img/photos/coconuts/marshwalk-boardwalk-tiki.webp", label: "Along the MarshWalk", alt: "MarshWalk boardwalk with a tiki bar and palms at golden hour" }
+          ]
         }
       },
       {

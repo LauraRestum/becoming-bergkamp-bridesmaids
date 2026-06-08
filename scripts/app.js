@@ -77,77 +77,92 @@
   }
 
   /* -------------------------------------------------- BACHELORETTE */
+  /* A day is built as a stack of segments: text blocks sit in the reading
+     column, banner art and venue photos run full bleed as direct children of
+     the section so they reach edge to edge and melt into the background. */
+  function seg(html) {
+    return html ? '<div class="wrap"><div class="day__inner">' + html + "</div></div>" : "";
+  }
+
   function renderDay(day) {
     var glyph = "&#127796;"; // palm tree default
     if (day.theme === "day--rainbow") glyph = "&#128031;"; // tropical fish
     if (day.theme === "day--coconuts") glyph = "&#129373;"; // coconut
     if (day.theme === "day--boardwalk") glyph = "&#127881;";
 
-    // The header (label + title art) sits on its own so a full-bleed lead
-    // photo can drop in right under it before the rest of the day flows on.
-    var head =
-      '<div class="label reveal">' + esc(day.label) + "</div>" +
-      headingHTML(day);
+    var out = '<span class="day__glyph" aria-hidden="true">' + glyph + "</span>";
 
-    var body = "";
-    if (day.hook) body += '<div class="hook reveal">' + esc(day.hook) + "</div>";
-    body += '<p class="vibe reveal">' + esc(day.vibe) + "</p>";
-    if (day.secondary) body += '<p class="secondary reveal">' + esc(day.secondary) + "</p>";
-    if (day.transport) body += transportHTML(day.transport);
-    if (day.sunset) body += sunsetHTML(day.sunset);
-    if (day.forms) body += formsHTML(day.forms);
-    if (day.wear) {
-      body += '<div class="wearchip chip reveal"><span class="lead">Wear</span>' + esc(day.wear) + "</div>";
+    // Header. The label sits above, the banner art runs full bleed below it,
+    // and a crest banner keeps its spelled-out title underneath.
+    out += seg('<div class="label reveal">' + esc(day.label) + "</div>" +
+      (day.banner ? "" : '<h2 class="reveal">' + esc(day.title) + "</h2>"));
+    out += bannerHTML(day);
+    if (day.banner && day.bannerKeepsTitle) {
+      out += seg('<h2 class="reveal day__title">' + esc(day.title) + "</h2>");
     }
-    body += swatchRow(day.swatches);
-    if (day.meals) body += mealsHTML(day.meals);
-    if (day.looksWidget && window.Boardwalk) body += window.Boardwalk.html();
-    if (day.location) body += dayLocationHTML(day.location);
+
+    // Intro copy.
+    var intro = "";
+    if (day.hook) intro += '<div class="hook reveal">' + esc(day.hook) + "</div>";
+    intro += '<p class="vibe reveal">' + esc(day.vibe) + "</p>";
+    if (day.secondary) intro += '<p class="secondary reveal">' + esc(day.secondary) + "</p>";
+    if (day.transport) intro += transportHTML(day.transport);
+    out += seg(intro);
+
+    // Each place sits next to the photos that show it.
+    if (day.sunset) { out += seg(sunsetHTML(day.sunset)); out += photosHTML(day.sunset.photos); }
+
+    var plan = "";
+    if (day.forms) plan += formsHTML(day.forms);
+    if (day.wear) plan += '<div class="wearchip chip reveal"><span class="lead">Wear</span>' + esc(day.wear) + "</div>";
+    plan += swatchRow(day.swatches);
+    out += seg(plan);
+
+    if (day.meals) { out += seg(mealsHTML(day.meals)); out += photosHTML(mealPhotos(day.meals)); }
+    if (day.looksWidget && window.Boardwalk) out += seg(window.Boardwalk.html());
+    if (day.location) { out += seg(dayLocationHTML(day.location)); out += photosHTML(day.location.photos); }
 
     var bgStyle = day.bg ? ' style="background-image:url(' + esc(day.bg) + ')"' : "";
     var bgClass = day.bg ? " has-bg" : "";
 
     return '<section class="day ' + day.theme + bgClass + '" id="' + esc(day.id) + '"' + bgStyle + ">" +
-             '<span class="day__glyph" aria-hidden="true">' + glyph + "</span>" +
-             '<div class="wrap"><div class="day__inner">' + head + "</div></div>" +
-             leadPhotoHTML(day) +
-             '<div class="wrap"><div class="day__inner">' + body + "</div></div>" +
-             restPhotosHTML(day) +
+             out +
            "</section>";
   }
 
+  /* Hand-lettered banner art, run full bleed. The image background (its colors
+     and gradients) reaches edge to edge and the top and bottom dissolve into
+     the day, so the header has no rectangle, it just flows in. */
+  function bannerHTML(day) {
+    if (!day.banner) return "";
+    var crest = day.bannerKeepsTitle ? " day__banner--crest" : "";
+    return '<figure class="day__banner-bleed reveal">' +
+      '<img class="day__banner' + crest + '" src="' + esc(day.banner) +
+      '" alt="' + esc(day.title) + (day.bannerKeepsTitle ? " crest" : "") + '"></figure>';
+  }
+
   /* Full-bleed venue photos. They run edge to edge and dissolve top and bottom
-     into the day background, no frame, no shadow. The first photo leads the
-     day right under the title, the rest flow in after the details. */
-  function photoFigure(p, extra) {
+     into the day background, no frame, no shadow, set right beside the place
+     they show. */
+  function photoFigure(p) {
     if (!p || !p.src) return "";
-    return '<figure class="photoband' + (extra ? " " + extra : "") + ' reveal">' +
+    return '<figure class="photoband reveal">' +
       '<img class="photoband__img" loading="lazy" src="' + esc(p.src) + '" alt="' + esc(p.alt || "") + '">' +
       (p.label ? '<figcaption class="photoband__cap">' + esc(p.label) + "</figcaption>" : "") +
       "</figure>";
   }
-  function leadPhotoHTML(day) {
-    if (!day.gallery || !day.gallery.length) return "";
-    return photoFigure(day.gallery[0], "photoband--lead");
+  function photosHTML(list) {
+    if (!list || !list.length) return "";
+    return list.map(photoFigure).join("");
   }
-  function restPhotosHTML(day) {
-    if (!day.gallery || day.gallery.length < 2) return "";
-    return day.gallery.slice(1).map(function (p) { return photoFigure(p, ""); }).join("");
-  }
-
-  /* The day title: hand-lettered banner art, a crest plus word, a placeholder
-     frame when art is still coming, or plain serif text. */
-  function headingHTML(day) {
-    if (day.banner && day.bannerKeepsTitle) {
-      return '<div class="reveal day__crest"><img class="day__banner day__banner--crest" src="' +
-        esc(day.banner) + '" alt="' + esc(day.title) + ' crest"></div>' +
-        '<h2 class="reveal day__title">' + esc(day.title) + "</h2>";
-    }
-    if (day.banner) {
-      return '<h2 class="reveal day__banner-wrap"><img class="day__banner" src="' +
-        esc(day.banner) + '" alt="' + esc(day.title) + '"></h2>';
-    }
-    return '<h2 class="reveal">' + esc(day.title) + "</h2>";
+  /* Pull the photos hung on each named meal, in serving order. */
+  function mealPhotos(m) {
+    var out = [];
+    ["breakfast", "lunch", "dinner"].forEach(function (k) {
+      var v = m[k];
+      if (v && typeof v === "object" && v.photos) out = out.concat(v.photos);
+    });
+    return out;
   }
 
   /* A small "we have the ride" note. */

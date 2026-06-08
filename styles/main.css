@@ -491,11 +491,16 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .hero--greenery { background: radial-gradient(120% 90% at 50% 0%, #7BAE86 0%, #438050 52%, #234E2C 100%); }
 .hero--blackgold{ background: radial-gradient(120% 90% at 50% 0%, #423a2d 0%, #211b14 52%, #15130F 100%); }
 
-/* full-bleed hand-lettered header art, integrated flush (no float, no shadow) */
+/* full-bleed hand-lettered header art. It runs edge to edge and dissolves into
+   the hero gradient at the top and bottom, no rectangle, no shadow. */
 .hero--banner { padding-top: clamp(40px, 11vw, 90px); }
 .hero--banner .hero-banner {
-  width: 100%; max-width: 760px; height: auto;
-  display: block; margin: 0 auto;
+  width: 100vw; max-width: none; height: auto;
+  display: block;
+  position: relative;
+  left: 50%; margin-left: -50vw;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 15%, #000 85%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 15%, #000 85%, transparent 100%);
 }
 .hero--banner .sub { margin-top: 22px; padding: 0 22px; }
 .hero--banner .wavewrap { margin-top: var(--space-7); }
@@ -633,29 +638,38 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .day--rainbow .hook  { color: #d6398a; }
 .day--rainbow.has-bg::before { background: linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,.06) 40%, rgba(255,255,255,.30)); }
 
-/* hand-lettered day banner art, integrated flush (no float, no frame, no shadow).
-   Headers run wide and bleed into the section instead of sitting in a box. */
-.day__banner-wrap, .day__crest { margin: 0; line-height: 0; }
+/* Hand-lettered banner art, run full bleed. The art's own background (its
+   colors and gradients) reaches edge to edge, and the top and bottom dissolve
+   into the day, so the header reads as part of the section, not a rectangle
+   floating on top of it. */
+.day__banner-bleed {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  margin: clamp(6px, 2vw, 14px) 0 clamp(10px, 3vw, 22px);
+  line-height: 0;
+}
 .day__banner {
   display: block;
-  width: min(680px, 100%);
+  width: 100%;
   height: auto;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 17%, #000 83%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 17%, #000 83%, transparent 100%);
 }
-.day__banner--crest { width: min(420px, 80%); }
-.day__title { margin-top: 18px; font-size: clamp(48px, 15vw, 96px); font-weight: 800; }
+.day__banner--crest { width: 100%; }
+.day__title { margin-top: 6px; font-size: clamp(48px, 15vw, 96px); font-weight: 800; }
 
 /* ============================================ FULL-BLEED VENUE PHOTOS */
 /* Photos run the full width of the day and melt into its background at the top
-   and bottom. No border, no radius, no shadow. They sit between the header and
-   the details so the section flows header -> place -> plan -> place. */
+   and bottom. No border, no radius, no shadow. Each one sits right beside the
+   place it shows, so the section flows place -> plan -> place. */
 .photoband {
   position: relative;
   z-index: 2;
   width: 100%;
-  margin: clamp(30px, 7vw, 60px) 0;
+  margin: clamp(26px, 6vw, 52px) 0;
   line-height: 0;
 }
-.photoband--lead { margin-top: clamp(18px, 5vw, 34px); }
 .photoband__img {
   width: 100%;
   height: clamp(230px, 56vw, 460px);
@@ -664,7 +678,6 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 16%, #000 84%, transparent 100%);
   mask-image: linear-gradient(180deg, transparent 0, #000 16%, #000 84%, transparent 100%);
 }
-.photoband--lead .photoband__img { height: clamp(260px, 64vw, 540px); }
 .photoband__cap {
   position: absolute;
   left: max(22px, env(safe-area-inset-left));
