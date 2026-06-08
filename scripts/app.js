@@ -188,55 +188,38 @@
         "<p>Our story, the ceremony, travel, the wedding party, the honeymoon, and the RSVP. Everything for the big day.</p>" +
         '<span class="ed-portal__arrow">Visit the site &#8599;</span></a>';
 
-    // The curtain and the dance floor are carried over from the main wedding
-    // site as soft background layers rather than framed pictures: the bright
-    // curtain glows behind the masthead so Home favors white, and the black and
-    // white checkerboard settles behind the foot. The words ride above them.
-    // Decorative, so the layer is aria-hidden, and the images are set on it as
-    // CSS backgrounds (their paths stay sourced from data.js).
-    var sceneBg =
-      '<div class="home-bg" aria-hidden="true">' +
-        (d.curtain && d.curtain.image
-          ? '<div class="home-bg__curtain" style="background-image:url(&quot;' +
-              esc(d.curtain.image) + '&quot;)"></div>'
-          : "") +
-        (d.danceFloor && d.danceFloor.image
-          ? '<div class="home-bg__floor" style="background-image:url(&quot;' +
-              esc(d.danceFloor.image) + '&quot;)"></div>'
-          : "") +
-      "</div>";
+    // The hero leads with the curtain projection tucked into the top left
+    // corner, clearly seen, and the one line "Laura's Bridal Party" riding on
+    // top of it. The curtain feathers into the paper so the title sits clean
+    // where the two meet. The curtain is set as a CSS background (path from
+    // data.js) and labelled for screen readers.
+    var curtainCorner = (d.curtain && d.curtain.image)
+      ? '<div class="home-hero__curtain" role="img" aria-label="' + esc(d.curtain.alt) +
+          '" style="background-image:url(&quot;' + esc(d.curtain.image) + '&quot;)"></div>'
+      : "";
+
+    // The checkerboard the bride dropped in, run as the backdrop behind the
+    // option buttons. It feathers in at the top so the section heading stays on
+    // clean paper and the checks read behind the buttons.
+    var portalsBg = (d.checkerboard && d.checkerboard.image)
+      ? '<div class="home-portals__bg" aria-hidden="true" style="background-image:url(&quot;' +
+          esc(d.checkerboard.image) + '&quot;)"></div>'
+      : "";
 
     el("view-home").innerHTML =
-      sceneBg +
-      '<div class="home-fg">' +
-        '<header class="ed-masthead reveal">' +
-          '<div class="ed-rule-top"></div>' +
-          '<div class="ed-dateline">' +
-            '<span class="l">Vol. I &middot; No. 1</span>' +
-            '<span class="c">Wichita, Kansas</span>' +
-            '<span class="r">Wedding Party</span>' +
-          "</div>" +
-          '<div class="ed-rule-thin"></div>' +
-          '<h1 class="ed-masthead__title">Becoming Bergkamp</h1>' +
-          '<div class="ed-masthead__sub">The Wedding Party Hub of Laura &amp; William</div>' +
-          '<div class="ed-rule-thick"></div>' +
-          '<div class="ed-masthead__motto">' + esc(d.meta) + "</div>" +
-          '<div class="ed-rule-thin"></div>' +
-        "</header>" +
-        '<section class="ed-hero">' +
-          '<div class="eyebrow reveal">' + esc(d.kicker) + "</div>" +
-          '<div class="ed-names reveal">Laura Beth<span class="amp">&amp;</span>William James</div>' +
-          '<div class="ed-meta reveal">Twentieth of March &middot; Two Thousand Twenty Seven' +
-            '<span class="place">Wichita, Kansas</span></div>' +
-        "</section>" +
-        edOrnament() +
-        '<section class="ed-portals">' +
+      '<section class="home-hero reveal">' +
+        curtainCorner +
+        '<h1 class="home-hero__title">' + esc(d.title) + "</h1>" +
+      "</section>" +
+      '<section class="ed-portals home-portals">' +
+        portalsBg +
+        '<div class="home-portals__in">' +
           '<div class="ed-kicker reveal">The Weekend, In Parts</div>' +
           '<h2 class="ed-h reveal">Where To Begin</h2>' +
           '<div class="ed-portal-grid">' + rows + mainPortal + "</div>" +
-        "</section>" +
-        edFoot(d.footerScript, d.footerLine) +
-      "</div>";
+        "</div>" +
+      "</section>" +
+      edFoot(d.footerScript, d.footerLine);
   }
 
   /* -------------------------------------------------- BACHELORETTE */
