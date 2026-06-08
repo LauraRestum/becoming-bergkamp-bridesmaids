@@ -70,7 +70,7 @@ no server functions. Vercel serves the static files directly.
 - No em dashes anywhere.
 - The wedding colors are always written exactly as
   "black and white with hints of greenery and notes of antique gold."
-- Fonts are Fraunces, Jost, and Sacramento.
+- Fonts are Bricolage Grotesque and Jost. No cursive or script faces.
 - The Boardwalk tee is a surprise. Never put any graphic or text on it.
 - No backend, no logins, no forms that submit anywhere.
 

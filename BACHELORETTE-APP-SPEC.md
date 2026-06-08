@@ -55,11 +55,15 @@ Phase 2 (future) adds a Bridesmaids portal and a Groomsmen portal. These are
 
 ### 4.1 Typography
 
-- **Display serif:** Fraunces (light and regular, italics allowed). Big headings.
-- **Body and UI sans:** Jost (300 to 600). Body copy, labels, buttons, nav.
-- **Script accent:** Sacramento. Little playful kickers, used sparingly.
+The 2026 redesign moved to a modern, bolder, editorial type system at Laura's
+request. No cursive or script faces.
 
-Do not substitute system fonts, Inter, Roboto, or Arial.
+- **Display:** Bricolage Grotesque (heavy weights, tight tracking). Oversized,
+  edge to edge headings that read like a fashion or travel magazine.
+- **Body and UI sans:** Jost (300 to 600). Body copy, labels, buttons, nav.
+- **Accents:** tracked uppercase Jost eyebrows replace the old script kickers.
+
+Do not substitute system fonts, Inter, Roboto, Arial, or Montserrat.
 
 ### 4.2 Global color tokens
 
@@ -130,7 +134,7 @@ Do not apply any Envision brand system and do not force Montserrat.
 ### 5.1 Fixed top bar (all views)
 
 - Left: hamburger (animates to X when open).
-- Center: wordmark "Becoming Bergkamp" in tracked uppercase Fraunces, "Bergkamp"
+- Center: wordmark "Becoming Bergkamp" in tracked uppercase Bricolage Grotesque, "Bergkamp"
   in gold.
 - Right: a small shell glyph.
 - Translucent ivory background with blur, thin gold bottom border.
@@ -139,7 +143,7 @@ Do not apply any Envision brand system and do not force Montserrat.
 
 Dark (`--ink`) panel, ivory text:
 
-- Script header "welcome to the" then "Wedding Party Hub" in Fraunces.
+- Eyebrow "welcome to the" then "Wedding Party Hub" in Bricolage Grotesque.
 - Nav links with serif index numbers: `00 Home`, `01 Bachelorette Trip`,
   `02 The Day Before`, `03 The Day Of`. Active link highlighted in soft gold.
 - Pinned at the bottom: a "Coming soon" block reading
@@ -316,4 +320,4 @@ step. Connect the GitHub repo and it serves the static files directly.
 - This is not an Envision project. No Envision brand system, no Montserrat.
 - The Boardwalk tee is a surprise. Never render any graphic or text on it.
 - No backend, no API, no database, no data submission features.
-- Fonts are Fraunces, Jost, Sacramento. No generic system fallbacks.
+- Fonts are Bricolage Grotesque and Jost. No cursive, no generic system fallbacks.
