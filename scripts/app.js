@@ -278,6 +278,10 @@
     if (day.transport) intro += transportHTML(day.transport);
     body += seg(intro);
 
+    // The night-in activity grid (Beach Club) rides on the clean gradient right
+    // under the intro, so the icons read before the games and forms below.
+    if (day.activities) body += seg(activitiesHTML(day.activities));
+
     // One quiet, full-bleed photo that fades into the day at top and bottom: a
     // natural gradient, never a picture sitting in a box, and no copy over it to
     // fight for legibility.
@@ -459,18 +463,62 @@
       '<div class="meals__list">' + rows + "</div></div>";
   }
 
-  /* Form links that feed the games. href "" renders a non-clickable pill. */
+  /* Form links that feed the games. Rendered as bold arrow hyperlinks (no pill).
+     href "" renders a non-clickable "soon" row with a muted arrow. */
   function formsHTML(f) {
+    var arrow = '<span class="arrowlink__arr" aria-hidden="true">' + arrowSVG() + "</span>";
     var items = f.items.map(function (it) {
+      var txt = '<span class="arrowlink__txt">' + esc(it.label) + "</span>";
       return (it.href && it.href !== "#")
-        ? '<a class="pill-link" href="' + esc(it.href) + '" target="_blank" rel="noopener">' + esc(it.label) + "</a>"
-        : '<span class="pill-link is-ghost">' + esc(it.label) + " &middot; soon</span>";
+        ? '<a class="arrowlink" href="' + esc(it.href) + '" target="_blank" rel="noopener">' +
+            txt + arrow + "</a>"
+        : '<span class="arrowlink is-ghost">' + txt +
+            '<span class="arrowlink__soon">soon</span>' + arrow + "</span>";
     }).join("");
     return '<div class="forms reveal">' +
       (f.eyebrow ? '<span class="eyebrow">' + esc(f.eyebrow) + "</span>" : "") +
       (f.title ? "<h3>" + esc(f.title) + "</h3>" : "") +
       (f.note ? '<p class="forms__note">' + esc(f.note) + "</p>" : "") +
       '<div class="forms__links">' + items + "</div></div>";
+  }
+
+  /* A small right arrow used by the form links and the map cue. */
+  function arrowSVG() {
+    return '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" ' +
+      'stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ' +
+      'aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+  }
+
+  /* The Beach Club night-in plan: a bold grid of line icons (taco bar, dips,
+     games, trivia, ocean in a bottle, movie) rather than a paragraph. Each item
+     names an inline SVG by key. Hairline framed, no boxed cards or shadows. */
+  function activityIcon(key) {
+    var paths = {
+      taco: '<path d="M2.5 17a9.5 9.5 0 0 1 19 0Z"/><path d="M6 17c.8-1.2 2-1.2 2.8 0M10.6 17c.8-1.2 2-1.2 2.8 0M15.2 17c.8-1.2 2-1.2 2.8 0"/>',
+      dip: '<path d="M3 11h18a9 9 0 0 1-18 0Z"/><path d="M13 11V6.5a2.5 2.5 0 0 1 2.5-2.5"/>',
+      games: '<rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="9" r="1.1" fill="currentColor" stroke="none"/><circle cx="15" cy="9" r="1.1" fill="currentColor" stroke="none"/><circle cx="9" cy="15" r="1.1" fill="currentColor" stroke="none"/><circle cx="15" cy="15" r="1.1" fill="currentColor" stroke="none"/>',
+      trivia: '<rect x="3" y="5" width="18" height="13" rx="2"/><path d="M8 21h8M10 9.5a2 2 0 1 1 2.7 1.9c-.6.2-1 .7-1 1.4M11.7 15.5h.01"/>',
+      bottle: '<path d="M10.5 2.5h3v2.2l1.4 2.3a4 4 0 0 1 .6 2.1V19a2.5 2.5 0 0 1-2.5 2.5h-2A2.5 2.5 0 0 1 8.5 19V9.1a4 4 0 0 1 .6-2.1l1.4-2.3z"/><path d="M8.7 15.5c1.2.9 2.4.9 3.6 0s2.4-.9 3.4 0"/>',
+      movie: '<circle cx="12" cy="12" r="9"/><path d="M10 8.5l5 3.5-5 3.5z" fill="currentColor" stroke="none"/>'
+    };
+    return '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" ' +
+      'stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      (paths[key] || "") + "</svg>";
+  }
+
+  function activitiesHTML(a) {
+    if (!a || !a.items || !a.items.length) return "";
+    var cells = a.items.map(function (it) {
+      return '<div class="activity reveal">' +
+        '<span class="activity__icon">' + activityIcon(it.icon) + "</span>" +
+        '<span class="activity__label">' + esc(it.label) + "</span>" +
+        (it.note ? '<span class="activity__note">' + esc(it.note) + "</span>" : "") +
+      "</div>";
+    }).join("");
+    return '<div class="activities reveal">' +
+      (a.eyebrow ? '<span class="eyebrow">' + esc(a.eyebrow) + "</span>" : "") +
+      (a.title ? "<h3>" + esc(a.title) + "</h3>" : "") +
+      '<div class="activities__grid">' + cells + "</div></div>";
   }
 
   /* a location marker that lives inside the day it belongs to */
@@ -829,6 +877,9 @@
     // on white, so it favors white while The Day Before and The Day Of stay dark.
     document.body.classList.toggle("theme-editorial", !!EDITORIAL_ROUTES[r]);
     document.body.classList.toggle("theme-light", r === "/home");
+    // The Bachelorette keeps its SEA brand. A nautical dress on the top bar so
+    // the wordmark fits the trip rather than reading like the wedding masthead.
+    document.body.classList.toggle("theme-sea", r === "/bachelorette");
 
     document.querySelectorAll(".drawer__link").forEach(function (a) {
       a.classList.toggle("is-active", a.getAttribute("href") === "#" + r);
