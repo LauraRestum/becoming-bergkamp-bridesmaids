@@ -182,6 +182,12 @@ var DATA = {
         hook: "Toes in the Sand",
         vibe: "Beach day, all in blue. We post up at Litchfield Beach, drinks the color of the ocean, the brightest, easiest day of the trip.",
         wear: "a blue swimsuit, any blue you love",
+        // A few outfit ideas to spark inspiration, shown as one collage. The
+        // collage carries the palette, so the swatch dots are dropped here.
+        outfitInspo: {
+          src: "assets/img/blue/blue-outfits.png",
+          alt: "Outfit inspiration for the Something Blue beach day: swimsuits and beach looks in every shade of blue"
+        },
         transport: "Litchfield Beach is a quick three minute drive from the house, and we have the ride covered. Just hop in.",
         meals: {
           breakfast: "At the house",
