@@ -674,17 +674,43 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   border: 0;
   color: inherit;
   background: var(--c-this, var(--ivory));
+  background-size: cover;
+  background-position: center;
   -webkit-tap-highlight-color: transparent;
-  transition: background .4s var(--ease);
+  transition: background-color .4s var(--ease);
+}
+
+/* When a day has a themed photo, it washes the hero band behind the banner. */
+.day--acc.has-bg .day__head {
+  background-image: var(--day-bg);
+}
+/* A soft theme-tinted vignette darkens the top and bottom of each hero, so
+   where one hero meets the next the two color bands blend, the heroes bleed
+   into one another, and the weekday seam chip has something to sit on. */
+.day--acc.has-bg .day__head::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    var(--seam, rgba(21,19,15,.42)) 0%,
+    rgba(0,0,0,0) 26%,
+    rgba(0,0,0,0) 74%,
+    var(--seam, rgba(21,19,15,.42)) 100%);
 }
 
 /* the banner art is the hero and runs edge to edge */
-.day__hero { width: 100%; line-height: 0; }
+.day__hero { position: relative; z-index: 2; width: 100%; line-height: 0; }
 .day__banner-hero {
   display: block;
   width: 100%;
   height: auto;
   max-width: none;
+  /* the banner's own edges dissolve into the hero wash above and below it */
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 14%, #000 86%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 14%, #000 86%, transparent 100%);
 }
 /* days with no banner: their title carries the band, centered */
 .day__head--text { min-height: clamp(132px, 32vw, 220px); }
@@ -702,14 +728,33 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   text-align: center;
 }
 
-/* small weekday tag, top left over the band */
-.day__cap {
+/* The seam is the soft band where one hero bleeds into the next. The weekday
+   label rides in it, centered and straddling the boundary, so the trip reads as
+   one continuous flow with the day name floating in the transition. */
+.day__seam {
   position: absolute;
-  top: 12px; left: max(16px, env(safe-area-inset-left));
-  z-index: 2;
-  font-size: 10px; letter-spacing: var(--track-wide); text-transform: uppercase;
-  font-weight: 600; opacity: .65;
+  top: 0; left: 0; right: 0;
+  z-index: 6;
+  display: flex;
+  justify-content: center;
+  transform: translateY(-50%);
+  pointer-events: none;
 }
+.day__cap {
+  display: inline-block;
+  padding: 6px 15px;
+  border-radius: 999px;
+  background: rgba(21,19,15,.5);
+  -webkit-backdrop-filter: blur(8px) saturate(1.1);
+  backdrop-filter: blur(8px) saturate(1.1);
+  border: 1px solid rgba(255,255,255,.22);
+  color: var(--ivory);
+  font-size: 10px; letter-spacing: var(--track-wide); text-transform: uppercase;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(21,19,15,.26);
+}
+/* the first hero has nothing above it, so its label sits inside the band */
+.bach-days .day--acc:first-child .day__seam { transform: none; top: 14px; }
 
 /* expand affordance, top right over the band */
 .day__chev {
@@ -743,12 +788,61 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 }
 .day__panel[hidden] { display: none; }
 .day__panel-in {
+  position: relative;
+  z-index: 1;
   padding: clamp(20px, 6vw, 44px) 0 clamp(40px, 9vw, 64px);
 }
+
+/* The themed photo washes the expanded plan too, so the hero and its plan are
+   one world. A theme-tinted scrim sits over the photo to keep every line of
+   text legible. */
+.day--acc.has-bg .day__panel {
+  background-image: var(--day-bg);
+  background-size: cover;
+  background-position: center;
+}
+.day--acc.has-bg .day__panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--panel-scrim, rgba(251,247,239,.84));
+}
+
 @media (prefers-reduced-motion: reduce) {
   .day__panel { transition: none; }
   .day__head { transition: none; }
 }
+
+/* Fun, sticker-like elements scattered over an expanded plan. Decorative only,
+   they peek in from the edges and tilt at playful angles. The panel clips them
+   so they read like stickers pressed onto the section. */
+.day__stickers {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.sticker {
+  position: absolute;
+  width: clamp(54px, 15vw, 96px);
+  height: auto;
+  filter: drop-shadow(0 10px 16px rgba(16, 46, 76, .32));
+}
+.sticker.is-1 { top: 4%;  right: -16px; width: clamp(60px, 18vw, 108px); transform: rotate(15deg); }
+.sticker.is-2 { top: 40%; left: -20px;  width: clamp(46px, 13vw, 84px);  transform: rotate(-20deg); opacity: .9; }
+.sticker.is-3 { bottom: 6%; right: 6%;  width: clamp(52px, 15vw, 92px);  transform: rotate(-8deg); }
+/* The coconuts night runs dark, so its line-art stickers get a soft cream halo
+   instead of a shadow so the brown lines still read. */
+.day--coconuts .sticker {
+  filter:
+    drop-shadow(0 0 5px rgba(248, 239, 223, .95))
+    drop-shadow(0 0 2px rgba(248, 239, 223, .95))
+    drop-shadow(0 8px 14px rgba(46, 28, 16, .45));
+}
+.day--coconuts .sticker.is-1 { bottom: 5%; top: auto; right: -14px; transform: rotate(8deg); }
+.day--coconuts .sticker.is-3 { top: 5%; bottom: auto; left: -16px; right: auto; transform: rotate(-10deg); }
 
 /* --- Thursday, Beach Club (soft blue cabana stripes, light and airy) --- */
 .day--thursday {
@@ -756,6 +850,8 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   --c-this: #AECEE3;   /* soft cabana blue */
   --word-1: #3E6E92;   /* word panel gradient: cabana blues */
   --word-2: #16314E;
+  --seam: rgba(78,118,150,.50);
+  --panel-scrim: linear-gradient(180deg, rgba(231,241,248,.80), rgba(208,226,240,.88));
   background:
     radial-gradient(70% 45% at 50% 6%, rgba(255,255,255,.55), rgba(255,255,255,0) 60%),
     linear-gradient(170deg, #DFEBF4 0%, #C6DDED 55%, #AECEE3 100%);
@@ -771,6 +867,8 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   --c-this: #2E7FB4;   /* ocean */
   --word-1: #1366C9;   /* word panel gradient: ocean to navy */
   --word-2: #16314E;
+  --seam: rgba(18,46,76,.58);
+  --panel-scrim: linear-gradient(180deg, rgba(26,86,128,.62), rgba(16,46,76,.82));
   background:
     radial-gradient(70% 45% at 50% 6%, rgba(255,255,255,.22), rgba(255,255,255,0) 60%),
     linear-gradient(170deg, #8EC5E8 0%, #2BB3C0 38%, #1366C9 70%, #16314E 100%);
@@ -786,6 +884,8 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   --c-this: #E7E1F0;   /* iridescent opal */
   --word-1: #d6398a;   /* word panel gradient: pink to violet */
   --word-2: #6f54a8;
+  --seam: rgba(150,120,196,.40);
+  --panel-scrim: linear-gradient(180deg, rgba(255,255,255,.66), rgba(244,240,250,.78));
   background-color: #EAE6F2; color: var(--ink);
 }
 .day--rainbow .day__glyph { display: none; }
@@ -825,17 +925,23 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
    keeps its theme. No captions. */
 .washseg {
   position: relative;
+  z-index: 1;            /* own stacking context: keeps stickers floating above */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
-/* the heavy wash: the day's color at high opacity over the photo */
+/* The wash uses the day's tuned panel scrim, the same one the rest of the
+   panel uses, so a photo block and the textured backdrop around it read as one
+   themed world. The scrim is semi opaque, so the photo shows through softly and
+   every line of text stays legible. */
 .washseg__veil {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: color-mix(in srgb, var(--c-this, var(--ivory)) 82%, transparent);
+  /* the tuned per day scrim when present (lets the photo show through), else a
+     solid theme color so text stays legible on days with no scrim defined */
+  background: var(--panel-scrim, var(--c-this, var(--ivory)));
 }
 /* the words ride above the veil */
 .washseg > .wrap {
@@ -845,12 +951,7 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   padding-bottom: clamp(26px, 6vw, 46px);
 }
 /* soften where one washed block meets the next */
-.washseg + .washseg { border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
-@supports not (background: color-mix(in srgb, red 50%, transparent)) {
-  /* older engines: fall back to the solid panel color so text stays legible */
-  .washseg { background-image: none !important; }
-  .washseg__veil { background: var(--c-this, var(--ivory)); }
-}
+.washseg + .washseg { border-top: 1px solid var(--seam, rgba(21,19,15,.14)); }
 
 /* --- Saturday day, Boardwalk --- */
 .day--boardwalk {
@@ -858,6 +959,8 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   --c-this: #EAD5AD;   /* warm boardwalk sand */
   --word-1: #C56B4A;   /* word panel gradient: sand into terracotta */
   --word-2: #7A3B33;
+  --seam: rgba(150,100,58,.46);
+  --panel-scrim: linear-gradient(180deg, rgba(248,237,215,.80), rgba(232,212,172,.88));
   background:
     radial-gradient(60% 40% at 78% 6%, rgba(255,255,255,.5), rgba(255,255,255,0) 60%),
     linear-gradient(165deg, #F8EDD7 0%, #EAD5AD 100%);
@@ -872,6 +975,8 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   --c-this: #C56B4A;   /* sunset terracotta */
   --word-1: #C2554E;   /* word panel gradient: terracotta into coconut */
   --word-2: #7A3B33;
+  --seam: rgba(107,66,38,.56);
+  --panel-scrim: linear-gradient(180deg, rgba(120,74,42,.70), rgba(74,46,26,.84));
   background:
     radial-gradient(70% 45% at 50% 4%, rgba(255,255,255,.2), rgba(255,255,255,0) 58%),
     linear-gradient(170deg, #E8B14C 0%, #C56B4A 45%, #6B4226 100%);

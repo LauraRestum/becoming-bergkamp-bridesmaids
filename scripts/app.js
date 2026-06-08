@@ -93,10 +93,13 @@
     var hero = hasBanner
       ? '<img class="day__banner-hero" src="' + esc(day.banner) + '" alt="' + esc(day.title) + '">'
       : '<span class="day__wordmark">' + esc(day.title) + "</span>";
+    // The weekday label sits in the seam: the soft band where one hero bleeds
+    // into the next. It straddles the boundary so the trip reads as one
+    // continuous flow with the day name floating in the transition.
     return '<button class="day__head' + (hasBanner ? "" : " day__head--text") +
         ' reveal" type="button" aria-expanded="false" ' +
         'aria-controls="panel-' + esc(day.id) + '">' +
-      '<span class="day__cap">' + esc(day.label) + "</span>" +
+      '<span class="day__seam"><span class="day__cap">' + esc(day.label) + "</span></span>" +
       '<span class="day__hero">' + hero + "</span>" +
       '<span class="day__chev" aria-hidden="true"></span>' +
     "</button>";
@@ -142,11 +145,28 @@
     if (day.location) body += washSeg(dayLocationHTML(day.location), bgFor());
 
     return '<div class="day__panel" id="panel-' + esc(day.id) + '" hidden>' +
-      '<div class="day__panel-in">' + body + "</div></div>";
+      '<div class="day__panel-in">' + stickersHTML(day.stickers) + body + "</div></div>";
+  }
+
+  /* Fun, sticker-like elements scattered over an expanded plan. Purely
+     decorative (aria-hidden, no pointer events), each one is a transparent PNG
+     placed and tilted by its "pos" class in the stylesheet. */
+  function stickersHTML(list) {
+    if (!list || !list.length) return "";
+    var imgs = list.map(function (s) {
+      return '<img class="sticker ' + esc(s.pos || "") + '" src="' + esc(s.src) +
+        '" alt="" loading="lazy">';
+    }).join("");
+    return '<div class="day__stickers" aria-hidden="true">' + imgs + "</div>";
   }
 
   function renderDay(day) {
-    return '<section class="day day--acc ' + day.theme + '" id="' + esc(day.id) + '">' +
+    // A themed photo, when set, washes the whole day world (the hero band and
+    // the expanded plan share it). It rides on a CSS custom property so the
+    // stylesheet owns the scrims that keep the text readable.
+    var cls = "day day--acc " + day.theme + (day.bg ? " has-bg" : "");
+    var style = day.bg ? ' style="--day-bg:url(&quot;' + esc(day.bg) + '&quot;)"' : "";
+    return '<section class="' + cls + '" id="' + esc(day.id) + '"' + style + ">" +
              dayHead(day) + dayPanel(day) +
            "</section>";
   }
