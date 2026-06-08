@@ -77,39 +77,26 @@
   }
 
   /* -------------------------------------------------- BACHELORETTE */
-  /* Each day is a click-to-expand section. Collapsed, it is a tall glance
-     card: the day's image fills roughly three quarters of the screen and
-     bleeds into a small info plate (label, title, hook) in the lower quarter.
-     Expanded, the panel below reveals the full plan. Inside the panel, text
-     blocks sit in the reading column and venue photos run full bleed. */
+  /* The trip is a stack of compact, uniform banner tiles on one shared
+     background. Collapsed, each day is just its hand-lettered banner with a
+     small weekday tag, all the same size so the whole trip reads at a glance
+     with almost no scrolling. Tapping a tile expands its plan in place. */
   function seg(html) {
     return html ? '<div class="wrap"><div class="day__inner">' + html + "</div></div>" : "";
   }
 
-  function dayGlyph(theme) {
-    if (theme === "day--rainbow") return "&#128031;"; // tropical fish
-    if (theme === "day--coconuts") return "&#129373;"; // coconut
-    if (theme === "day--boardwalk") return "&#127881;";
-    return "&#127796;"; // palm tree default
-  }
-
-  /* The always-visible glance card. A photo bleeds into a small info plate,
-     and the whole thing is the toggle button for the panel below. */
+  /* The compact banner tile. The banner art is the hero. Days without banner
+     art fall back to their title set in the display face. The whole tile is
+     the toggle button for the panel below. */
   function dayHead(day) {
-    var media = day.bg || day.banner || "";
-    var mediaStyle = media ? ' style="background-image:url(' + esc(media) + ')"' : "";
+    var hero = day.banner
+      ? '<img class="day__banner-hero" src="' + esc(day.banner) + '" alt="' + esc(day.title) + '">'
+      : '<span class="day__wordmark">' + esc(day.title) + "</span>";
     return '<button class="day__head reveal" type="button" aria-expanded="false" ' +
         'aria-controls="panel-' + esc(day.id) + '">' +
-      '<span class="day__head-media"' + mediaStyle + ' aria-hidden="true"></span>' +
-      '<span class="day__head-scrim" aria-hidden="true"></span>' +
-      '<span class="day__glyph" aria-hidden="true">' + dayGlyph(day.theme) + "</span>" +
-      '<span class="day__plate">' +
-        '<span class="label">' + esc(day.label) + "</span>" +
-        '<span class="day__name">' + esc(day.title) + "</span>" +
-        (day.hook ? '<span class="hook">' + esc(day.hook) + "</span>" : "") +
-        '<span class="day__open"><span class="day__open-txt"></span>' +
-          '<span class="day__chev" aria-hidden="true"></span></span>' +
-      "</span>" +
+      '<span class="day__cap">' + esc(day.label) + "</span>" +
+      '<span class="day__hero">' + hero + "</span>" +
+      '<span class="day__chev" aria-hidden="true"></span>' +
     "</button>";
   }
 
@@ -117,11 +104,9 @@
   function dayPanel(day) {
     var body = "";
 
-    // Hand-lettered banner art leads the panel for days that carry one.
-    if (day.banner) body += bannerHTML(day);
-
     // Intro copy. A koozie prop, when set, tucks into the corner of the copy
-    // as a small fun element the text flows around.
+    // as a small fun element the text flows around. The banner art is not
+    // repeated here, it is already the hero of the tile above.
     var intro = "";
     if (day.koozie) {
       intro += '<img class="day__koozie" src="' + esc(day.koozie) +
@@ -150,8 +135,7 @@
   }
 
   function renderDay(day) {
-    var noMedia = (day.bg || day.banner) ? "" : " no-media";
-    return '<section class="day day--acc ' + day.theme + noMedia + '" id="' + esc(day.id) + '">' +
+    return '<section class="day day--acc ' + day.theme + '" id="' + esc(day.id) + '">' +
              dayHead(day) + dayPanel(day) +
            "</section>";
   }
@@ -318,7 +302,7 @@
       "</section>" +
       '<nav class="jumpnav"><div class="jumpnav__scroll">' + pills + "</div></nav>" +
       '<div class="wrap">' + house + "</div>" +
-      days +
+      '<div class="bach-days">' + days + "</div>" +
       '<div class="wrap">' + pagefoot(b.footerScript, b.footerLine) + "</div>";
 
     initJumpNav();

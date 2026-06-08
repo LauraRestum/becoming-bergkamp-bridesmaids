@@ -640,98 +640,80 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   pointer-events: none; user-select: none;
 }
 
-/* ====================== DAY ACCORDION (glance card + expand) ======================
-   Collapsed, a day is a tall glance card: the image fills about three quarters
-   of the screen, then bleeds into a small info plate (label, title, hook) in
-   the lower quarter. The whole card is the toggle button. Expanded, the panel
-   below slides open with the full plan. Several days can be open at once, and
-   every day starts collapsed so the page reads at a glance. */
-.day--acc {
-  --day-base: var(--ivory);
+/* ====================== DAY ACCORDION (banner tiles on one ground) ======================
+   The whole trip sits on a single background that flows from the top. Each day
+   is a compact, uniform tile led by its hand-lettered banner, so every day is
+   on screen at once with almost no scrolling. Tapping a tile expands its plan
+   in place; several can be open at the same time. */
+.bach-days {
+  position: relative;
+  /* one ground for the whole trip: a soft ocean up top settling to sand */
+  background: linear-gradient(180deg,
+    #D7E9F1 0%, #E7EEEA 20%, var(--ivory) 52%, #F1E9D7 100%);
+}
+
+.day.day--acc {
+  --day-base: transparent;
+  background: transparent;       /* the shared ground shows through */
   padding: 0;
   overflow: visible;
-  border-top: 1px solid var(--line-soft);
+  border-top: 1px solid var(--line);
 }
-.day--acc:first-of-type { border-top: 0; }
+.day.day--acc:first-of-type { border-top: 0; }
 
-/* the glance card */
+/* the compact banner tile, all tiles the same height */
 .day__head {
   position: relative;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   width: 100%;
-  min-height: min(78vh, 720px);
+  min-height: clamp(112px, 24vw, 184px);
   margin: 0;
-  padding: 0;
+  padding: clamp(16px, 4vw, 26px) 56px;
   border: 0;
-  text-align: left;
-  color: inherit;
-  background: var(--day-base);
-  overflow: hidden;
+  text-align: center;
+  color: var(--ink);
+  background: transparent;
   -webkit-tap-highlight-color: transparent;
+  transition: background .35s var(--ease);
 }
-.day--acc.no-media .day__head { min-height: 0; }
+.day--acc.is-open .day__head { background: rgba(255,255,255,.34); }
 
-/* the image: roughly the top three quarters of the card */
-.day__head-media {
-  position: absolute; inset: 0;
-  z-index: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  transition: transform 1s var(--ease);
+/* small weekday tag above the banner */
+.day__cap {
+  font-size: 10px; letter-spacing: var(--track-wide); text-transform: uppercase;
+  font-weight: 600; opacity: .6;
 }
-.day--acc.is-open .day__head-media { transform: scale(1.04); }
-/* no image on this day: let the theme background carry the card */
-.day--acc.no-media .day__head { background: transparent; }
-.day--acc.no-media .day__head-media { display: none; }
 
-/* the bleed: the image dissolves into the day's base color over the lower
-   portion, so it melts into the info plate instead of ending in a hard edge */
-.day__head-scrim {
-  position: absolute; inset: 0;
-  z-index: 1; pointer-events: none;
-  background: linear-gradient(180deg,
-    rgba(0,0,0,0) 30%,
-    var(--day-base) 96%);
+/* the banner art is the hero, contained so every tile stays the same size */
+.day__hero { display: flex; align-items: center; justify-content: center; }
+.day__banner-hero {
+  display: block;
+  width: auto; height: auto;
+  max-width: min(80%, 440px);
+  max-height: clamp(56px, 13vw, 96px);
 }
-.day--acc.no-media .day__head-scrim { display: none; }
-
-/* the info plate: about the lower quarter */
-.day__plate {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  z-index: 3;
-  display: flex; flex-direction: column;
-  padding: 0 max(22px, env(safe-area-inset-left)) clamp(24px, 7vw, 46px);
-}
-.day--acc.no-media .day__plate { position: static; padding-top: clamp(40px, 12vw, 80px); }
-.day__plate .label {
-  font-size: 11px; letter-spacing: var(--track-wide); text-transform: uppercase; font-weight: 600;
-}
-.day__name {
+.day__wordmark {
   font-family: var(--display);
   font-weight: 800;
-  font-size: clamp(42px, 13vw, 84px);
-  line-height: .9;
+  font-size: clamp(34px, 10vw, 60px);
+  line-height: .92;
   letter-spacing: var(--track-tight);
-  margin-top: 8px;
 }
-.day__plate .hook {
-  font-size: 11px; letter-spacing: var(--track-label); text-transform: uppercase;
-  font-weight: 600; opacity: .92; margin-top: 12px;
-}
-.day__open {
-  display: inline-flex; align-items: center; gap: 10px;
-  margin-top: 20px;
-  font-size: 10px; letter-spacing: var(--track-label); text-transform: uppercase; font-weight: 600;
-}
-.day__open-txt::after { content: "Open"; }
-.day--acc.is-open .day__open-txt::after { content: "Close"; }
+
+/* expand affordance, pinned to the right edge of the tile */
 .day__chev {
-  position: relative;
-  width: 24px; height: 24px; flex: 0 0 auto;
-  border: 1px solid currentColor; border-radius: 50%;
-  transition: transform .4s var(--ease);
+  position: absolute;
+  right: max(18px, env(safe-area-inset-right));
+  top: 50%; margin-top: -12px;
+  width: 24px; height: 24px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  opacity: .7;
+  transition: transform .4s var(--ease), opacity .25s var(--ease);
 }
 .day__chev::before {
   content: ""; position: absolute; left: 50%; top: 50%;
@@ -739,27 +721,24 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
   transform: translate(-50%, -70%) rotate(45deg);
 }
-.day--acc.is-open .day__chev { transform: rotate(180deg); }
-@media (hover: hover) {
-  .day__head:hover .day__open { opacity: .82; }
-}
+.day--acc.is-open .day__chev { transform: rotate(180deg); opacity: 1; }
+@media (hover: hover) { .day__head:hover .day__chev { opacity: 1; } }
 
-/* the expandable panel: sits on the day's base color so the bleed flows
-   straight into it, and its height animates open and shut */
+/* the expandable panel: airy, on the shared ground, ink text, hairline above */
 .day__panel {
   position: relative;
   height: 0;
   overflow: hidden;
-  background: var(--day-base);
+  color: var(--ink);
   transition: height .45s var(--ease);
 }
 .day__panel[hidden] { display: none; }
 .day__panel-in {
-  padding: clamp(34px, 9vw, 60px) 0 clamp(54px, 12vw, 88px);
+  padding: clamp(8px, 3vw, 24px) 0 clamp(40px, 9vw, 64px);
+  border-top: 1px solid var(--line-soft);
 }
 @media (prefers-reduced-motion: reduce) {
   .day__panel { transition: none; }
-  .day__head-media { transition: none; }
 }
 
 /* --- Thursday, Beach Club (soft blue cabana stripes, light and airy) --- */
