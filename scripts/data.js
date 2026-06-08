@@ -391,10 +391,11 @@ var DATA = {
   /* ----------------------------------------- BOARDWALK SHORTS (WIDGET) */
   boardwalk: {
     kicker: "saturday · boardwalk",
-    title: "Pick Your Shorts",
-    intro: "Same surprise tee for everyone, your choice of shorts. Arrow through the options, flip between crop top and tucked in, then shop your favorite.",
+    title: "Pick Your Bottoms",
+    intro: "Same surprise tee for everyone, your choice of bottoms. Arrow through the shorts and skirts, flip between crop top and tucked in, then shop your favorite.",
     teeNote: "Everyone gets the same tee",
-    teeSub: "It's a surprise, so it's shown blank here. Just pick your shorts.",
+    teeSub: "It's a surprise, so it's shown blank here. Just pick your bottoms.",
+    teeSizing: "On sizing: in your true size the tee hits right at your waistline, if not a touch above. Want the oversized look? Order one size up. Those are your two size options.",
     fitNote: "Two ways to wear the tee: cropped, or tucked in and worn long.",
     footerScript: "boardwalk & chill",
     footerLine: "All You Sea Is Love · Myrtle Beach 2026",
@@ -434,6 +435,22 @@ var DATA = {
         desc: "Blue gingham with tiered ruffles. The most playful of the bunch.",
         normal: "assets/img/looks/gingham-tiered-normal.png",
         crop: "assets/img/looks/gingham-tiered-crop.png",
+        shop: ""
+      },
+      {
+        num: "05",
+        name: "The Tennis Skirt",
+        desc: "Pleated tennis skirt. Sporty, short, and easy to move in.",
+        normal: "assets/img/looks/tennis-skirt-normal.png",
+        crop: "assets/img/looks/tennis-skirt-crop.png",
+        shop: ""
+      },
+      {
+        num: "06",
+        name: "The Mini Skirt",
+        desc: "A flirty little mini. Shortest of the bunch, dressed all the way up.",
+        normal: "assets/img/looks/mini-skirt-normal.png",
+        crop: "assets/img/looks/mini-skirt-crop.png",
         shop: ""
       }
     ]

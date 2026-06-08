@@ -23,7 +23,9 @@
       '<div class="boardwalk-widget reveal">' +
         '<div class="tee-note"><span class="glyph" aria-hidden="true">&#128085;</span>' +
           '<div><div class="t">' + esc(w.teeNote) + '</div>' +
-          '<div class="s">' + esc(w.teeSub) + '</div></div></div>' +
+          '<div class="s">' + esc(w.teeSub) + '</div>' +
+          (w.teeSizing ? '<div class="s tee-size">' + esc(w.teeSizing) + '</div>' : '') +
+          '</div></div>' +
 
         '<div class="shorts" data-shorts>' +
           '<div class="shorts__bar">' +
@@ -36,7 +38,7 @@
           '</div>' +
 
           '<div class="shorts__stage">' +
-            '<button type="button" class="shorts__arrow is-prev" data-prev aria-label="Previous shorts">&#8249;</button>' +
+            '<button type="button" class="shorts__arrow is-prev" data-prev aria-label="Previous look">&#8249;</button>' +
             '<div class="shorts__frame">' +
               '<div class="look-tile shorts__tile" data-zoom="" data-look="">' +
                 '<img data-img alt="" loading="lazy">' +
@@ -44,7 +46,7 @@
                 '<span class="ov ov-zoom">tap to zoom</span>' +
               '</div>' +
             '</div>' +
-            '<button type="button" class="shorts__arrow is-next" data-next aria-label="Next shorts">&#8250;</button>' +
+            '<button type="button" class="shorts__arrow is-next" data-next aria-label="Next look">&#8250;</button>' +
           '</div>' +
 
           '<div class="shorts__dots" data-dots></div>' +
