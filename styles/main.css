@@ -2058,41 +2058,39 @@ body.theme-editorial.theme-light .ed-portal--main {
   background: #FBF4E2; border-color: var(--ed-gold);
 }
 
-/* -------------------------------------------- HOME CURTAIN HERO */
-/* The bright curtain leads the page so Home favors white. It feathers into the
-   paper on every edge so it reads as imagery flowing in, not a framed box. */
-.home-curtain {
-  max-width: 940px;
-  margin: 0 auto;
-  padding: calc(var(--topbar-h) + 8px) 16px 0;
-  text-align: center;
-}
-.home-curtain img {
-  display: block;
-  width: 100%; height: auto;
-  -webkit-mask-image: radial-gradient(122% 104% at 50% 44%, #000 58%, transparent 100%);
-  mask-image: radial-gradient(122% 104% at 50% 44%, #000 58%, transparent 100%);
+/* -------------------------------------------- HOME BACKGROUND SCENE */
+/* The curtain and the dance floor live behind the page as soft background
+   layers, the way they do on the main wedding site, rather than framed
+   pictures. The bright curtain glows behind the masthead so Home favors white,
+   and the black and white checkerboard settles behind the foot. Both feather
+   into the paper so they read as atmosphere, and the words ride above them on
+   .home-fg. The scene is clipped to the Home view so it never bleeds onto the
+   other routes. No em dashes anywhere. */
+body.theme-editorial.theme-light #view-home { position: relative; overflow: hidden; }
+.home-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.home-fg { position: relative; z-index: 1; }
+
+/* The curtain glows behind the top of the page and fades down into the paper. */
+.home-bg__curtain {
+  position: absolute; top: 0; left: 0; right: 0;
+  height: clamp(440px, 66vh, 760px);
+  background-position: center top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: .85;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 46%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 46%, transparent 100%);
 }
 
-/* -------------------------------------------- HOME DANCE FLOOR FEATURE */
-/* The black and white checkerboard, run full bleed as one dramatic dark band
-   in the middle of the white page: the wedding's "black and white" made literal.
-   Its own art fades to black at the top, so it needs no frame. */
-.home-floor {
-  margin: clamp(20px, 6vw, 44px) 0;
-  padding: 0;
-  text-align: center;
-}
-.home-floor img {
-  display: block;
-  width: 100%; height: auto;
-  max-height: 72vh;
-  object-fit: cover;
-  object-position: center bottom;
-}
-.home-floor figcaption {
-  font-family: var(--ed-serif); font-style: italic;
-  font-size: 14px; letter-spacing: .04em;
-  color: var(--ed-soft);
-  margin-top: 14px; padding: 0 22px;
+/* The checkerboard rises from the foot of the page, kept faint so the paper
+   still leads, and feathers up into white. */
+.home-bg__floor {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  height: clamp(360px, 50vh, 620px);
+  background-position: center bottom;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: .42;
+  -webkit-mask-image: linear-gradient(to top, #000 18%, transparent 90%);
+  mask-image: linear-gradient(to top, #000 18%, transparent 90%);
 }
