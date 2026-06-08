@@ -399,6 +399,7 @@
     var house =
       '<a class="house reveal" id="house" href="' + esc(b.house.map.link) +
         '" target="_blank" rel="noopener">' +
+        '<span class="house__glyph" aria-hidden="true">&#128026;</span>' +
         '<span class="eyebrow">' + esc(b.house.eyebrow) + "</span>" +
         "<h2>" + esc(b.house.title) + "</h2>" +
         '<div class="addr">' + esc(b.house.address) + "</div>" +
@@ -435,7 +436,7 @@
     el("view-bachelorette").innerHTML =
       '<section class="' + heroClass + '">' +
         heroInner +
-        '<div class="wavewrap">' + waveSVG("#FBF7EF") + "</div>" +
+        '<div class="wavewrap">' + waveSVG("#FFFFFF") + "</div>" +
       "</section>" +
       '<nav class="jumpnav"><div class="jumpnav__scroll">' + pills + "</div></nav>" +
       '<div class="wrap">' + house + "</div>" +

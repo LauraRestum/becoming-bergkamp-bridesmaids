@@ -510,33 +510,41 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
    source PNG is a tall portrait with wide empty margins baked in at the top and
    bottom, so we crop those away (object-fit cover into a near-square box) to
    keep the section compact and let the art read larger. */
-.hero--white { background: #fff; color: var(--ink); padding-top: clamp(20px, 6vw, 44px); }
+/* A short, all-white opener. The white runs up under the translucent top bar
+   (a negative pull cancels main's top padding) so there is no tan band above the
+   art, and the whole thing sits high and compact. */
+.hero--white {
+  background: #fff; color: var(--ink);
+  margin-top: calc(-1 * (var(--topbar-h) + env(safe-area-inset-top)));
+  padding-top: calc(var(--topbar-h) + env(safe-area-inset-top) + clamp(4px, 1.5vw, 12px));
+  padding-bottom: 0;
+}
 .hero--white .sub { color: var(--ink); opacity: .72; }
 .hero--white .hero-mockup {
   display: block;
-  width: min(280px, 66vw);
+  width: min(230px, 56vw);
   aspect-ratio: 1024 / 1130;
   height: auto;
-  max-height: 32vh;
+  max-height: 24vh;
   object-fit: cover;
   object-position: center;
   margin: 0 auto;
 }
-.hero--white .sub { margin-top: 14px; }
-.hero--white .wavewrap { margin-top: var(--space-4); }
+.hero--white .sub { margin-top: 10px; }
+.hero--white .wavewrap { margin-top: clamp(10px, 3vw, 20px); }
 
 /* =================================== BACHELORETTE STICKY JUMP */
 .jumpnav {
   position: sticky;
   top: calc(var(--topbar-h) + env(safe-area-inset-top));
   z-index: 800;
-  background: rgba(251,247,239,.9);
+  background: rgba(255,255,255,.92);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--line-soft);
 }
 .jumpnav__scroll {
-  display: flex; gap: 4px;
+  display: flex; gap: 7px;
   overflow-x: auto;
   padding: 12px 18px;
   max-width: var(--maxw); margin: 0 auto;
@@ -544,53 +552,73 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   -webkit-overflow-scrolling: touch;
 }
 .jumpnav__scroll::-webkit-scrollbar { display: none; }
+/* Each date is its own little rounded chip. The active one fills with greenery
+   so the row reads as a soft, cute set of tags rather than plain underlined text. */
 .jumpnav__pill {
   position: relative;
   flex: 0 0 auto;
-  border: 0;
-  background: transparent;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-pill);
+  background: #fff;
   color: var(--ink);
-  font-size: 12px; letter-spacing: .04em; font-weight: 500;
-  padding: 9px 14px;
+  font-family: var(--display);
+  font-size: 12px; letter-spacing: .03em; font-weight: 600;
+  padding: 8px 15px;
   white-space: nowrap;
-  opacity: .55;
-  transition: opacity .25s var(--ease);
+  opacity: .7;
+  transition: opacity .25s var(--ease), background-color .25s var(--ease),
+              color .25s var(--ease), border-color .25s var(--ease);
 }
-.jumpnav__pill::after {
-  content: ""; position: absolute; left: 14px; right: 14px; bottom: 4px;
-  height: 2px; background: var(--gold);
-  transform: scaleX(0); transform-origin: left;
-  transition: transform .3s var(--ease);
+.jumpnav__pill.is-active {
+  opacity: 1;
+  background: var(--greenery);
+  color: #fff;
+  border-color: var(--greenery);
 }
-.jumpnav__pill.is-active { opacity: 1; font-weight: 600; }
-.jumpnav__pill.is-active::after { transform: scaleX(1); }
-@media (hover: hover) { .jumpnav__pill:hover { opacity: 1; } }
+@media (hover: hover) {
+  .jumpnav__pill:hover { opacity: 1; border-color: var(--greenery); }
+  .jumpnav__pill.is-active:hover { border-color: var(--greenery); }
+}
 
-/* The House: one compact, tappable home base. No box, no embedded map. */
+/* The House: a soft, centered home base. A warm sand wash inside a hairline
+   gold frame (no drop shadow), crowned with a little shell, so it reads cute and
+   on theme rather than stark. */
 .house {
+  position: relative;
   display: block;
-  margin: var(--space-8) 0;
-  padding-top: var(--space-5);
-  border-top: 2px solid var(--ink);
+  text-align: center;
+  margin: var(--space-7) 0;
+  padding: clamp(28px, 7vw, 44px) clamp(20px, 5vw, 36px) clamp(26px, 6vw, 40px);
+  border: 1px solid var(--gold);
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(230,216,189,.26), rgba(230,216,189,.10));
   text-decoration: none;
   color: var(--ink);
+  transition: border-color .25s var(--ease), transform .2s var(--ease);
 }
+.house__glyph { display: block; font-size: 30px; line-height: 1; margin-bottom: 12px; }
 .house .eyebrow { color: var(--greenery); display: block; }
-.house h2 { font-size: clamp(36px, 9vw, 64px); margin: 14px 0 12px; }
+.house h2 { font-size: clamp(30px, 8vw, 52px); margin: 12px 0 14px; line-height: .96; }
 .house .addr { font-size: 15px; opacity: .85; }
-.house .note { font-size: 14px; opacity: .7; margin-top: 8px; max-width: 38em; }
+.house .note { font-size: 14px; opacity: .72; margin: 8px auto 0; max-width: 32em; }
 
-/* the small "open in maps" cue, tracked like a label so it sits quietly */
+/* the "open in maps" cue, now a cute filled greenery pill */
 .maptap {
   display: inline-flex; align-items: center; gap: 8px;
-  margin-top: var(--space-4);
+  margin-top: var(--space-5);
+  padding: 11px 22px;
+  border-radius: var(--radius-pill);
+  background: var(--greenery); color: #fff;
   font-size: 11px; letter-spacing: var(--track-label); text-transform: uppercase;
-  font-weight: 600; color: var(--greenery);
-  transition: color .25s var(--ease);
+  font-weight: 600;
+  transition: background-color .25s var(--ease);
 }
-.maptap__pin { display: inline-flex; color: var(--gold); }
-@media (hover: hover) { .house:hover .maptap { color: var(--gold); } }
-.house:active .maptap { color: var(--gold); }
+.maptap__pin { display: inline-flex; color: var(--gold-soft); }
+@media (hover: hover) {
+  .house:hover { border-color: var(--greenery); }
+  .house:hover .maptap { background: var(--ink); }
+}
+.house:active { transform: scale(.99); }
 
 /* ============================================ DAY WORLDS */
 .day {
@@ -682,20 +710,19 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
      it). Consumers fall back to ivory inline instead. */
 }
 
-/* the banner tile: the art spans the full width on this day's solid theme color */
+/* the banner tile: the art spans the full width on this day's solid theme color.
+   Each day is its own clean block of one color, set apart from the day above by a
+   crisp antique-gold rule. No melted gradient between sections. */
 .day__head {
-  --bleed: clamp(82px, 19vw, 140px);   /* the tall space between heroes */
   position: relative;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  align-items: stretch;
   width: 100%;
-  min-height: clamp(120px, 30vw, 210px);
-  /* A generous bleed zone at the top of every hero holds the color flow from
-     the day above and the weekday label. */
-  padding: var(--bleed) 0 clamp(8px, 2.4vw, 18px);
+  padding: 0 0 clamp(12px, 3.2vw, 24px);
   margin: 0;
   border: 0;
+  border-top: 2px solid var(--gold);   /* the clear line between sections */
   color: inherit;
   background: var(--c-this, var(--ivory));
   background-size: cover;
@@ -707,38 +734,6 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 /* When a day has a themed photo, it washes the hero band behind the banner. */
 .day--acc.has-bg .day__head {
   background-image: var(--day-bg);
-}
-
-/* The color flow. The top of every hero starts in the previous day's color and
-   dissolves down into this hero's own wash over a tall, soft gradient, so each
-   section melts naturally into the next with no hard seam. */
-.day--acc .day__head::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: calc(var(--bleed) + clamp(30px, 8vw, 64px));
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    var(--c-prev, var(--ivory)) 0%,
-    var(--c-prev, var(--ivory)) 24%,
-    rgba(0, 0, 0, 0) 100%);
-}
-/* The matching bottom of the flow. Each hero settles into its own flat color at
-   the very bottom, the exact color the next hero starts from, so the seam
-   between two heroes is one continuous color and the blend is invisible. */
-.day--acc .day__head::after {
-  content: "";
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: clamp(56px, 14vw, 104px);
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0) 0%,
-    var(--c-self, var(--c-this, var(--ivory))) 100%);
 }
 
 /* the banner art is the hero and runs edge to edge */
@@ -768,28 +763,39 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   text-align: center;
 }
 
-/* The weekday label rides in the bleed zone, set to the left and dropped to the
-   bottom of the zone so it sits right above the banner box it names (no pill),
-   reading as the title of that hero rather than floating in the gap. */
+/* The weekday title sits centered at the top of its day, just under the gold
+   rule, as a cute little tag flanked by two short gold strokes. */
 .day__seam {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: var(--bleed, clamp(82px, 19vw, 140px));
+  position: relative;
   z-index: 6;
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  padding: 0 max(22px, env(safe-area-inset-left)) clamp(10px, 2.6vw, 18px);
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 4.5vw, 28px) 22px clamp(6px, 1.8vw, 12px);
   pointer-events: none;
 }
 .day__cap {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
   color: var(--cap-color, var(--ink));
   font-family: var(--display);
   font-size: clamp(13px, 3.4vw, 16px);
-  letter-spacing: var(--track-label);
+  letter-spacing: .16em;
   text-transform: uppercase;
   font-weight: 800;
+  text-align: center;
   text-shadow: var(--cap-halo, 0 1px 4px rgba(255,255,255,.55));
+}
+/* short gold strokes flank the title like a hand-set editorial dateline */
+.day__cap::before,
+.day__cap::after {
+  content: "";
+  flex: 0 0 auto;
+  width: clamp(14px, 4vw, 22px);
+  height: 2px;
+  background: var(--gold);
+  opacity: .92;
 }
 
 /* expand affordance, top right over the band */
@@ -919,8 +925,6 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   --c-this: #AECEE3;   /* soft cabana blue */
   --word-1: #3E6E92;   /* word panel gradient: cabana blues */
   --word-2: #16314E;
-  --c-prev: #FBF7EF;          /* flows out of the ivory house section above */
-  --c-self: #BCD1E0;          /* the flat color this hero settles into */
   --cap-color: #234E63;
   --cap-halo: 0 1px 4px rgba(255,255,255,.6);
   --box-bg: rgba(255,255,255,.55);
@@ -941,8 +945,6 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   --c-this: #2E7FB4;   /* ocean */
   --word-1: #1366C9;   /* word panel gradient: ocean to navy */
   --word-2: #16314E;
-  --c-prev: #BCD1E0;          /* flows out of the beach club day */
-  --c-self: #96D8DD;          /* the flat color this hero settles into */
   --cap-color: #16314E;
   --cap-halo: 0 1px 4px rgba(255,255,255,.6);
   --box-bg: rgba(14,42,68,.42);
@@ -963,8 +965,6 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   --c-this: #E7E1F0;   /* iridescent opal */
   --word-1: #d6398a;   /* word panel gradient: pink to violet */
   --word-2: #6f54a8;
-  --c-prev: #96D8DD;          /* flows out of the turquoise water day */
-  --c-self: #E5E0DE;          /* the flat color this hero settles into */
   --cap-color: #6f54a8;
   --cap-halo: 0 1px 4px rgba(255,255,255,.7);
   --box-bg: rgba(255,255,255,.55);
@@ -1039,8 +1039,6 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   --c-this: #EAD5AD;   /* warm boardwalk sand */
   --word-1: #C56B4A;   /* word panel gradient: sand into terracotta */
   --word-2: #7A3B33;
-  --c-prev: #E5E0DE;          /* flows out of the pastel rainbow day */
-  --c-self: #E8B36D;          /* the flat color this hero settles into */
   --cap-color: #7A3B22;
   --cap-halo: 0 1px 4px rgba(255,255,255,.7);
   --box-bg: rgba(255,255,255,.5);
@@ -1060,8 +1058,6 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   --c-this: #C56B4A;   /* sunset terracotta */
   --word-1: #C2554E;   /* word panel gradient: terracotta into coconut */
   --word-2: #7A3B33;
-  --c-prev: #E8B36D;          /* flows out of the warm boardwalk day */
-  --c-self: #EAD0AD;          /* the flat color this hero settles into */
   --cap-color: #5A2E18;
   --cap-halo: 0 1px 4px rgba(255,242,224,.65);
   --box-bg: rgba(74,46,26,.46);
@@ -1082,8 +1078,6 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   --c-this: #F3ECDD;   /* calm sand */
   --word-1: var(--greenery);   /* word panel gradient: greenery into gold */
   --word-2: #8A6A2A;
-  --c-prev: #EAD0AD;          /* flows out of the coconuts night */
-  --c-self: #F3ECDD;          /* the flat color this hero settles into */
   --cap-color: var(--greenery);
   --cap-halo: 0 1px 4px rgba(255,255,255,.6);
   background: var(--ivory); color: var(--ink); text-align: center;

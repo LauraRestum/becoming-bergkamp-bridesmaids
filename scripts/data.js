@@ -143,11 +143,10 @@ var DATA = {
         // a transparent PNG; the "pos" class places and tilts it. Add more by
         // dropping a PNG in assets/img/blue/ and appending one object here.
         stickers: [
-          { src: "assets/img/blue/sticker-starfish.png", pos: "is-1" },
+          { src: "assets/img/blue/sticker-bikini.png", pos: "is-1" },
           { src: "assets/img/blue/sticker-starfish.png", pos: "is-2" },
-          { src: "assets/img/blue/sticker-starfish.png", pos: "is-3" },
-          { src: "assets/img/blue/sticker-starfish.png", pos: "is-4" },
-          { src: "assets/img/blue/sticker-starfish.png", pos: "is-5" }
+          { src: "assets/img/blue/sticker-beachset.png", pos: "is-3" },
+          { src: "assets/img/blue/sticker-starfish.png", pos: "is-4" }
         ],
         hook: "Toes in the Sand",
         vibe: "Beach day, all in blue. We post up at Litchfield Beach, drinks the color of the ocean, the brightest, easiest day of the trip.",
@@ -184,11 +183,12 @@ var DATA = {
         // Iridescent mermaid-scale background and hand-lettered banner.
         bg: "assets/img/rainbow/rainbow-scale-bg.jpg",
         banner: "assets/img/rainbow/rainbow-banner.png",
-        // Iridescent bubble stickers scattered over the rainbow plan.
+        // An iridescent mermaid tail, bubbles, and a cluster of shells scattered
+        // over the rainbow plan.
         stickers: [
-          { src: "assets/img/rainbow/sticker-bubbles.png", pos: "is-1" },
-          { src: "assets/img/rainbow/sticker-bubbles.png", pos: "is-2" },
-          { src: "assets/img/rainbow/sticker-bubbles.png", pos: "is-4" },
+          { src: "assets/img/rainbow/sticker-mermaid.png", pos: "is-1" },
+          { src: "assets/img/rainbow/sticker-bubbles.png", pos: "is-3" },
+          { src: "assets/img/rainbow/sticker-shells.png", pos: "is-2" },
           { src: "assets/img/rainbow/sticker-bubbles.png", pos: "is-5" }
         ],
         hook: "Catch the Shimmer",
@@ -272,11 +272,13 @@ var DATA = {
         banner: "assets/img/coconuts/coconuts-banner.png",
         // Warm tan and cream stripes run behind the whole night.
         bg: "assets/img/coconuts/coconuts-stripe-bg.jpg",
-        // A little wine bottle and glass, hand-drawn, for the fancy night out.
+        // Warm tan and brown props for the fancy night out: coconuts, a palm,
+        // the wine bar, and oysters.
         stickers: [
-          { src: "assets/img/coconuts/sticker-winebar.png", pos: "is-1" },
-          { src: "assets/img/coconuts/sticker-winebar.png", pos: "is-3" },
-          { src: "assets/img/coconuts/sticker-winebar.png", pos: "is-4" }
+          { src: "assets/img/coconuts/sticker-coconut.png", pos: "is-1" },
+          { src: "assets/img/coconuts/sticker-palm.png", pos: "is-3" },
+          { src: "assets/img/coconuts/sticker-winebar.png", pos: "is-4" },
+          { src: "assets/img/coconuts/sticker-oysters.png", pos: "is-2" }
         ],
         hook: "Golden Hour, Golden Crew",
         vibe: "Our fancy night. Dressed to the nines, out on the water, then dinner along the Murrells Inlet MarshWalk as we keep the night going right there in the inlet.",
