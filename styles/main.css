@@ -830,6 +830,8 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .sticker.is-1 { top: 4%;  right: -16px; width: clamp(60px, 18vw, 108px); transform: rotate(15deg); }
 .sticker.is-2 { top: 40%; left: -20px;  width: clamp(46px, 13vw, 84px);  transform: rotate(-20deg); opacity: .9; }
 .sticker.is-3 { bottom: 6%; right: 6%;  width: clamp(52px, 15vw, 92px);  transform: rotate(-8deg); }
+.sticker.is-4 { top: 67%; right: -18px; width: clamp(50px, 14vw, 88px);  transform: rotate(22deg); opacity: .92; }
+.sticker.is-5 { top: 20%; left: 4%;     width: clamp(38px, 10vw, 64px);  transform: rotate(-12deg); opacity: .82; }
 /* The coconuts night runs dark, so its line-art stickers get a soft cream halo
    instead of a shadow so the brown lines still read. */
 .day--coconuts .sticker {
@@ -840,6 +842,7 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 }
 .day--coconuts .sticker.is-1 { bottom: 5%; top: auto; right: -14px; transform: rotate(8deg); }
 .day--coconuts .sticker.is-3 { top: 5%; bottom: auto; left: -16px; right: auto; transform: rotate(-10deg); }
+.day--coconuts .sticker.is-4 { top: 46%; bottom: auto; right: -16px; transform: rotate(-6deg); }
 
 /* --- Thursday, Beach Club (soft blue cabana stripes, light and airy) --- */
 .day--thursday {
