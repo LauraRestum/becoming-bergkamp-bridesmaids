@@ -120,7 +120,14 @@
     // Hand-lettered banner art leads the panel for days that carry one.
     if (day.banner) body += bannerHTML(day);
 
-    var intro = '<p class="vibe reveal">' + esc(day.vibe) + "</p>";
+    // Intro copy. A koozie prop, when set, tucks into the corner of the copy
+    // as a small fun element the text flows around.
+    var intro = "";
+    if (day.koozie) {
+      intro += '<img class="day__koozie" src="' + esc(day.koozie) +
+        '" alt="All I Sea is Love koozie" loading="lazy">';
+    }
+    intro += '<p class="vibe reveal">' + esc(day.vibe) + "</p>";
     if (day.secondary) intro += '<p class="secondary reveal">' + esc(day.secondary) + "</p>";
     if (day.transport) intro += transportHTML(day.transport);
     body += seg(intro);
@@ -280,19 +287,32 @@
 
     var days = b.days.map(renderDay).join("");
 
-    // Lead with the full-width header banner when one is set, otherwise the
-    // round crest and hand-set lettering.
-    var heroInner = b.hero.banner
-      ? '<img class="hero-banner reveal" src="' + esc(b.hero.banner) +
+    // Lead with the mockup art on white when one is set, then a full-width
+    // header banner, otherwise the round crest and hand-set lettering.
+    var heroInner, heroClass;
+    if (b.hero.mockup) {
+      heroInner =
+        '<img class="hero-mockup reveal" src="' + esc(b.hero.mockup) +
+          '" alt="All I Sea is Love, Laura\'s Bachelorette, est 2026">' +
+        '<div class="sub reveal">' + esc(b.hero.subtitle) + "</div>";
+      heroClass = "hero hero--white";
+    } else if (b.hero.banner) {
+      heroInner =
+        '<img class="hero-banner reveal" src="' + esc(b.hero.banner) +
           '" alt="' + esc(b.hero.kicker) + " " + esc(b.hero.headline) + '">' +
-        '<div class="sub reveal">' + esc(b.hero.subtitle) + "</div>"
-      : '<img class="hero-badge reveal" src="assets/img/brand/sea-badge.jpg" alt="All I Sea is Love, Laura\'s Bachelorette, Pawleys Island" width="120" height="120">' +
+        '<div class="sub reveal">' + esc(b.hero.subtitle) + "</div>";
+      heroClass = "hero hero--sea hero--banner";
+    } else {
+      heroInner =
+        '<img class="hero-badge reveal" src="assets/img/brand/sea-badge.jpg" alt="All I Sea is Love, Laura\'s Bachelorette, Pawleys Island" width="120" height="120">' +
         '<div class="kicker reveal">' + esc(b.hero.kicker) + "</div>" +
         '<h1 class="reveal">' + esc(b.hero.headline) + "</h1>" +
         '<div class="sub reveal">' + esc(b.hero.subtitle) + "</div>";
+      heroClass = "hero hero--sea";
+    }
 
     el("view-bachelorette").innerHTML =
-      '<section class="hero hero--sea' + (b.hero.banner ? " hero--banner" : "") + '">' +
+      '<section class="' + heroClass + '">' +
         heroInner +
         '<div class="wavewrap">' + waveSVG("#FBF7EF") + "</div>" +
       "</section>" +

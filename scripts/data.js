@@ -59,10 +59,10 @@ var DATA = {
       kicker: "all you",
       headline: "SEA is Love",
       subtitle: "Myrtle Beach, South Carolina · August 2026",
-      // Full-width header art for the whole bachelorette page. Leads the page
-      // with the banner instead of the round badge. Set to "" to fall back to
-      // the badge + lettering hero.
-      banner: "assets/img/brand/sea-header.png"
+      // The "All I Sea is Love" mockup art on a clean white field, centered, no
+      // beach behind it. Leads the page with the artwork itself. Set to "" to
+      // fall back to the badge + lettering hero.
+      mockup: "assets/img/brand/sea-header-white.png"
     },
 
     // Sticky day-jump pills. anchor matches each day's id.
@@ -128,6 +128,8 @@ var DATA = {
         // Hand-lettered "Something Blue Before I Do" banner over clear water.
         banner: "assets/img/blue/something-blue-banner.png",
         bg: "assets/img/blue/something-blue-bg.jpg",
+        // A little "All I Sea is Love" koozie tucked in as a fun beach-day prop.
+        koozie: "assets/img/blue/koozie.png",
         hook: "Toes in the Sand",
         vibe: "Beach day, all in blue. We post up at Litchfield Beach, drinks the color of the ocean, the brightest, easiest day of the trip.",
         wear: "a blue swimsuit, any blue you love",
