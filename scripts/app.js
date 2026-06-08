@@ -188,56 +188,55 @@
         "<p>Our story, the ceremony, travel, the wedding party, the honeymoon, and the RSVP. Everything for the big day.</p>" +
         '<span class="ed-portal__arrow">Visit the site &#8599;</span></a>';
 
-    // The bright curtain leads as the hero so the screen favors white, with
-    // "The Bergkamps" already glowing in the art itself.
-    var curtainHero = (d.curtain && d.curtain.image)
-      ? '<figure class="home-curtain reveal">' +
-          '<img src="' + esc(d.curtain.image) + '" alt="' + esc(d.curtain.alt) +
-            '" loading="eager" decoding="async">' +
-        "</figure>"
-      : "";
-
-    // The black and white checkerboard dance floor, a dramatic feature band
-    // that lands the wedding's "black and white" right on the page.
-    var floorFeature = (d.danceFloor && d.danceFloor.image)
-      ? '<figure class="home-floor reveal">' +
-          '<img src="' + esc(d.danceFloor.image) + '" alt="' + esc(d.danceFloor.alt) +
-            '" loading="lazy" decoding="async">' +
-          (d.danceFloor.caption
-            ? "<figcaption>" + esc(d.danceFloor.caption) + "</figcaption>" : "") +
-        "</figure>"
-      : "";
+    // The curtain and the dance floor are carried over from the main wedding
+    // site as soft background layers rather than framed pictures: the bright
+    // curtain glows behind the masthead so Home favors white, and the black and
+    // white checkerboard settles behind the foot. The words ride above them.
+    // Decorative, so the layer is aria-hidden, and the images are set on it as
+    // CSS backgrounds (their paths stay sourced from data.js).
+    var sceneBg =
+      '<div class="home-bg" aria-hidden="true">' +
+        (d.curtain && d.curtain.image
+          ? '<div class="home-bg__curtain" style="background-image:url(&quot;' +
+              esc(d.curtain.image) + '&quot;)"></div>'
+          : "") +
+        (d.danceFloor && d.danceFloor.image
+          ? '<div class="home-bg__floor" style="background-image:url(&quot;' +
+              esc(d.danceFloor.image) + '&quot;)"></div>'
+          : "") +
+      "</div>";
 
     el("view-home").innerHTML =
-      curtainHero +
-      '<header class="ed-masthead reveal">' +
-        '<div class="ed-rule-top"></div>' +
-        '<div class="ed-dateline">' +
-          '<span class="l">Vol. I &middot; No. 1</span>' +
-          '<span class="c">Wichita, Kansas</span>' +
-          '<span class="r">Wedding Party</span>' +
-        "</div>" +
-        '<div class="ed-rule-thin"></div>' +
-        '<h1 class="ed-masthead__title">Becoming Bergkamp</h1>' +
-        '<div class="ed-masthead__sub">The Wedding Party Hub of Laura &amp; William</div>' +
-        '<div class="ed-rule-thick"></div>' +
-        '<div class="ed-masthead__motto">' + esc(d.meta) + "</div>" +
-        '<div class="ed-rule-thin"></div>' +
-      "</header>" +
-      '<section class="ed-hero">' +
-        '<div class="eyebrow reveal">' + esc(d.kicker) + "</div>" +
-        '<div class="ed-names reveal">Laura Beth<span class="amp">&amp;</span>William James</div>' +
-        '<div class="ed-meta reveal">Twentieth of March &middot; Two Thousand Twenty Seven' +
-          '<span class="place">Wichita, Kansas</span></div>' +
-      "</section>" +
-      edOrnament() +
-      floorFeature +
-      '<section class="ed-portals">' +
-        '<div class="ed-kicker reveal">The Weekend, In Parts</div>' +
-        '<h2 class="ed-h reveal">Where To Begin</h2>' +
-        '<div class="ed-portal-grid">' + rows + mainPortal + "</div>" +
-      "</section>" +
-      edFoot(d.footerScript, d.footerLine);
+      sceneBg +
+      '<div class="home-fg">' +
+        '<header class="ed-masthead reveal">' +
+          '<div class="ed-rule-top"></div>' +
+          '<div class="ed-dateline">' +
+            '<span class="l">Vol. I &middot; No. 1</span>' +
+            '<span class="c">Wichita, Kansas</span>' +
+            '<span class="r">Wedding Party</span>' +
+          "</div>" +
+          '<div class="ed-rule-thin"></div>' +
+          '<h1 class="ed-masthead__title">Becoming Bergkamp</h1>' +
+          '<div class="ed-masthead__sub">The Wedding Party Hub of Laura &amp; William</div>' +
+          '<div class="ed-rule-thick"></div>' +
+          '<div class="ed-masthead__motto">' + esc(d.meta) + "</div>" +
+          '<div class="ed-rule-thin"></div>' +
+        "</header>" +
+        '<section class="ed-hero">' +
+          '<div class="eyebrow reveal">' + esc(d.kicker) + "</div>" +
+          '<div class="ed-names reveal">Laura Beth<span class="amp">&amp;</span>William James</div>' +
+          '<div class="ed-meta reveal">Twentieth of March &middot; Two Thousand Twenty Seven' +
+            '<span class="place">Wichita, Kansas</span></div>' +
+        "</section>" +
+        edOrnament() +
+        '<section class="ed-portals">' +
+          '<div class="ed-kicker reveal">The Weekend, In Parts</div>' +
+          '<h2 class="ed-h reveal">Where To Begin</h2>' +
+          '<div class="ed-portal-grid">' + rows + mainPortal + "</div>" +
+        "</section>" +
+        edFoot(d.footerScript, d.footerLine) +
+      "</div>";
   }
 
   /* -------------------------------------------------- BACHELORETTE */
