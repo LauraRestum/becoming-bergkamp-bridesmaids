@@ -68,6 +68,19 @@
     "</header>";
   }
 
+  /* An editorial figure: a venue illustration carried over from the main site,
+     hairline framed, with a serif italic caption. The "ed-figure--bleed"
+     variant drops the frame and feathers the edges for art that sits on black
+     (the chapel at night), so it melts into the dark ground. */
+  function edFigure(p, variant) {
+    if (!p || !p.src) return "";
+    return '<figure class="ed-figure' + (variant ? " " + variant : "") + ' reveal">' +
+      '<img src="' + esc(p.src) + '" alt="' + esc(p.alt || "") +
+        '" loading="lazy" decoding="async">' +
+      (p.caption ? "<figcaption>" + esc(p.caption) + "</figcaption>" : "") +
+    "</figure>";
+  }
+
   /* A centered hairline with a gold fleuron, the main site's section divider. */
   function edOrnament() {
     return '<div class="ed-orn reveal"><span class="ln"></span>' +
@@ -83,6 +96,7 @@
           '<div class="venue">' + esc(s.venue) + "</div>" +
           '<div class="place">' + esc(s.place) + "</div>" +
           '<div class="when">' + esc(s.when) + "</div></div>" +
+        (s.photo ? edFigure(s.photo, "ed-figure--inline") : "") +
         (s.map ? '<div class="map-full">' + mapBlock(s.map, s.venue) + "</div>" : "") +
       "</article>";
     }).join("");
@@ -140,6 +154,9 @@
         '<div class="ed-masthead__motto">' + esc(d.meta) + "</div>" +
         '<div class="ed-rule-thin"></div>' +
       "</header>" +
+      (d.hero && d.hero.image
+        ? edFigure({ src: d.hero.image, alt: d.hero.alt }, "ed-figure--bleed")
+        : "") +
       '<section class="ed-hero">' +
         '<div class="eyebrow reveal">' + esc(d.kicker) + "</div>" +
         '<div class="ed-names reveal">Laura Beth<span class="amp">&amp;</span>William James</div>' +
@@ -526,8 +543,12 @@
 
     el("view-day-of").innerHTML =
       edPageHead(d.hero.kicker, headline, d.hero.subtitle) +
+      (d.hero.image
+        ? edFigure({ src: d.hero.image, alt: d.hero.imageAlt }, "ed-figure--bleed")
+        : "") +
       '<section class="ed-schedule reveal">' + edSchedule(d.schedule) + "</section>" +
       '<div class="ed-sched-note reveal">' + esc(d.scheduleNote) + "</div>" +
+      (d.feature ? edFigure(d.feature) : "") +
       edOrnament() +
       '<section class="ed-colors reveal">' +
         '<div class="ed-kicker">' + esc(colors.eyebrow) + "</div>" +
