@@ -131,11 +131,15 @@ h1, h2, h3, h4 {
   text-decoration: none;
 }
 .wordmark .gold { color: var(--gold); }
+/* A small antique gold ornament balances the wordmark on the right. It reads as
+   a quiet editorial asterism rather than a literal emoji, so the bar stays on
+   brand across every route. */
 .shellglyph {
   justify-self: end;
-  font-size: 16px;
-  opacity: .7;
-  color: var(--greenery);
+  margin-right: 4px;
+  font-size: 12px;
+  opacity: .85;
+  color: var(--gold);
 }
 
 /* hamburger */
@@ -1001,33 +1005,27 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 }
 
 /* Fun, sticker-like elements scattered over an expanded plan. Decorative only,
-   they peek in from the edges and tilt at playful angles. The panel clips them
-   so they read like stickers pressed onto the section. */
+   they peek in from the edges and tilt at playful angles. They sit behind the
+   text (a negative z-index inside the z-index 1 content) so they never run into
+   the words, and carry no glow. */
 .day__stickers {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: -1;
   pointer-events: none;
 }
 .sticker {
   position: absolute;
   width: clamp(54px, 15vw, 96px);
   height: auto;
-  filter: drop-shadow(0 10px 16px rgba(16, 46, 76, .32));
 }
 .sticker.is-1 { top: 4%;  right: -16px; width: clamp(60px, 18vw, 108px); transform: rotate(15deg); }
 .sticker.is-2 { top: 40%; left: -20px;  width: clamp(46px, 13vw, 84px);  transform: rotate(-20deg); opacity: .9; }
 .sticker.is-3 { bottom: 6%; right: 6%;  width: clamp(52px, 15vw, 92px);  transform: rotate(-8deg); }
 .sticker.is-4 { top: 67%; right: -18px; width: clamp(50px, 14vw, 88px);  transform: rotate(22deg); opacity: .92; }
 .sticker.is-5 { top: 20%; left: 4%;     width: clamp(38px, 10vw, 64px);  transform: rotate(-12deg); opacity: .82; }
-/* The coconuts night runs dark, so its line-art stickers get a soft cream halo
-   instead of a shadow so the brown lines still read. */
-.day--coconuts .sticker {
-  filter:
-    drop-shadow(0 0 5px rgba(248, 239, 223, .95))
-    drop-shadow(0 0 2px rgba(248, 239, 223, .95))
-    drop-shadow(0 8px 14px rgba(46, 28, 16, .45));
-}
+/* The coconuts night runs dark; its line-art stickers sit quietly behind the
+   words with no halo, so nothing glows around them. */
 .day--coconuts .sticker.is-1 { bottom: 5%; top: auto; right: -14px; transform: rotate(8deg); }
 .day--coconuts .sticker.is-3 { top: 5%; bottom: auto; left: -16px; right: auto; transform: rotate(-10deg); }
 .day--coconuts .sticker.is-4 { top: 46%; bottom: auto; right: -16px; transform: rotate(-6deg); }
@@ -2070,51 +2068,47 @@ body.theme-editorial.theme-light .ed-portal--main {
 }
 
 /* -------------------------------------------- HOME HERO (curtain + title) */
-/* The curtain projection is the full backdrop of the hero, filling it edge to
-   edge, with the single line "Laura's Bridal Party" reading on top of it. The
-   image only feathers into the paper at its very bottom so the section flows
-   into the page below. Nothing floats and there are no see-through edges. No em
-   dashes anywhere. */
+/* The curtain projection leads, shown in full at the top so "The Bergkamps"
+   reads clearly. Its lit floor melts into a warm dance floor that carries on
+   down to the bottom of the hero, and the single line "Laura's Bridal Party"
+   sits on that floor in display type (not script). No em dashes anywhere. */
 .home-hero {
   position: relative;
   overflow: hidden;
-  display: flex;
-  align-items: flex-end;
-  min-height: clamp(420px, 72vh, 660px);
-  padding: clamp(20px, 6vw, 40px) clamp(20px, 6vw, 44px) clamp(28px, 8vw, 56px);
+  text-align: center;
+  padding: 0 0 clamp(34px, 9vw, 60px);
+  background: linear-gradient(to bottom,
+    #EBE1CC 0%,
+    #F1E8D6 28%,
+    var(--ed-bg) 100%);
 }
+/* The full curtain shown edge to edge at its natural ratio, so the projection
+   is never cropped. Its bottom feathers away so the lit floor blends into the
+   warm dance floor below with no hard seam. */
 .home-hero__curtain {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  aspect-ratio: 1672 / 941;
   background-position: center top;
   background-size: cover;
   background-repeat: no-repeat;
-  z-index: 0;
-}
-/* A soft ivory wash lifts off the title and dissolves the curtain into the
-   paper at the bottom edge, so the dark script reads cleanly and the image
-   never stops on a hard line. */
-.home-hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(to bottom,
-    rgba(251, 247, 239, 0) 34%,
-    rgba(251, 247, 239, .50) 66%,
-    rgba(251, 247, 239, 1) 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 76%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 76%, transparent 100%);
 }
 .home-hero__title {
   position: relative;
   z-index: 2;
-  font-family: var(--ed-script);
+  text-align: center;
+  font-family: var(--ed-serif);
   font-weight: 400;
-  font-size: clamp(52px, 15vw, 104px);
-  line-height: .96;
+  font-size: clamp(40px, 11vw, 76px);
+  line-height: 1.0;
   letter-spacing: .02em;
   color: var(--ed-paper);
-  max-width: 8em;
+  max-width: 12em;
+  margin: clamp(6px, 3vw, 18px) auto 0;
+  padding: 0 clamp(20px, 6vw, 44px);
 }
 
 /* -------------------------------------------- HOME OPTION BUTTONS BACKDROP */
