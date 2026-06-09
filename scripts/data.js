@@ -518,7 +518,13 @@ var DATA = {
       eyebrow: "Bridesmaids",
       title: "What to Wear",
       body: "Long black silk. The neckline and the cut are completely yours. The goal is simple: feel sexy, and choose a dress you will reach for again.",
-      tag: "Inspiration coming soon"
+      // A grid of black dress options to spark the search. Any of these necklines
+      // and cuts work, so pick the one you will reach for again.
+      inspo: {
+        src: "assets/img/attire/bridesmaid-dress-options.jpeg",
+        alt: "A grid of fifteen long black bridesmaid dress options in silk and satin, every neckline and cut from off the shoulder to halter to strapless",
+        caption: "A few favorites to start from. Any of these necklines and cuts work."
+      }
     },
     footerScript: "becoming bergkamp",
     footerLine: "March 20, 2027"

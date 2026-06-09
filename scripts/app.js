@@ -694,7 +694,8 @@
         '<div class="ed-kicker">' + esc(d.attire.eyebrow) + "</div>" +
         '<h2 class="ed-h">' + esc(d.attire.title) + "</h2>" +
         '<p class="body">' + esc(d.attire.body) + "</p>" +
-        '<span class="tag">' + esc(d.attire.tag) + "</span>" +
+        (d.attire.tag ? '<span class="tag">' + esc(d.attire.tag) + "</span>" : "") +
+        (d.attire.inspo ? edFigure(d.attire.inspo) : "") +
       "</section>" +
       edFoot(d.footerScript, d.footerLine);
   }
