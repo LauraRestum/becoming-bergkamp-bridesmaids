@@ -557,6 +557,19 @@
         '<span class="maptap"><span class="maptap__pin">' + pinSVG() + "</span>Open in Maps</span>" +
       "</a>";
 
+    // Short editorial notes under the home base (getting there, what to bring).
+    // Hairline framed, no box, so they stay editorial rather than card-heavy.
+    function homeNote(n, cls) {
+      if (!n) return "";
+      return '<div class="homenote ' + cls + ' reveal">' +
+        (n.eyebrow ? '<span class="eyebrow">' + esc(n.eyebrow) + "</span>" : "") +
+        (n.title ? "<h2>" + esc(n.title) + "</h2>" : "") +
+        (n.note ? '<p class="note">' + esc(n.note) + "</p>" : "") +
+      "</div>";
+    }
+    var travel = homeNote(b.travel, "travel");
+    var packing = homeNote(b.packing, "packing");
+
     var days = b.days.map(renderDay).join("");
 
     // Lead with the mockup art on white when one is set, then a full-width
@@ -589,7 +602,7 @@
         '<div class="wavewrap">' + waveSVG("#FFFFFF") + "</div>" +
       "</section>" +
       '<nav class="jumpnav"><div class="jumpnav__scroll">' + pills + "</div></nav>" +
-      '<div class="wrap">' + house + "</div>" +
+      '<div class="wrap">' + house + travel + packing + "</div>" +
       '<div class="bach-days">' + days + "</div>" +
       '<div class="wrap">' + pagefoot(b.footerScript, b.footerLine) + "</div>";
 
