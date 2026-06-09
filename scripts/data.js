@@ -506,12 +506,12 @@ var DATA = {
     colors: {
       eyebrow: "The Palette",
       title: "Our Colors",
-      dots: [
-        { name: "black", hex: "#15130F" },
-        { name: "white", hex: "#FFFFFF" },
-        { name: "greenery", hex: "#4A7A4E" },
-        { name: "antique gold", hex: "#C9A24B" }
-      ],
+      // The palette shown as one graphic, in place of the swatch dots: white and
+      // black grounds with greenery and antique gold layered in.
+      image: {
+        src: "assets/img/dayof/our-colors.png",
+        alt: "The wedding palette: white and black with a greenery green and an antique gold square layered over them"
+      },
       statement: "Black and white with hints of greenery and notes of antique gold."
     },
     attire: {

@@ -2023,6 +2023,12 @@ body.theme-editorial .map-embed {
   transition: transform .25s var(--ease);
 }
 @media (hover: hover) { .ed-colors .d:hover { transform: scale(1.14); } }
+.ed-colors__img {
+  display: block;
+  width: clamp(220px, 60vw, 360px);
+  height: auto;
+  margin: 26px auto;
+}
 .ed-colors .statement {
   font-family: var(--ed-serif); font-style: italic;
   font-size: clamp(20px, 5vw, 30px); line-height: 1.4;
