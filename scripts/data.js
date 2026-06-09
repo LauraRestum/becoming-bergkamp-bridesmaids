@@ -512,6 +512,11 @@ var DATA = {
         { name: "greenery", hex: "#4A7A4E" },
         { name: "antique gold", hex: "#C9A24B" }
       ],
+      // The palette swatch art (transparent PNG) carries the colors, so when it
+      // is set the four color dots are dropped to avoid showing the same palette
+      // twice. The statement line still names the colors in full per the spec.
+      image: "assets/img/attire/bridesmaid-palette.png",
+      imageAlt: "The day of palette: white and black with a greenery green and an antique gold swatch",
       statement: "Black and white with hints of greenery and notes of antique gold."
     },
     attire: {

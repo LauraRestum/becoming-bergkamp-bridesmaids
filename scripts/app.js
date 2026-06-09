@@ -671,9 +671,14 @@
     var d = DATA.dayOf;
     var colors = d.colors;
     var headline = Array.isArray(d.hero.headline) ? d.hero.headline.join("") : d.hero.headline;
-    var colorDots = colors.dots.map(function (c) {
-      return '<span class="d" style="background:' + esc(c.hex) + '" title="' + esc(c.name) + '"></span>';
-    }).join("");
+    // The palette art carries the colors, so when it is present the four color
+    // dots are dropped (the same pattern the bachelorette uses for its collage).
+    var palette = colors.image
+      ? '<div class="ed-colors__palette"><img src="' + esc(colors.image) +
+          '" alt="' + esc(colors.imageAlt || "Our color palette") + '" loading="lazy" decoding="async"></div>'
+      : '<div class="dots">' + colors.dots.map(function (c) {
+          return '<span class="d" style="background:' + esc(c.hex) + '" title="' + esc(c.name) + '"></span>';
+        }).join("") + "</div>";
 
     el("view-day-of").innerHTML =
       edPageHead(d.hero.kicker, headline, d.hero.subtitle) +
@@ -687,7 +692,7 @@
       '<section class="ed-colors reveal">' +
         '<div class="ed-kicker">' + esc(colors.eyebrow) + "</div>" +
         '<h2 class="ed-h">' + esc(colors.title) + "</h2>" +
-        '<div class="dots">' + colorDots + "</div>" +
+        palette +
         '<p class="statement">' + esc(colors.statement) + "</p>" +
       "</section>" +
       '<section class="ed-attire reveal">' +
@@ -955,13 +960,13 @@
     bar.className = "update-toast";
     bar.setAttribute("role", "status");
     bar.innerHTML =
-      '<span class="update-toast__text">A fresh version is ready.</span>' +
-      '<button type="button" class="update-toast__btn">Update</button>';
+      '<span class="update-toast__text">Hey hottie, an update has been sent.</span>' +
+      '<button type="button" class="update-toast__btn">Refresh</button>';
 
     var btn = bar.querySelector(".update-toast__btn");
     btn.addEventListener("click", function () {
       btn.disabled = true;
-      btn.textContent = "Updating";
+      btn.textContent = "Refreshing";
       // Ask the waiting worker to activate; controllerchange then reloads.
       worker.postMessage({ type: "SKIP_WAITING" });
     });

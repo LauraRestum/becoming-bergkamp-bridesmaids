@@ -2017,6 +2017,11 @@ body.theme-editorial .map-embed {
   margin-top: clamp(36px, 8vw, 64px);
 }
 .ed-colors .dots { display: flex; justify-content: center; gap: clamp(20px, 6vw, 34px); margin: 26px 0; }
+/* the palette swatch art (transparent PNG) sits straight on the dark ground */
+.ed-colors__palette { margin: clamp(26px, 5vw, 38px) auto; }
+.ed-colors__palette img {
+  display: block; width: min(440px, 100%); height: auto; margin: 0 auto;
+}
 .ed-colors .d {
   width: 42px; height: 42px; border-radius: 50%;
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.22);
