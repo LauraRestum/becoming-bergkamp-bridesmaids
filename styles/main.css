@@ -1289,6 +1289,150 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .day--sunday .label { color: var(--greenery); }
 .day--sunday .vibe { margin: 16px auto 0; }
 
+/* ===================================== TRAVEL DETAILS (the bridesmaid plane)
+   A collapsible banner that sits at the head of the day stack. It borrows the
+   day accordion's machinery and dress (the navy top rule, the centered wordmark,
+   the corner chevron), set in a soft sky palette so it reads as part of the
+   trip. Open it and the plane taxis in from the left and lands as the header. */
+.travel-sec {
+  --c-this: #DCEAF3;   /* soft sky */
+  --panel-bg: linear-gradient(180deg, #DCEAF3 0%, #F1F7FB 100%);
+  --cap-color: #16314E;
+  --cap-halo: 0 1px 4px rgba(255,255,255,.6);
+}
+.travel__title { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.travel-sec .day__wordmark { color: #16314E; }
+.travel__hint {
+  font-family: var(--sans);
+  font-size: 10px; letter-spacing: var(--track-label); text-transform: uppercase;
+  font-weight: 600; opacity: .7; color: #1B4A6E;
+}
+
+/* the runway: the plane runs full bleed across the top of the open panel and
+   lands centered as the header. The band has a touch of height so the plane has
+   sky to taxi across before it settles. */
+.travel__sky {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  height: clamp(120px, 34vw, 230px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.travel__plane {
+  width: clamp(220px, 64vw, 430px);
+  height: auto;
+  filter: drop-shadow(0 16px 22px rgba(22, 49, 78, .28));
+  will-change: transform, opacity;
+}
+/* the plane faces right, so it flies in from the left, arcs up, and settles */
+.travel-sec.is-open .travel__plane {
+  animation: planeFly 2.2s var(--ease) both;
+}
+@keyframes planeFly {
+  0%   { transform: translate(-165%, 26%) rotate(-4deg) scale(.86); opacity: 0; }
+  18%  { opacity: 1; }
+  68%  { transform: translate(9%, -7%) rotate(2.5deg) scale(1.03); }
+  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
+}
+
+.travel__head-copy {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(28px, 8vw, 46px);
+  line-height: .95; letter-spacing: var(--track-tight);
+  color: #16314E;
+  margin-bottom: 10px;
+}
+.travel__note { font-size: 15px; line-height: 1.6; opacity: .82; max-width: 30em; }
+
+/* flights, as hairline editorial rows rather than boxed cards */
+.travel-legs { margin-top: var(--space-6); }
+.travel-leg {
+  display: grid;
+  grid-template-columns: minmax(86px, 120px) 1fr;
+  gap: 16px;
+  padding: 16px 0;
+  border-top: 1px solid rgba(22, 49, 78, .16);
+}
+.travel-leg:last-child { border-bottom: 1px solid rgba(22, 49, 78, .16); }
+.travel-leg__label {
+  font-family: var(--sans);
+  font-size: 11px; letter-spacing: var(--track-label); text-transform: uppercase;
+  font-weight: 600; color: #1B4A6E; padding-top: 5px;
+}
+.travel-leg__body { display: flex; flex-direction: column; gap: 5px; }
+.travel-leg__route {
+  font-family: var(--display);
+  font-weight: 700; font-size: clamp(18px, 4.6vw, 22px);
+  line-height: 1.15; letter-spacing: -.01em; color: #16314E;
+}
+.travel-leg__date { font-size: 14px; opacity: .82; }
+.travel-leg__time {
+  font-size: 11px; letter-spacing: var(--track-label); text-transform: uppercase;
+  opacity: .62;
+}
+
+/* ===================================== CARS ON A DAY (drive across on open)
+   A car drives in across the top of the plan when its day opens. The cars face
+   left, so they enter from the right and park centered. */
+.day-car {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: clamp(4px, 2vw, 18px);
+  display: flex;
+  justify-content: center;
+}
+.day-car__img {
+  width: clamp(220px, 62vw, 420px);
+  height: auto;
+  filter: drop-shadow(0 14px 18px rgba(0, 0, 0, .26));
+  will-change: transform, opacity;
+}
+.day--acc.is-open .day-car--left .day-car__img {
+  animation: carDriveLeft 1.9s var(--ease) both;
+}
+@keyframes carDriveLeft {
+  0%   { transform: translateX(135%); opacity: 0; }
+  14%  { opacity: 1; }
+  88%  { transform: translateX(-3%); }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+/* ===================================== THE FLEET (continuous marquee at foot)
+   Just above the wedding party list, the cars drive on forever. The set is
+   doubled in the markup and the lane slides one full set to the left, so the
+   loop is seamless. The cars face left, so leftward keeps them driving forward. */
+.carband {
+  width: 100%;
+  overflow: hidden;
+  padding: clamp(26px, 7vw, 52px) 0 clamp(8px, 3vw, 20px);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+}
+.carband__lane {
+  display: flex;
+  align-items: flex-end;
+  width: max-content;
+  gap: clamp(44px, 12vw, 120px);
+  animation: carMarquee 34s linear infinite;
+}
+.carband__car {
+  flex: 0 0 auto;
+  height: clamp(74px, 18vw, 120px);
+  width: auto;
+  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, .2));
+}
+@keyframes carMarquee { to { transform: translateX(-50%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .travel-sec.is-open .travel__plane,
+  .day--acc.is-open .day-car--left .day-car__img { animation: none; }
+  .carband__lane { animation: none; }
+}
+
 /* location marker, framed by a hairline rule instead of a box */
 .day-loc {
   margin-top: var(--space-7);

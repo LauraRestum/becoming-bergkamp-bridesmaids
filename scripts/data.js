@@ -103,6 +103,7 @@ var DATA = {
     // Sticky day-jump pills. anchor matches each day's id.
     jump: [
       { label: "The House", anchor: "house" },
+      { label: "Travel", anchor: "travel" },
       { label: "Thu · Beach Club", anchor: "thursday" },
       { label: "Fri · Something Blue", anchor: "friday-blue" },
       { label: "Fri · Rainbow Fish", anchor: "friday-rainbow" },
@@ -134,6 +135,33 @@ var DATA = {
       title: "What to Bring",
       note: "No need to pack towels, generic sunscreen, or shampoo, conditioner and soap. We have those covered. Do bring anything specific to your skin or any allergies."
     },
+
+    // Travel Details sits right above the days. Collapsed, it is just its banner.
+    // Open it and the bridesmaid plane taxis in and lands as the header, then the
+    // flights and dates below. Fill in the legs as they are booked; the times read
+    // as plain text so anything ("9:40 AM", "to come") works. Add more objects to
+    // the legs for connections.
+    travelDetails: {
+      eyebrow: "Before the Trip",
+      title: "Travel Details",
+      hint: "Flights & Dates",
+      headline: "Wheels Up",
+      plane: "assets/img/travel/plane.png",
+      planeAlt: "The All You Sea is Love bridesmaid plane",
+      note: "Exact flights, dates, and confirmation numbers land here as they are booked. Check back before you pack.",
+      legs: [
+        { label: "Outbound", route: "Home to Myrtle Beach (MYR)", date: "Date to come", time: "Times to come" },
+        { label: "Return",   route: "Myrtle Beach (MYR) to Home", date: "Date to come", time: "Times to come" }
+      ]
+    },
+
+    // The little fleet that drives, continuously, along the foot of the trip just
+    // above the wedding party list. Each car keeps moving the way it faces (left).
+    carBand: [
+      "assets/img/travel/car-1.png",
+      "assets/img/travel/car-2.png",
+      "assets/img/travel/car-3.png"
+    ],
 
     days: [
       {
@@ -245,6 +273,8 @@ var DATA = {
         // Iridescent mermaid-scale background and hand-lettered banner.
         bg: "assets/img/rainbow/rainbow-scale-bg.jpg",
         banner: "assets/img/rainbow/rainbow-banner.png",
+        // A car drives across the top of the plan when this night opens.
+        car: { src: "assets/img/travel/car-1.png", dir: "left" },
         // An iridescent mermaid tail, bubbles, and a cluster of shells scattered
         // over the rainbow plan.
         stickers: [
@@ -299,6 +329,8 @@ var DATA = {
         bannerKeepsTitle: true, // the art names the place, it does not spell the day
         // Warm wooden boardwalk planks run behind the whole day.
         bg: "assets/img/boardwalk/boardwalk-deck-bg.jpg",
+        // A car drives across the top of the plan when this day opens.
+        car: { src: "assets/img/travel/car-2.png", dir: "left" },
         hook: "Boardwalk by Day",
         vibe: "Slow morning, then we head to Broadway at the Beach for lunch and to walk the shops. This is the day for our matching tee and your own pick of shorts (choose yours below). It is a half day: we leave Broadway by 3 to 4 in the afternoon and head back to the house to change for the night out.",
         wear: "the matching tee with your pick of shorts (pick yours below), comfy sneakers",
@@ -339,6 +371,8 @@ var DATA = {
         banner: "assets/img/coconuts/coconuts-banner.png",
         // Warm tan and cream stripes run behind the whole night.
         bg: "assets/img/coconuts/coconuts-stripe-bg.jpg",
+        // A car drives across the top of the plan when this night opens.
+        car: { src: "assets/img/travel/car-3.png", dir: "left" },
         // Warm tan and brown props for the fancy night out: coconuts, a palm,
         // the wine bar, and oysters.
         stickers: [

@@ -314,7 +314,7 @@
     body += closeHTML(day);
 
     return '<div class="day__panel" id="panel-' + esc(day.id) + '" hidden>' +
-      '<div class="day__panel-in">' + stickersHTML(day.stickers) + body + "</div></div>";
+      '<div class="day__panel-in">' + stickersHTML(day.stickers) + dayCarHTML(day) + body + "</div></div>";
   }
 
   /* The collapse control that lives at the bottom of an open day. Tapping it
@@ -532,6 +532,89 @@
       mapBlock(loc.map, loc.title) + "</div>";
   }
 
+  /* A car that drives across the top of a day's plan when it opens. The drive is
+     a CSS keyframe keyed off the open state; the car parks centered when it
+     arrives. Decorative, so it is hidden from assistive tech. */
+  function dayCarHTML(day) {
+    if (!day.car || !day.car.src) return "";
+    return '<div class="day-car day-car--' + esc(day.car.dir || "left") + '" aria-hidden="true">' +
+      '<img class="day-car__img" src="' + esc(day.car.src) + '" alt="" loading="lazy">' +
+    "</div>";
+  }
+
+  /* Travel Details. A collapsible banner that sits right above the days. Closed,
+     it is just its title. Open it and the bridesmaid plane taxis in from the left
+     and lands as the header (CSS keyframes keyed off .is-open), then the flights
+     and dates ride below. Built with the day accordion's class hooks so it shares
+     the same open and close machinery. */
+  function travelLegsHTML(legs) {
+    if (!legs || !legs.length) return "";
+    var rows = legs.map(function (l) {
+      return '<div class="travel-leg reveal">' +
+        '<span class="travel-leg__label">' + esc(l.label) + "</span>" +
+        '<div class="travel-leg__body">' +
+          '<span class="travel-leg__route">' + esc(l.route) + "</span>" +
+          (l.date ? '<span class="travel-leg__date">' + esc(l.date) + "</span>" : "") +
+          (l.time ? '<span class="travel-leg__time">' + esc(l.time) + "</span>" : "") +
+        "</div></div>";
+    }).join("");
+    return '<div class="travel-legs">' + rows + "</div>";
+  }
+
+  function renderTravelDetails(t) {
+    if (!t) return "";
+    var head =
+      '<button class="day__head day__head--text travel__head reveal" type="button" ' +
+        'aria-expanded="false" aria-controls="panel-travel">' +
+        '<span class="day__seam"><span class="day__cap">' + esc(t.eyebrow) + "</span></span>" +
+        '<span class="day__hero"><span class="travel__title">' +
+          '<span class="day__wordmark">' + esc(t.title) + "</span>" +
+          (t.hint ? '<span class="travel__hint">' + esc(t.hint) + "</span>" : "") +
+        "</span></span>" +
+        '<span class="day__chev" aria-hidden="true"></span>' +
+      "</button>";
+
+    // The plane runway. The plane is decorative, so the band is hidden from
+    // assistive tech and the flights below carry the real information.
+    var sky =
+      '<div class="travel__sky" aria-hidden="true">' +
+        '<img class="travel__plane" src="' + esc(t.plane) + '" alt="">' +
+      "</div>";
+
+    var copy =
+      '<div class="wrap"><div class="day__inner">' +
+        (t.headline ? '<h3 class="travel__head-copy reveal">' + esc(t.headline) + "</h3>" : "") +
+        (t.note ? '<p class="travel__note reveal">' + esc(t.note) + "</p>" : "") +
+        travelLegsHTML(t.legs) +
+      "</div></div>";
+
+    var closer =
+      '<div class="wrap"><button class="day__close reveal" type="button" ' +
+        'aria-controls="panel-travel">' +
+        '<span class="day__close-chev" aria-hidden="true"></span>' +
+        '<span>Close ' + esc(t.title) + "</span></button></div>";
+
+    var panel =
+      '<div class="day__panel" id="panel-travel" hidden>' +
+        '<div class="day__panel-in">' + sky + copy + closer + "</div>" +
+      "</div>";
+
+    return '<section class="day day--acc travel-sec" id="travel">' + head + panel + "</section>";
+  }
+
+  /* The fleet that drives, continuously, along the foot of the trip just above
+     the wedding party list. The set is doubled so the marquee loops seamlessly;
+     each car keeps moving the way it faces (left). Decorative, hidden from
+     assistive tech. */
+  function carBandHTML(cars) {
+    if (!cars || !cars.length) return "";
+    var lane = cars.concat(cars).map(function (src) {
+      return '<img class="carband__car" src="' + esc(src) + '" alt="" loading="lazy">';
+    }).join("");
+    return '<div class="carband reveal" aria-hidden="true">' +
+      '<div class="carband__lane">' + lane + "</div></div>";
+  }
+
   function renderBachelorette() {
     var b = DATA.bachelorette;
 
@@ -603,7 +686,8 @@
       "</section>" +
       '<nav class="jumpnav"><div class="jumpnav__scroll">' + pills + "</div></nav>" +
       '<div class="wrap">' + house + travel + packing + "</div>" +
-      '<div class="bach-days">' + days + "</div>" +
+      '<div class="bach-days">' + renderTravelDetails(b.travelDetails) + days + "</div>" +
+      carBandHTML(b.carBand) +
       '<div class="wrap">' + pagefoot(b.footerScript, b.footerLine) + "</div>";
 
     initJumpNav();
