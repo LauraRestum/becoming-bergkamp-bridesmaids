@@ -205,7 +205,7 @@ var DATA = {
           { src: "assets/img/blue/sticker-starfish.png", pos: "is-2" }
         ],
         hook: "Toes in the Sand",
-        vibe: "Beach day, all in blue. We post up at Litchfield Beach, drinks the color of the ocean.",
+        vibe: "Beach day at Litchfield Beach, everyone in blue.",
         wear: "a blue swimsuit, any blue you love",
         // A few outfit ideas to spark inspiration, shown as one collage. The
         // collage carries the palette, so the swatch dots are dropped here.
@@ -252,9 +252,9 @@ var DATA = {
           { src: "assets/img/rainbow/sticker-shells.png", pos: "is-2" }
         ],
         hook: "Catch the Shimmer",
-        vibe: "Iridescent everything, glitter scales on our arms, then out for the night.",
+        vibe: "Rainbow and shimmer for a night out.",
         wear: "any rainbow color, shimmery, glittery or silky",
-        secondary: "No need to match anyone. Pick your shade and shine.",
+        secondary: "No need to match anyone, wear any color you like.",
         // A few outfit ideas to spark inspiration, shown as one collage.
         outfitInspo: {
           src: "assets/img/rainbow/rainbow-outfits.png",
@@ -346,7 +346,7 @@ var DATA = {
           { src: "assets/img/coconuts/sticker-palm.png", pos: "is-3" }
         ],
         hook: "Golden Hour, Golden Crew",
-        vibe: "Our fancy night. Dressed up, out on the water, then dinner along the Murrells Inlet MarshWalk.",
+        vibe: "Our dressy night. A sunset cruise, then dinner at the Murrells Inlet MarshWalk.",
         // Sunset tour gets its own warm, layered sunset panel.
         sunset: {
           eyebrow: "The Sunset Tour",
@@ -406,7 +406,7 @@ var DATA = {
         label: "sunday",
         title: "Slow Goodbyes",
         hook: "Relax · Debrief · Head Home",
-        vibe: "One last easy breakfast, a slow debrief of the whole weekend, big hugs, and home we go. Travel safe, and sea you soon.",
+        vibe: "Breakfast, then everyone heads home. Travel safe, and sea you soon.",
         meals: {
           breakfast: "At the house, depending on departure times",
           lunch: "House or grab and go, depending on departure times"
