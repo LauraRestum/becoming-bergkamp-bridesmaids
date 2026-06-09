@@ -2187,6 +2187,9 @@ body.theme-editorial.theme-light .ed-portal--main {
   position: relative;
   overflow: hidden;
   text-align: center;
+  /* pull the hero up under the translucent top bar so the curtain reaches the
+     very top of the app, with no warm band above it */
+  margin-top: calc(-1 * (var(--topbar-h) + env(safe-area-inset-top)));
   padding: 0 0 clamp(34px, 9vw, 60px);
   background: linear-gradient(to bottom,
     #EBE1CC 0%,
