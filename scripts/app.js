@@ -544,7 +544,7 @@
     var off = carStreamSeq++ % cars.length;
     var ordered = cars.slice(off).concat(cars.slice(0, off));
     var lane = ordered.concat(ordered).map(function (src) {
-      return '<img class="carstream__car" src="' + esc(src) + '" alt="" loading="lazy">';
+      return '<img class="carstream__car" src="' + esc(src) + '" alt="" decoding="async">';
     }).join("");
     return '<div class="carstream reveal" aria-hidden="true">' +
       '<div class="carstream__lane">' + lane + "</div></div>";

@@ -1395,12 +1395,19 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
      the day instead of being cut off on a hard line */
   -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 22%, #000 78%, transparent 100%);
   mask-image: linear-gradient(90deg, transparent 0, #000 22%, #000 78%, transparent 100%);
+  /* promote the band to its own layer and isolate it so iOS Safari reliably
+     clips and masks the moving lane instead of letting a car flash past the edge */
+  transform: translateZ(0);
+  isolation: isolate;
 }
 .carstream__lane {
   display: flex;
   align-items: flex-end;
   width: max-content;
   animation: carPan 7s linear infinite;
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 /* The gap rides on each car as right padding (not a flex gap or margin) so it is
    always counted in the lane width. The doubled set then spaces evenly across the
@@ -1414,7 +1421,7 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   box-sizing: content-box;
   filter: drop-shadow(0 9px 12px rgba(0, 0, 0, .22));
 }
-@keyframes carPan { to { transform: translateX(-50%); } }
+@keyframes carPan { to { transform: translate3d(-50%, 0, 0); } }
 
 @media (prefers-reduced-motion: reduce) {
   .travel-sec.is-open .travel__plane { animation: none; }
