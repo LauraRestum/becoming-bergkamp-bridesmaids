@@ -537,9 +537,13 @@
      so the pan loops forever and seamlessly. The cars face left, so a leftward
      pan keeps them moving forward. No road, just the cars gliding across.
      Decorative, so it is hidden from assistive tech. */
+  var carStreamSeq = 0;
   function carStream(cars) {
     if (!cars || !cars.length) return "";
-    var lane = cars.concat(cars).map(function (src) {
+    // rotate the order so each place the fleet appears leads with a different car
+    var off = carStreamSeq++ % cars.length;
+    var ordered = cars.slice(off).concat(cars.slice(0, off));
+    var lane = ordered.concat(ordered).map(function (src) {
       return '<img class="carstream__car" src="' + esc(src) + '" alt="" loading="lazy">';
     }).join("");
     return '<div class="carstream reveal" aria-hidden="true">' +

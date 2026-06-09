@@ -1316,11 +1316,14 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   position: relative;
   width: 100%;
   overflow: hidden;
-  height: clamp(280px, 70vw, 520px);
+  height: clamp(210px, 56vw, 420px);
   display: flex;
   align-items: center;
   justify-content: center;
 }
+/* the plane is the first thing in the panel, so keep it tucked right up under
+   the Travel Details title rather than floating far below it */
+.travel-sec .day__panel-in { padding-top: clamp(2px, 1.4vw, 12px); }
 .travel__plane {
   width: clamp(320px, 94vw, 680px);
   height: auto;
@@ -1395,15 +1398,17 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   display: flex;
   align-items: flex-end;
   width: max-content;
-  animation: carPan 13s linear infinite;
+  animation: carPan 7s linear infinite;
 }
-/* The gap rides on each car as a trailing margin (not a flex gap) so the doubled
-   set spaces evenly across the seam and the loop has no jump where it wraps. */
+/* The gap rides on each car as right padding (not a flex gap or margin) so it is
+   always counted in the lane width. The doubled set then spaces evenly across the
+   seam and the loop wraps with no jump or clipped car. */
 .carstream__car {
   flex: 0 0 auto;
   height: clamp(140px, 36vw, 240px);
   width: auto;
-  margin-right: clamp(44px, 12vw, 120px);
+  padding-right: clamp(44px, 12vw, 120px);
+  box-sizing: content-box;
   filter: drop-shadow(0 9px 12px rgba(0, 0, 0, .22));
 }
 @keyframes carPan { to { transform: translateX(-50%); } }
