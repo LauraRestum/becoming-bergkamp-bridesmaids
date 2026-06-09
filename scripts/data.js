@@ -135,7 +135,7 @@ var DATA = {
         // Soft blue cabana stripes wash the whole beach-club world.
         bg: "assets/img/beachclub/beachclub-stripe-bg.jpg",
         hook: "Pajamas & Port",
-        vibe: "We kick the weekend off with a cozy night in at the house. Pull on your comfiest pajamas, build a plate at the taco bar, and graze the dips while we play. A few rounds of trivia on the TV, get to know you games, and an ocean in a bottle craft at the table, then a movie to wind down. Low key, low pressure, and where all the inside jokes start.",
+        vibe: "A night in at the house. Pajamas, a taco bar, and dips to graze. A few rounds of trivia, get to know you games, ocean in a bottle, then a movie to wind down.",
         wear: "your comfiest pajamas, nautical colors if you have them",
         // The night-in plan, shown as a bold grid of line icons rather than a
         // paragraph. Each "icon" maps to an inline SVG in app.js.
@@ -147,7 +147,7 @@ var DATA = {
             { icon: "dip",    label: "Dips & Snacks",     note: "Grazing all night" },
             { icon: "games",  label: "Games",             note: "Get to know you rounds" },
             { icon: "trivia", label: "Trivia",            note: "On the big screen" },
-            { icon: "bottle", label: "Ocean in a Bottle", note: "A little craft at the table" },
+            { icon: "bottle", label: "Ocean in a Bottle", note: "Make your own" },
             { icon: "movie",  label: "Movie",             note: "To wind the night down" }
           ]
         },
@@ -193,7 +193,7 @@ var DATA = {
           { src: "assets/img/blue/sticker-starfish.png", pos: "is-2" }
         ],
         hook: "Toes in the Sand",
-        vibe: "Beach day, all in blue. We post up at Litchfield Beach, drinks the color of the ocean, the brightest, easiest day of the trip.",
+        vibe: "Beach day, all in blue. We post up at Litchfield Beach, drinks the color of the ocean.",
         wear: "a blue swimsuit, any blue you love",
         // A few outfit ideas to spark inspiration, shown as one collage. The
         // collage carries the palette, so the swatch dots are dropped here.
@@ -240,7 +240,7 @@ var DATA = {
           { src: "assets/img/rainbow/sticker-shells.png", pos: "is-2" }
         ],
         hook: "Catch the Shimmer",
-        vibe: "The showstopper. Iridescent everything, glitter scales on our arms, the whole crew shimmering as we head out for the night.",
+        vibe: "Iridescent everything, glitter scales on our arms, then out for the night.",
         wear: "any rainbow color, shimmery, glittery or silky",
         secondary: "No need to match anyone. Pick your shade and shine.",
         // A few outfit ideas to spark inspiration, shown as one collage.
@@ -334,7 +334,7 @@ var DATA = {
           { src: "assets/img/coconuts/sticker-palm.png", pos: "is-3" }
         ],
         hook: "Golden Hour, Golden Crew",
-        vibe: "Our fancy night. Dressed to the nines, out on the water, then dinner along the Murrells Inlet MarshWalk as we keep the night going right there in the inlet.",
+        vibe: "Our fancy night. Dressed up, out on the water, then dinner along the Murrells Inlet MarshWalk.",
         // Sunset tour gets its own warm, layered sunset panel.
         sunset: {
           eyebrow: "The Sunset Tour",
