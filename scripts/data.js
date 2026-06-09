@@ -126,7 +126,7 @@ var DATA = {
     travel: {
       eyebrow: "Getting There",
       title: "Airport & Rides",
-      note: "We will Uber to and from the airport, about a 30 to 40 minute drive, and we have a driver with a minivan for the group, or you can Uber back. If you fly in at a different time, plan to Uber to the house and back on your own."
+      note: "We will Uber to and from the airport, about a 30 to 40 minute drive, and we have a driver with a minivan for the group, plus two cars that hold five each, or you can Uber back. If you fly in at a different time, plan to Uber to the house and back on your own."
     },
 
     packing: {
