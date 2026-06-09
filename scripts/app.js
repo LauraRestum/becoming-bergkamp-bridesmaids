@@ -671,9 +671,12 @@
     var d = DATA.dayOf;
     var colors = d.colors;
     var headline = Array.isArray(d.hero.headline) ? d.hero.headline.join("") : d.hero.headline;
-    var colorDots = colors.dots.map(function (c) {
-      return '<span class="d" style="background:' + esc(c.hex) + '" title="' + esc(c.name) + '"></span>';
-    }).join("");
+    var colorPalette = colors.image
+      ? '<img class="ed-colors__img" src="' + esc(colors.image.src) + '" alt="' +
+          esc(colors.image.alt || "") + '" loading="lazy" decoding="async">'
+      : '<div class="dots">' + (colors.dots || []).map(function (c) {
+          return '<span class="d" style="background:' + esc(c.hex) + '" title="' + esc(c.name) + '"></span>';
+        }).join("") + "</div>";
 
     el("view-day-of").innerHTML =
       edPageHead(d.hero.kicker, headline, d.hero.subtitle) +
@@ -687,7 +690,7 @@
       '<section class="ed-colors reveal">' +
         '<div class="ed-kicker">' + esc(colors.eyebrow) + "</div>" +
         '<h2 class="ed-h">' + esc(colors.title) + "</h2>" +
-        '<div class="dots">' + colorDots + "</div>" +
+        colorPalette +
         '<p class="statement">' + esc(colors.statement) + "</p>" +
       "</section>" +
       '<section class="ed-attire reveal">' +
