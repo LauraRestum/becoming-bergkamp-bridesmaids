@@ -273,8 +273,8 @@ var DATA = {
         // Iridescent mermaid-scale background and hand-lettered banner.
         bg: "assets/img/rainbow/rainbow-scale-bg.jpg",
         banner: "assets/img/rainbow/rainbow-banner.png",
-        // A car drives across the top of the plan when this night opens.
-        car: { src: "assets/img/travel/car-1.png", dir: "left" },
+        // The fleet drives in across the top of the plan when this night opens.
+        cars: true,
         // An iridescent mermaid tail, bubbles, and a cluster of shells scattered
         // over the rainbow plan.
         stickers: [
@@ -329,8 +329,8 @@ var DATA = {
         bannerKeepsTitle: true, // the art names the place, it does not spell the day
         // Warm wooden boardwalk planks run behind the whole day.
         bg: "assets/img/boardwalk/boardwalk-deck-bg.jpg",
-        // A car drives across the top of the plan when this day opens.
-        car: { src: "assets/img/travel/car-2.png", dir: "left" },
+        // The fleet drives in across the top of the plan when this day opens.
+        cars: true,
         hook: "Boardwalk by Day",
         vibe: "Slow morning, then we head to Broadway at the Beach for lunch and to walk the shops. This is the day for our matching tee and your own pick of shorts (choose yours below). It is a half day: we leave Broadway by 3 to 4 in the afternoon and head back to the house to change for the night out.",
         wear: "the matching tee with your pick of shorts (pick yours below), comfy sneakers",
@@ -371,8 +371,8 @@ var DATA = {
         banner: "assets/img/coconuts/coconuts-banner.png",
         // Warm tan and cream stripes run behind the whole night.
         bg: "assets/img/coconuts/coconuts-stripe-bg.jpg",
-        // A car drives across the top of the plan when this night opens.
-        car: { src: "assets/img/travel/car-3.png", dir: "left" },
+        // The fleet drives in across the top of the plan when this night opens.
+        cars: true,
         // Warm tan and brown props for the fancy night out: coconuts, a palm,
         // the wine bar, and oysters.
         stickers: [

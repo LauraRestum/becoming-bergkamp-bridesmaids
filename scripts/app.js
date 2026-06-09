@@ -532,14 +532,18 @@
       mapBlock(loc.map, loc.title) + "</div>";
   }
 
-  /* A car that drives across the top of a day's plan when it opens. The drive is
-     a CSS keyframe keyed off the open state; the car parks centered when it
-     arrives. Decorative, so it is hidden from assistive tech. */
+  /* The whole fleet drives in across the top of a day's plan when it opens, as a
+     staggered convoy that parks lined up (CSS keyframes keyed off the open
+     state). Days opt in with "cars: true"; the cars are pulled from the shared
+     fleet list. Decorative, so it is hidden from assistive tech. */
   function dayCarHTML(day) {
-    if (!day.car || !day.car.src) return "";
-    return '<div class="day-car day-car--' + esc(day.car.dir || "left") + '" aria-hidden="true">' +
-      '<img class="day-car__img" src="' + esc(day.car.src) + '" alt="" loading="lazy">' +
-    "</div>";
+    if (!day.cars) return "";
+    var fleet = (DATA.bachelorette.carBand || []);
+    if (!fleet.length) return "";
+    var cars = fleet.map(function (src) {
+      return '<img class="day-fleet__car" src="' + esc(src) + '" alt="" loading="lazy">';
+    }).join("");
+    return '<div class="day-fleet" aria-hidden="true">' + cars + "</div>";
   }
 
   /* Travel Details. A collapsible banner that sits right above the days. Closed,
@@ -612,7 +616,8 @@
       return '<img class="carband__car" src="' + esc(src) + '" alt="" loading="lazy">';
     }).join("");
     return '<div class="carband reveal" aria-hidden="true">' +
-      '<div class="carband__lane">' + lane + "</div></div>";
+      '<div class="carband__road"><div class="carband__lane">' + lane + "</div></div>" +
+    "</div>";
   }
 
   function renderBachelorette() {
