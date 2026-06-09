@@ -532,18 +532,25 @@
       mapBlock(loc.map, loc.title) + "</div>";
   }
 
-  /* The whole fleet drives in across the top of a day's plan when it opens, as a
-     staggered convoy that parks lined up (CSS keyframes keyed off the open
-     state). Days opt in with "cars: true"; the cars are pulled from the shared
-     fleet list. Decorative, so it is hidden from assistive tech. */
+  /* The cars panning along, used both inside the car days and at the foot of the
+     trip. The set is doubled in the markup and the lane slides one full set over,
+     so the pan loops forever and seamlessly. The cars face left, so a leftward
+     pan keeps them moving forward. No road, just the cars gliding across.
+     Decorative, so it is hidden from assistive tech. */
+  function carStream(cars) {
+    if (!cars || !cars.length) return "";
+    var lane = cars.concat(cars).map(function (src) {
+      return '<img class="carstream__car" src="' + esc(src) + '" alt="" loading="lazy">';
+    }).join("");
+    return '<div class="carstream reveal" aria-hidden="true">' +
+      '<div class="carstream__lane">' + lane + "</div></div>";
+  }
+
+  /* The car days (Friday night, Saturday day, Saturday night) carry the panning
+     stream across the top of their plan. Days opt in with "cars: true". */
   function dayCarHTML(day) {
     if (!day.cars) return "";
-    var fleet = (DATA.bachelorette.carBand || []);
-    if (!fleet.length) return "";
-    var cars = fleet.map(function (src) {
-      return '<img class="day-fleet__car" src="' + esc(src) + '" alt="" loading="lazy">';
-    }).join("");
-    return '<div class="day-fleet" aria-hidden="true">' + cars + "</div>";
+    return carStream(DATA.bachelorette.carBand || []);
   }
 
   /* Travel Details. A collapsible banner that sits right above the days. Closed,
@@ -604,20 +611,6 @@
       "</div>";
 
     return '<section class="day day--acc travel-sec" id="travel">' + head + panel + "</section>";
-  }
-
-  /* The fleet that drives, continuously, along the foot of the trip just above
-     the wedding party list. The set is doubled so the marquee loops seamlessly;
-     each car keeps moving the way it faces (left). Decorative, hidden from
-     assistive tech. */
-  function carBandHTML(cars) {
-    if (!cars || !cars.length) return "";
-    var lane = cars.concat(cars).map(function (src) {
-      return '<img class="carband__car" src="' + esc(src) + '" alt="" loading="lazy">';
-    }).join("");
-    return '<div class="carband reveal" aria-hidden="true">' +
-      '<div class="carband__road"><div class="carband__lane">' + lane + "</div></div>" +
-    "</div>";
   }
 
   function renderBachelorette() {
@@ -692,7 +685,7 @@
       '<nav class="jumpnav"><div class="jumpnav__scroll">' + pills + "</div></nav>" +
       '<div class="wrap">' + house + travel + packing + "</div>" +
       '<div class="bach-days">' + renderTravelDetails(b.travelDetails) + days + "</div>" +
-      carBandHTML(b.carBand) +
+      carStream(b.carBand) +
       '<div class="wrap">' + pagefoot(b.footerScript, b.footerLine) + "</div>";
 
     initJumpNav();
