@@ -126,7 +126,7 @@ var DATA = {
     travel: {
       eyebrow: "Getting There",
       title: "Airport & Rides",
-      note: "We will Uber to and from the airport, about a 30 to 40 minute drive, and we have a driver with a minivan for the group, plus two cars, a convertible BMW that holds four and a Toyota Highlander that holds six, or you can Uber back. If you fly in at a different time, plan to Uber to the house and back on your own."
+      note: "For the big group arriving together at Myrtle Beach, we will have a rideshare minivan to take us from the airport to the house, about a 30 to 40 minute drive, and back to the airport at the end. If you fly in at a different time, plan to Uber to the house and back on your own. Once we are at the house, we have two cars to get around, a convertible BMW that holds four and a Toyota Highlander that holds six."
     },
 
     packing: {
