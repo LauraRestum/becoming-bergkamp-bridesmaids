@@ -557,6 +557,16 @@
         '<span class="maptap"><span class="maptap__pin">' + pinSVG() + "</span>Open in Maps</span>" +
       "</a>";
 
+    // A short packing note under the home base: what is already provided at the
+    // house, and the personal things worth bringing. Hairline framed, editorial.
+    var packing = b.packing
+      ? '<div class="packing reveal">' +
+          (b.packing.eyebrow ? '<span class="eyebrow">' + esc(b.packing.eyebrow) + "</span>" : "") +
+          (b.packing.title ? "<h2>" + esc(b.packing.title) + "</h2>" : "") +
+          (b.packing.note ? '<p class="note">' + esc(b.packing.note) + "</p>" : "") +
+        "</div>"
+      : "";
+
     var days = b.days.map(renderDay).join("");
 
     // Lead with the mockup art on white when one is set, then a full-width
@@ -589,7 +599,7 @@
         '<div class="wavewrap">' + waveSVG("#FFFFFF") + "</div>" +
       "</section>" +
       '<nav class="jumpnav"><div class="jumpnav__scroll">' + pills + "</div></nav>" +
-      '<div class="wrap">' + house + "</div>" +
+      '<div class="wrap">' + house + packing + "</div>" +
       '<div class="bach-days">' + days + "</div>" +
       '<div class="wrap">' + pagefoot(b.footerScript, b.footerLine) + "</div>";
 

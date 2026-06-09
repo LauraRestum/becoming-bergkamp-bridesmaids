@@ -123,6 +123,12 @@ var DATA = {
       map: mapFor("83 Carrington Dr Pawleys Island SC")
     },
 
+    packing: {
+      eyebrow: "Before You Pack",
+      title: "What to Bring",
+      note: "No need to pack towels, generic sunscreen, or shampoo, conditioner and soap. We have those covered. Do bring anything specific to your skin or any allergies."
+    },
+
     days: [
       {
         id: "thursday",

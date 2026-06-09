@@ -699,6 +699,19 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 }
 .house:active { transform: scale(.99); }
 
+/* A short packing note under the home base. Hairline rule, no box, so it stays
+   editorial rather than card-heavy. */
+.packing {
+  text-align: center;
+  max-width: 40em;
+  margin: var(--space-7) auto;
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--sand);
+}
+.packing .eyebrow { color: #2E6A8E; display: block; }
+.packing h2 { font-size: clamp(24px, 6vw, 38px); margin: 12px 0 14px; line-height: 1; }
+.packing .note { font-size: 15px; line-height: 1.65; opacity: .82; margin: 0 auto; max-width: 34em; }
+
 /* ============================================ DAY WORLDS */
 .day {
   position: relative;
