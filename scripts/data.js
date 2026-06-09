@@ -123,6 +123,12 @@ var DATA = {
       map: mapFor("83 Carrington Dr Pawleys Island SC")
     },
 
+    travel: {
+      eyebrow: "Getting There",
+      title: "Airport & Rides",
+      note: "We will Uber to and from the airport, about a 30 to 40 minute drive, and we have a driver with a minivan for the group. If you fly in at a different time, plan to Uber to the house and back on your own."
+    },
+
     packing: {
       eyebrow: "Before You Pack",
       title: "What to Bring",
