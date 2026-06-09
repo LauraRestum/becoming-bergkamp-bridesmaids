@@ -2200,8 +2200,8 @@ body.theme-editorial.theme-light .ed-portal--main {
   position: relative;
   z-index: 0;
   width: 100%;
-  /* nudged down a touch so a little warm space sits above the curtain */
-  margin-top: clamp(14px, 5vw, 34px);
+  /* sits flush at the top so the curtain reaches up under the top bar */
+  margin-top: 0;
   aspect-ratio: 1672 / 941;
   background-position: center top;
   background-size: cover;
@@ -2220,7 +2220,7 @@ body.theme-editorial.theme-light .ed-portal--main {
   letter-spacing: .02em;
   color: var(--ed-paper);
   max-width: 12em;
-  margin: clamp(6px, 3vw, 18px) auto 0;
+  margin: clamp(-14px, -2vw, -6px) auto 0;
   padding: 0 clamp(20px, 6vw, 44px);
 }
 
