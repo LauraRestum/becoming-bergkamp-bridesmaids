@@ -309,7 +309,7 @@ var DATA = {
           options: [
             {
               airline: "Southwest",
-              price: "",
+              price: "$624",
               dates: "Thu, Aug 20 to Sun, Aug 23",
               link: "https://www.google.com/travel/flights/s/G9TFwypvcrFg1vCW7",
               legs: [
@@ -339,7 +339,7 @@ var DATA = {
             },
             {
               airline: "American",
-              price: "",
+              price: "$687",
               dates: "Thu, Aug 20 to Sun, Aug 23",
               note: "An early start with one stop out. Lands in Myrtle Beach mid afternoon Thursday.",
               link: "https://www.google.com/travel/flights/s/yRHen9JWSSCw4Vxz9",
