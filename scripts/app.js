@@ -576,6 +576,56 @@
     return '<div class="travel-legs">' + rows + "</div>";
   }
 
+  /* Flight options, grouped by home base. Each option is a hairline-ruled
+     editorial block: airline and dates up top with the round trip price,
+     the outbound and return legs segment by segment below, and a booking
+     link straight into Google Flights. */
+  function flightLegHTML(leg) {
+    var rows = (leg.segments || []).map(function (s) {
+      if (s.layover) {
+        return '<div class="flightop__lay">' + esc(s.layover) + "</div>";
+      }
+      return '<div class="flightop__seg">' +
+        '<span class="flightop__segno">' + esc(s.flight) + "</span>" +
+        '<span class="flightop__segdetail">' + esc(s.detail) + "</span>" +
+      "</div>";
+    }).join("");
+    return '<div class="flightop__leg">' +
+      '<div class="flightop__leghead">' +
+        '<span class="flightop__leglabel">' + esc(leg.label) + "</span>" +
+        (leg.meta ? '<span class="flightop__legmeta">' + esc(leg.meta) + "</span>" : "") +
+      "</div>" + rows +
+    "</div>";
+  }
+
+  function flightOptionHTML(o) {
+    var price = o.price
+      ? '<div class="flightop__price"><b>' + esc(o.price) + "</b><span>round trip</span></div>"
+      : '<div class="flightop__price flightop__price--tap"><b>Tap to price</b><span>round trip</span></div>';
+    return '<article class="flightop reveal">' +
+      '<header class="flightop__top">' +
+        '<div class="flightop__id">' +
+          '<span class="flightop__airline">' + esc(o.airline) + "</span>" +
+          '<span class="flightop__dates">' + esc(o.dates) + "</span>" +
+        "</div>" + price +
+      "</header>" +
+      (o.note ? '<p class="flightop__note">' + esc(o.note) + "</p>" : "") +
+      '<div class="flightop__legs">' + o.legs.map(flightLegHTML).join("") + "</div>" +
+      '<a class="flightop__book" href="' + esc(o.link) + '" target="_blank" rel="noopener">' +
+        "Book on Google Flights</a>" +
+    "</article>";
+  }
+
+  function flightGroupsHTML(groups) {
+    if (!groups || !groups.length) return "";
+    return '<div class="flightops">' + groups.map(function (g) {
+      return '<div class="flightops__group">' +
+        '<h4 class="flightops__city reveal">' + esc(g.city) + "</h4>" +
+        g.options.map(flightOptionHTML).join("") +
+      "</div>";
+    }).join("") + "</div>";
+  }
+
   function renderTravelDetails(t) {
     if (!t) return "";
     var head =
@@ -601,6 +651,7 @@
         (t.headline ? '<h3 class="travel__head-copy reveal">' + esc(t.headline) + "</h3>" : "") +
         (t.note ? '<p class="travel__note reveal">' + esc(t.note) + "</p>" : "") +
         travelLegsHTML(t.legs) +
+        flightGroupsHTML(t.flightGroups) +
       "</div></div>";
 
     var closer =

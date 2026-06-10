@@ -1382,6 +1382,91 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   opacity: .62;
 }
 
+/* flight options, grouped by home base. Hairline editorial blocks in the same
+   sky navy as the rest of the travel section: airline and price up top, the
+   legs segment by segment, and a booking link out to Google Flights. */
+.flightops { margin-top: var(--space-6); text-align: left; }
+.flightops__city {
+  font-family: var(--sans);
+  font-size: 11px; letter-spacing: var(--track-label); text-transform: uppercase;
+  font-weight: 700; color: #1B4A6E;
+  margin: 0 0 4px;
+  padding-top: 26px;
+}
+.flightops__group:first-child .flightops__city { padding-top: 0; }
+.flightop {
+  padding: 18px 0 22px;
+  border-top: 1px solid rgba(22, 49, 78, .16);
+}
+.flightop__top {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+}
+.flightop__id { display: flex; flex-direction: column; gap: 2px; }
+.flightop__airline {
+  font-family: var(--display);
+  font-weight: 800; font-size: clamp(20px, 5vw, 26px);
+  line-height: 1; letter-spacing: var(--track-tight);
+  color: #16314E;
+}
+.flightop__dates { font-size: 13px; opacity: .78; }
+.flightop__price { text-align: right; flex-shrink: 0; }
+.flightop__price b {
+  display: block;
+  font-family: var(--display);
+  font-weight: 800; font-size: clamp(20px, 5vw, 26px);
+  line-height: 1; letter-spacing: var(--track-tight);
+  color: #16314E;
+}
+.flightop__price--tap b { font-size: 14px; font-weight: 700; padding-top: 4px; }
+.flightop__price span {
+  font-size: 10px; letter-spacing: var(--track-label); text-transform: uppercase;
+  opacity: .6;
+}
+.flightop__note { font-size: 14px; line-height: 1.55; opacity: .82; margin-top: 10px; max-width: 34em; }
+.flightop__leg { margin-top: 16px; }
+.flightop__leghead {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(22, 49, 78, .1);
+}
+.flightop__leglabel {
+  font-family: var(--sans);
+  font-size: 11px; letter-spacing: var(--track-label); text-transform: uppercase;
+  font-weight: 700; color: #16314E;
+}
+.flightop__legmeta {
+  font-size: 11px; letter-spacing: var(--track-label); text-transform: uppercase;
+  opacity: .62; white-space: nowrap;
+}
+.flightop__seg {
+  display: grid;
+  grid-template-columns: minmax(64px, 84px) 1fr;
+  gap: 10px;
+  padding: 8px 0 0;
+  font-size: 14px; line-height: 1.45;
+}
+.flightop__segno {
+  font-family: var(--sans);
+  font-weight: 700; font-size: 12px; letter-spacing: .04em;
+  color: #1B4A6E; padding-top: 1px;
+}
+.flightop__segdetail { color: inherit; }
+.flightop__lay {
+  font-size: 12px; font-style: normal; opacity: .6;
+  padding: 6px 0 0; margin-left: clamp(74px, 18vw, 94px);
+}
+.flightop__book {
+  display: inline-block;
+  margin-top: 18px;
+  font-family: var(--sans);
+  font-size: 12px; letter-spacing: var(--track-label); text-transform: uppercase;
+  font-weight: 700;
+  color: #F1F7FB; background: #16314E;
+  padding: 11px 18px; border-radius: 999px;
+  text-decoration: none;
+}
+.flightop__book:active { transform: scale(.98); }
+
 /* ===================================== CARS PANNING ALONG (in each car day and
    at the foot of the trip). No road, just the cars gliding across. The set is
    doubled in the markup and the lane slides one full set over, so the pan loops

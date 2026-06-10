@@ -138,9 +138,11 @@ var DATA = {
 
     // Travel Details sits right above the days. Collapsed, it is just its banner.
     // Open it and the bridesmaid plane taxis in and lands as the header, then the
-    // flights and dates below. Fill in the legs as they are booked; the times read
-    // as plain text so anything ("9:40 AM", "to come") works. Add more objects to
-    // the legs for connections.
+    // flight options below, grouped by home base. Every option links straight to
+    // its Google Flights page to book. All times are local; prices are per person,
+    // round trip, in economy, and move, so the link always has the live number.
+    // Each leg's segments list flight rows ({flight, detail}) with layover rows
+    // ({layover}) between them.
     travelDetails: {
       eyebrow: "Before the Trip",
       title: "Travel Details",
@@ -148,10 +150,255 @@ var DATA = {
       headline: "Wheels Up",
       plane: "assets/img/travel/plane.png",
       planeAlt: "The All You Sea is Love bridesmaid plane",
-      note: "Exact flights, dates, and confirmation numbers land here as they are booked. Check back before you pack.",
-      legs: [
-        { label: "Outbound", route: "Home to Myrtle Beach (MYR)", date: "Date to come", time: "Times to come" },
-        { label: "Return",   route: "Myrtle Beach (MYR) to Home", date: "Date to come", time: "Times to come" }
+      note: "Pick the option that fits where you are flying from, then book through the Google Flights link. All times are local. Prices are per person, round trip, in economy, and they shift, so the link always shows the live number. Once you book, send Laura your flights.",
+      flightGroups: [
+        {
+          city: "Flying from Wichita",
+          options: [
+            {
+              airline: "Southwest",
+              price: "$390",
+              dates: "Thu, Aug 20 to Sun, Aug 23",
+              link: "https://www.google.com/travel/flights/s/2HVML9XSa4cyGAJn7",
+              legs: [
+                {
+                  label: "Outbound · Thu, Aug 20",
+                  meta: "6 hr 40 min · 2 stops",
+                  segments: [
+                    { flight: "WN 2043", detail: "Wichita (ICT) 5:30 AM to Chicago Midway (MDW) 7:15 AM" },
+                    { layover: "40 min layover in Chicago" },
+                    { flight: "WN 2837", detail: "Chicago Midway (MDW) 7:55 AM to St. Louis (STL) 9:15 AM" },
+                    { layover: "1 hr layover in St. Louis" },
+                    { flight: "WN 4206", detail: "St. Louis (STL) 10:15 AM to Myrtle Beach (MYR) 1:10 PM" }
+                  ]
+                },
+                {
+                  label: "Return · Sun, Aug 23",
+                  meta: "8 hr 25 min · 2 stops",
+                  segments: [
+                    { flight: "WN 2829", detail: "Myrtle Beach (MYR) 2:45 PM to St. Louis (STL) 3:50 PM" },
+                    { layover: "2 hr layover in St. Louis" },
+                    { flight: "WN 3831", detail: "St. Louis (STL) 5:50 PM to Denver (DEN) 7:05 PM" },
+                    { layover: "40 min layover in Denver" },
+                    { flight: "WN 4745", detail: "Denver (DEN) 7:45 PM to Wichita (ICT) 10:10 PM" }
+                  ]
+                }
+              ]
+            },
+            {
+              airline: "Southwest",
+              price: "$419",
+              dates: "Fri, Aug 21 to Sun, Aug 23",
+              note: "The same Southwest flights, leaving a day later for anyone skipping Thursday night.",
+              link: "https://www.google.com/travel/flights/s/34EbHPxBoYaLtN6p8",
+              legs: [
+                {
+                  label: "Outbound · Fri, Aug 21",
+                  meta: "6 hr 40 min · 2 stops",
+                  segments: [
+                    { flight: "WN 2043", detail: "Wichita (ICT) 5:30 AM to Chicago Midway (MDW) 7:15 AM" },
+                    { layover: "40 min layover in Chicago" },
+                    { flight: "WN 2837", detail: "Chicago Midway (MDW) 7:55 AM to St. Louis (STL) 9:15 AM" },
+                    { layover: "1 hr layover in St. Louis" },
+                    { flight: "WN 4206", detail: "St. Louis (STL) 10:15 AM to Myrtle Beach (MYR) 1:10 PM" }
+                  ]
+                },
+                {
+                  label: "Return · Sun, Aug 23",
+                  meta: "8 hr 25 min · 2 stops",
+                  segments: [
+                    { flight: "WN 2829", detail: "Myrtle Beach (MYR) 2:45 PM to St. Louis (STL) 3:50 PM" },
+                    { layover: "2 hr layover in St. Louis" },
+                    { flight: "WN 3831", detail: "St. Louis (STL) 5:50 PM to Denver (DEN) 7:05 PM" },
+                    { layover: "40 min layover in Denver" },
+                    { flight: "WN 4745", detail: "Denver (DEN) 7:45 PM to Wichita (ICT) 10:10 PM" }
+                  ]
+                }
+              ]
+            },
+            {
+              airline: "Delta",
+              price: "$408",
+              dates: "Thu, Aug 20 to Sun, Aug 23",
+              note: "A later morning start and only one stop each way, with a late landing home Sunday night.",
+              link: "https://www.google.com/travel/flights/s/2EMsF4dxZuZRqKTw7",
+              legs: [
+                {
+                  label: "Outbound · Thu, Aug 20",
+                  meta: "5 hr 54 min · 1 stop",
+                  segments: [
+                    { flight: "DL 1637", detail: "Wichita (ICT) 11:13 AM to Atlanta (ATL) 2:28 PM" },
+                    { layover: "2 hr 19 min layover in Atlanta" },
+                    { flight: "DL 1093", detail: "Atlanta (ATL) 4:47 PM to Myrtle Beach (MYR) 6:07 PM" }
+                  ]
+                },
+                {
+                  label: "Return · Sun, Aug 23",
+                  meta: "4 hr 48 min · 1 stop",
+                  segments: [
+                    { flight: "DL 1093", detail: "Myrtle Beach (MYR) 6:57 PM to Atlanta (ATL) 8:24 PM" },
+                    { layover: "1 hr 4 min layover in Atlanta" },
+                    { flight: "DL 2959", detail: "Atlanta (ATL) 9:28 PM to Wichita (ICT) 10:45 PM" }
+                  ]
+                }
+              ]
+            },
+            {
+              airline: "Delta",
+              price: "$541",
+              dates: "Thu, Aug 20 to Sun, Aug 23",
+              note: "The same Delta outbound with an earlier afternoon return that lands home by dinner.",
+              link: "https://www.google.com/travel/flights/s/yTnNugwnXWhHx4aw7",
+              legs: [
+                {
+                  label: "Outbound · Thu, Aug 20",
+                  meta: "5 hr 54 min · 1 stop",
+                  segments: [
+                    { flight: "DL 1637", detail: "Wichita (ICT) 11:13 AM to Atlanta (ATL) 2:28 PM" },
+                    { layover: "2 hr 19 min layover in Atlanta" },
+                    { flight: "DL 1093", detail: "Atlanta (ATL) 4:47 PM to Myrtle Beach (MYR) 6:07 PM" }
+                  ]
+                },
+                {
+                  label: "Return · Sun, Aug 23",
+                  meta: "4 hr 27 min · 1 stop",
+                  segments: [
+                    { flight: "DL 3182", detail: "Myrtle Beach (MYR) 2:18 PM to Atlanta (ATL) 3:42 PM" },
+                    { layover: "48 min layover in Atlanta" },
+                    { flight: "DL 2128", detail: "Atlanta (ATL) 4:30 PM to Wichita (ICT) 5:45 PM" }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          city: "Flying from New York",
+          options: [
+            {
+              airline: "American",
+              price: "$279",
+              dates: "Thu, Aug 20 to Mon, Aug 24",
+              note: "Returns Monday instead of Sunday, so plan for the extra night.",
+              link: "https://www.google.com/travel/flights/s/oF9Ez5D7cDonYc7dA",
+              legs: [
+                {
+                  label: "Outbound · Thu, Aug 20",
+                  meta: "4 hr 49 min · 1 stop",
+                  segments: [
+                    { flight: "AA 2643", detail: "New York (JFK) 6:35 AM to Charlotte (CLT) 8:36 AM" },
+                    { layover: "1 hr 44 min layover in Charlotte" },
+                    { flight: "AA 2431", detail: "Charlotte (CLT) 10:20 AM to Myrtle Beach (MYR) 11:24 AM" }
+                  ]
+                },
+                {
+                  label: "Return · Mon, Aug 24",
+                  meta: "4 hr 23 min · 1 stop",
+                  segments: [
+                    { flight: "AA 5194", detail: "Myrtle Beach (MYR) 11:19 AM to Washington (DCA) 12:58 PM" },
+                    { layover: "1 hr 1 min layover in Washington" },
+                    { flight: "AA 4781", detail: "Washington (DCA) 1:59 PM to New York (JFK) 3:42 PM" }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          city: "Flying from Amarillo",
+          options: [
+            {
+              airline: "Southwest",
+              price: "",
+              dates: "Thu, Aug 20 to Sun, Aug 23",
+              link: "https://www.google.com/travel/flights/s/G9TFwypvcrFg1vCW7",
+              legs: [
+                {
+                  label: "Outbound · Thu, Aug 20",
+                  meta: "8 hr 30 min · 2 stops",
+                  segments: [
+                    { flight: "WN 1217", detail: "Amarillo (AMA) 9:50 AM to Dallas Love (DAL) 11:00 AM" },
+                    { layover: "1 hr 40 min layover in Dallas" },
+                    { flight: "WN 768", detail: "Dallas Love (DAL) 12:40 PM to Nashville (BNA) 2:25 PM" },
+                    { layover: "2 hr 25 min layover in Nashville" },
+                    { flight: "WN 1065", detail: "Nashville (BNA) 4:50 PM to Myrtle Beach (MYR) 7:20 PM" }
+                  ]
+                },
+                {
+                  label: "Return · Sun, Aug 23",
+                  meta: "9 hr 15 min · 2 stops",
+                  segments: [
+                    { flight: "WN 2829", detail: "Myrtle Beach (MYR) 2:45 PM to St. Louis (STL) 3:50 PM" },
+                    { layover: "2 hr 35 min layover in St. Louis" },
+                    { flight: "WN 3820", detail: "St. Louis (STL) 6:25 PM to Dallas Love (DAL) 8:00 PM" },
+                    { layover: "1 hr 45 min layover in Dallas" },
+                    { flight: "WN 694", detail: "Dallas Love (DAL) 9:45 PM to Amarillo (AMA) 11:00 PM" }
+                  ]
+                }
+              ]
+            },
+            {
+              airline: "American",
+              price: "",
+              dates: "Thu, Aug 20 to Sun, Aug 23",
+              note: "An early start with one stop out. Lands in Myrtle Beach mid afternoon Thursday.",
+              link: "https://www.google.com/travel/flights/s/yRHen9JWSSCw4Vxz9",
+              legs: [
+                {
+                  label: "Outbound · Thu, Aug 20",
+                  meta: "8 hr 37 min · 1 stop",
+                  segments: [
+                    { flight: "AA 6219", detail: "Amarillo (AMA) 6:00 AM to Dallas (DFW) 7:25 AM" },
+                    { layover: "4 hr 33 min layover in Dallas" },
+                    { flight: "AA 2448", detail: "Dallas (DFW) 11:58 AM to Myrtle Beach (MYR) 3:37 PM" }
+                  ]
+                },
+                {
+                  label: "Return · Sun, Aug 23",
+                  meta: "7 hr 22 min · 2 stops",
+                  segments: [
+                    { flight: "AA 1687", detail: "Myrtle Beach (MYR) 4:20 PM to Charlotte (CLT) 5:30 PM" },
+                    { layover: "1 hr 16 min layover in Charlotte" },
+                    { flight: "AA 3168", detail: "Charlotte (CLT) 6:46 PM to Dallas (DFW) 8:30 PM" },
+                    { layover: "50 min layover in Dallas" },
+                    { flight: "AA 3990", detail: "Dallas (DFW) 9:20 PM to Amarillo (AMA) 10:42 PM" }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          city: "Flying from Dallas",
+          options: [
+            {
+              airline: "Delta",
+              price: "$495",
+              dates: "Thu, Aug 20 to Sun, Aug 23",
+              link: "https://www.google.com/travel/flights/s/WAmBybSpmzmHyvJc9",
+              legs: [
+                {
+                  label: "Outbound · Thu, Aug 20",
+                  meta: "4 hr 27 min · 1 stop",
+                  segments: [
+                    { flight: "DL 401", detail: "Dallas (DFW) 5:20 AM to Atlanta (ATL) 8:34 AM" },
+                    { layover: "56 min layover in Atlanta" },
+                    { flight: "DL 3047", detail: "Atlanta (ATL) 9:30 AM to Myrtle Beach (MYR) 10:47 AM" }
+                  ]
+                },
+                {
+                  label: "Return · Sun, Aug 23",
+                  meta: "6 hr 36 min · 1 stop",
+                  segments: [
+                    { flight: "DL 3182", detail: "Myrtle Beach (MYR) 2:18 PM to Atlanta (ATL) 3:42 PM" },
+                    { layover: "2 hr 53 min layover in Atlanta" },
+                    { flight: "DL 436", detail: "Atlanta (ATL) 6:35 PM to Dallas (DFW) 7:54 PM" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       ]
     },
 
