@@ -738,8 +738,10 @@
         '<div class="wavewrap">' + waveSVG("#FFFFFF") + "</div>" +
       "</section>" +
       '<nav class="jumpnav"><div class="jumpnav__scroll">' + pills + "</div></nav>" +
-      '<div class="wrap">' + house + travel + packing + "</div>" +
-      '<div class="bach-days">' + renderTravelDetails(b.travelDetails) + days + "</div>" +
+      '<div class="wrap">' + house + "</div>" +
+      '<div class="bach-days">' + renderTravelDetails(b.travelDetails) + "</div>" +
+      '<div class="wrap">' + travel + packing + "</div>" +
+      '<div class="bach-days">' + days + "</div>" +
       carStream(b.carBand) +
       '<div class="wrap">' + pagefoot(b.footerScript, b.footerLine) + "</div>";
 
