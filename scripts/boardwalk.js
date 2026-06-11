@@ -55,10 +55,10 @@
             '<div class="shorts__num" data-num></div>' +
             '<h3 data-name></h3>' +
             '<p class="desc" data-desc></p>' +
-            '<div data-shop></div>' +
           '</div>' +
         '</div>' +
 
+        (w.ideasNote ? '<div class="shorts__ideas">' + esc(w.ideasNote) + '</div>' : '') +
         (w.fitNote ? '<div class="shorts__fitnote">' + esc(w.fitNote) + '</div>' : '') +
       '</div>';
   }
@@ -76,7 +76,6 @@
       var numEl = box.querySelector("[data-num]");
       var nameEl = box.querySelector("[data-name]");
       var descEl = box.querySelector("[data-desc]");
-      var shopEl = box.querySelector("[data-shop]");
       var curEl  = box.querySelector("[data-cur]");
       var dotsEl = box.querySelector("[data-dots]");
       var fitBtns = box.querySelectorAll(".shorts__fitbtn");
@@ -103,10 +102,6 @@
         nameEl.textContent = lk.name;
         descEl.textContent = lk.desc;
         curEl.textContent = String(state.i + 1);
-
-        shopEl.innerHTML = (lk.shop && lk.shop !== "#")
-          ? '<a class="pill-link" href="' + esc(lk.shop) + '" target="_blank" rel="noopener">Shop on Amazon</a>'
-          : '<span class="pill-link is-ghost">Amazon link coming soon</span>';
 
         Array.prototype.forEach.call(dots, function (d, i) {
           d.classList.toggle("is-on", i === state.i);

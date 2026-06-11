@@ -44,12 +44,13 @@ wedding palette, or add a bachelorette day without touching layout code.
 2. Append one object to `DATA.boardwalk.looks` in `scripts/data.js`:
 
    ```js
-   { img: "assets/img/looks/your-look.jpg", num: "04", name: "The New Look",
-     desc: "One line about it.", shop: "" }
+   { num: "04", name: "The New Look", desc: "One line about it.",
+     normal: "assets/img/looks/your-look-normal.png",
+     crop: "assets/img/looks/your-look-crop.png" }
    ```
 
-   Leave `shop` as `""` (or `"#"`) and it shows a "Link coming soon" pill. Add
-   an Amazon URL later to turn it into a "Shop the shorts" button.
+   The looks are inspiration only (no shopping links). The carousel shows a note
+   that these are ideas and the vision is light blue and white.
 
 ## Local preview
 

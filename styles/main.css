@@ -1858,7 +1858,8 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .shorts__num { font-family: var(--display); font-weight: 600; font-size: 11px; letter-spacing: var(--track-label); text-transform: uppercase; color: var(--gold); }
 .shorts__meta h3 { font-size: clamp(26px, 7vw, 36px); margin-top: 6px; }
 .shorts__meta .desc { font-size: 14px; opacity: .8; margin: 10px auto 18px; max-width: 30em; }
-.shorts__fitnote { text-align: center; font-size: 12px; opacity: .65; margin: 18px auto 0; max-width: 30em; }
+.shorts__ideas { text-align: center; font-size: 13px; opacity: .8; margin: 18px auto 0; max-width: 32em; }
+.shorts__fitnote { text-align: center; font-size: 12px; opacity: .65; margin: 14px auto 0; max-width: 30em; }
 
 /* lightbox */
 .lightbox {

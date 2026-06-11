@@ -173,16 +173,18 @@ available as a standalone page (`boardwalk-looks.html`). Both render from
 
 Each look card: dark lookbook image tile (near-black to blend the on-black
 photo), overlay labels (`LOOK 01`, `front & back`, `tap to zoom`), look name,
-one-line descriptor, and a "Shop the shorts" pill. When no link exists, render a
-non-clickable dashed "Link coming soon" pill. Tap any image for a full-screen
-lightbox (tap or Escape to close).
+and a one-line descriptor. The looks are inspiration only, with no shopping
+links. The carousel carries a note that these are ideas and the vision is light
+blue and white. Tap any image for a full-screen lightbox (tap or Escape to
+close).
 
 **Looks data shape:**
 
 ```js
-{ img: "assets/img/looks/lace-trim.jpg", num: "01", name: "The Lace Trim",
+{ num: "01", name: "The Lace Trim",
   desc: "Soft drawstring shorts with a scalloped lace hem. Sweet and breezy.",
-  shop: "" }   // shop: "" or "#" renders "Link coming soon"
+  normal: "assets/img/looks/lace-trim-normal.png",
+  crop: "assets/img/looks/lace-trim-crop.png" }
 ```
 
 Adding a look later: add an image to `assets/img/looks/` and append one object.
@@ -213,7 +215,6 @@ Laura may want to use later). They are not loaded by the app.
 - Hero imagery.
 - Bridesmaid wedding-dress inspiration images for The Day Of attire block.
 - Additional shorts mockups for the widget.
-- Shop links (Amazon) for each shorts look.
 - Final PWA app icon art (placeholders ship now).
 
 Never place any design or text on the surprise tee.
@@ -302,8 +303,7 @@ step. Connect the GitHub repo and it serves the static files directly.
 ## 14. Open Decisions and To-Dos (owned by Laura)
 
 1. Shorts "size" note: clarify the "two different looks depending on size".
-2. Shop links: provide product links for each shorts look.
-3. More shorts mockups: each is a one-object add.
+2. More shorts mockups: each is a one-object add.
 4. Widget placement: currently both embedded and standalone.
 5. Photos: day-world photos, hero imagery, dress inspiration.
 6. Venue addresses: optional precise street addresses for the map queries.

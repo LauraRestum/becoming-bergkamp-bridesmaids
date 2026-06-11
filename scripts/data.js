@@ -827,66 +827,61 @@ var DATA = {
   boardwalk: {
     kicker: "saturday · boardwalk",
     title: "Pick Your Bottoms",
-    intro: "Same surprise tee for everyone, your choice of bottoms. Arrow through the shorts and skirts, flip between crop top and tucked in, then shop your favorite.",
+    intro: "Same surprise tee for everyone, your choice of bottoms. Arrow through the shorts and skirts and flip between crop top and tucked in. These are all just ideas to get you started: the vision is light blue and white.",
     teeNote: "Everyone gets the same tee",
     teeSub: "It's a surprise, so it's shown blank here. Just pick your bottoms.",
     teeSizing: "On sizing: in your true size the tee hits right at your waistline, if not a touch above. Want the oversized look? Order one size up. Those are your two size options.",
     fitNote: "Two ways to wear the tee: cropped, or tucked in and worn long.",
+    ideasNote: "These are all just ideas to get you started. The vision is light blue and white, so pick anything in that palette that feels like you.",
     footerScript: "boardwalk & chill",
     footerLine: "All You Sea Is Love · Myrtle Beach 2026",
 
     // Each look has a "normal" (tee tucked in, worn long) and a "crop" (tee worn
     // cropped) image, shown front and back on a transparent background.
-    // Add a look later: drop the two images in assets/img/looks/ and append one
-    // object. shop: "" or "#" renders a non-clickable "Amazon link coming soon".
+    // These are inspiration only, no shopping links. Add a look later: drop the
+    // two images in assets/img/looks/ and append one object.
     looks: [
       {
         num: "01",
         name: "The Denim Cutoffs",
         desc: "Light-wash frayed denim. The easy, classic boardwalk look.",
         normal: "assets/img/looks/denim-cutoffs-normal.png",
-        crop: "assets/img/looks/denim-cutoffs-crop.png",
-        shop: ""
+        crop: "assets/img/looks/denim-cutoffs-crop.png"
       },
       {
         num: "02",
         name: "The Lace Trim",
         desc: "Soft drawstring shorts with a scalloped lace hem. Sweet and breezy.",
         normal: "assets/img/looks/lace-trim-normal.png",
-        crop: "assets/img/looks/lace-trim-crop.png",
-        shop: ""
+        crop: "assets/img/looks/lace-trim-crop.png"
       },
       {
         num: "03",
         name: "The Smocked Ruffle",
         desc: "Light blue smocked shorts with a soft ruffle hem and a little bow.",
         normal: "assets/img/looks/smocked-ruffle-normal.png",
-        crop: "assets/img/looks/smocked-ruffle-crop.png",
-        shop: ""
+        crop: "assets/img/looks/smocked-ruffle-crop.png"
       },
       {
         num: "04",
         name: "The Gingham Tiered",
         desc: "Blue gingham with tiered ruffles. The most playful of the bunch.",
         normal: "assets/img/looks/gingham-tiered-normal.png",
-        crop: "assets/img/looks/gingham-tiered-crop.png",
-        shop: ""
+        crop: "assets/img/looks/gingham-tiered-crop.png"
       },
       {
         num: "05",
         name: "The Tennis Skirt",
         desc: "Pleated tennis skirt. Sporty, short, and easy to move in.",
         normal: "assets/img/looks/tennis-skirt-normal.png",
-        crop: "assets/img/looks/tennis-skirt-crop.png",
-        shop: ""
+        crop: "assets/img/looks/tennis-skirt-crop.png"
       },
       {
         num: "06",
         name: "The Mini Skirt",
         desc: "A flirty little mini. Shortest of the bunch, dressed all the way up.",
         normal: "assets/img/looks/mini-skirt-normal.png",
-        crop: "assets/img/looks/mini-skirt-crop.png",
-        shop: ""
+        crop: "assets/img/looks/mini-skirt-crop.png"
       }
     ]
   }
