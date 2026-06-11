@@ -127,7 +127,7 @@ var DATA = {
     travel: {
       eyebrow: "Getting There",
       title: "Airport & Rides",
-      note: "We will Uber to and from the airport, about a 30 to 40 minute drive, and we have a driver with a minivan for the group, plus two cars, a convertible BMW that holds four and a Toyota Highlander that holds six, or you can Uber back. If you fly in at a different time, plan to Uber to the house and back on your own."
+      note: "Our driver with a minivan will meet the group at the airport off the Southwest Thursday flight (WN 4206, landing Myrtle Beach at 1:10 PM on Thu, Aug 20) and drive us to the house, about 30 to 40 minutes. That minivan is the only airport pickup. Once we are all at Pawleys Island, we will have two cars for getting around, a Toyota Highlander that holds six and a convertible BMW that holds four. If you are flying in on a different day, plan to Uber to the house, but reach out first because we can send the minivan back the next day to grab you."
     },
 
     packing: {
