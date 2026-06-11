@@ -422,7 +422,7 @@ var DATA = {
         // Soft blue cabana stripes wash the whole beach-club world.
         bg: "assets/img/beachclub/beachclub-stripe-bg.jpg",
         hook: "Pajamas & Port",
-        vibe: "A night in at the house. Pajamas, a taco bar, and dips to graze. A few rounds of trivia, get to know you games, ocean in a bottle, then a movie to wind down.",
+        vibe: "A night in at the house. Pajamas, a taco bar, and dips to graze. A few rounds of trivia, get to know you games, a craft or two, then a movie to wind down.",
         wear: "your comfiest pajamas, nautical colors if you have them",
         // The night-in plan, shown as a bold grid of line icons rather than a
         // paragraph. Each "icon" maps to an inline SVG in app.js.
@@ -434,7 +434,7 @@ var DATA = {
             { icon: "dip",    label: "Dips & Snacks",     note: "Grazing all night" },
             { icon: "games",  label: "Games",             note: "Get to know you rounds" },
             { icon: "trivia", label: "Trivia",            note: "On the big screen" },
-            { icon: "bottle", label: "Ocean in a Bottle", note: "Make your own" },
+            { icon: "craft",  label: "Crafts",            note: "A little something to make" },
             { icon: "movie",  label: "Movie",             note: "To wind the night down" }
           ]
         },
