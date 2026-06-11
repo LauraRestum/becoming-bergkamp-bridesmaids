@@ -490,7 +490,7 @@
   }
 
   /* The Beach Club night-in plan: a bold grid of line icons (taco bar, dips,
-     games, trivia, ocean in a bottle, movie) rather than a paragraph. Each item
+     games, trivia, crafts, movie) rather than a paragraph. Each item
      names an inline SVG by key. Hairline framed, no boxed cards or shadows. */
   function activityIcon(key) {
     var paths = {
@@ -498,7 +498,7 @@
       dip: '<path d="M3 11h18a9 9 0 0 1-18 0Z"/><path d="M13 11V6.5a2.5 2.5 0 0 1 2.5-2.5"/>',
       games: '<rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="9" r="1.1" fill="currentColor" stroke="none"/><circle cx="15" cy="9" r="1.1" fill="currentColor" stroke="none"/><circle cx="9" cy="15" r="1.1" fill="currentColor" stroke="none"/><circle cx="15" cy="15" r="1.1" fill="currentColor" stroke="none"/>',
       trivia: '<rect x="3" y="5" width="18" height="13" rx="2"/><path d="M8 21h8M10 9.5a2 2 0 1 1 2.7 1.9c-.6.2-1 .7-1 1.4M11.7 15.5h.01"/>',
-      bottle: '<path d="M10.5 2.5h3v2.2l1.4 2.3a4 4 0 0 1 .6 2.1V19a2.5 2.5 0 0 1-2.5 2.5h-2A2.5 2.5 0 0 1 8.5 19V9.1a4 4 0 0 1 .6-2.1l1.4-2.3z"/><path d="M8.7 15.5c1.2.9 2.4.9 3.6 0s2.4-.9 3.4 0"/>',
+      craft: '<path d="M12 3a9 9 0 0 0 0 18c1 0 1.5-.7 1.5-1.5 0-.4-.2-.7-.4-1-.2-.3-.4-.6-.4-1 0-.8.7-1.5 1.5-1.5H16a5 5 0 0 0 5-5c0-4.4-4-8-9-8z"/><circle cx="7.8" cy="11.8" r="1" fill="currentColor" stroke="none"/><circle cx="10.6" cy="8.2" r="1" fill="currentColor" stroke="none"/><circle cx="14.6" cy="8.2" r="1" fill="currentColor" stroke="none"/>',
       movie: '<circle cx="12" cy="12" r="9"/><path d="M10 8.5l5 3.5-5 3.5z" fill="currentColor" stroke="none"/>'
     };
     return '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" ' +
