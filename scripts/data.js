@@ -151,6 +151,90 @@ var DATA = {
       plane: "assets/img/travel/plane.png",
       planeAlt: "The All You Sea is Love bridesmaid plane",
       note: "Pick the option that fits where you are flying from, then book through the Google Flights link. All times are local. Prices are per person, round trip, in economy, and they shift, so the link always shows the live number. Once you book, send Laura your flights.",
+
+      // The big, hard to miss call to action that crowns the open panel, plus a
+      // matching flashing cue on the collapsed banner. The interactive check in
+      // (the little yes or no flow) lives below it. None of this submits
+      // anywhere; it is a friendly nudge that walks each girl from booking her
+      // flight to picking her outfits.
+      booking: {
+        flash: {
+          // short, flashing pill on the collapsed Travel Details banner
+          cue: "Dates locked · time to book",
+          title: "The dates are locked. Time to book.",
+          note: "Laura's flights are set (right below). Match her dates so we all land together, then take thirty seconds to check in here."
+        },
+        // Laura's own flights, so everyone can book the same days and grab a seat
+        // near her. She is on the first Southwest option below, out of Wichita.
+        lauraFlights: {
+          label: "Laura's flights",
+          note: "Laura is on the first Southwest option below, out of Wichita, Thursday to Sunday. Here is where she will be so you can match dates and pick a seat nearby.",
+          arrive: "Thu, Aug 20 · lands Myrtle Beach (MYR) 1:10 PM",
+          depart: "Sun, Aug 23 · leaves Myrtle Beach (MYR) 2:45 PM",
+          seats: [
+            { leg: "ICT to MDW", seat: "18C" },
+            { leg: "MDW to STL", seat: "16D" },
+            { leg: "STL to MYR", seat: "20C" },
+            { leg: "MYR to STL", seat: "16C" },
+            { leg: "STL to DEN", seat: "20C" },
+            { leg: "DEN to ICT", seat: "18C" }
+          ]
+        },
+        // A tiny front end state machine. Each step either asks a question with
+        // answer buttons (each answer goes to another step) or lands on a closing
+        // message. "jumps" open a day's plan and scroll to it.
+        flow: {
+          start: "booked",
+          steps: {
+            booked: {
+              q: "Have you booked your flight?",
+              options: [
+                { label: "Yes, I'm booked", goto: "outfits", tone: "yes" },
+                { label: "Not yet", goto: "soon", tone: "no" }
+              ]
+            },
+            soon: {
+              q: "Do you plan to book in the next three days?",
+              options: [
+                { label: "Yes, within three days", goto: "soonYes", tone: "yes" },
+                { label: "No", goto: "rsvp", tone: "no" }
+              ]
+            },
+            soonYes: {
+              title: "Perfect.",
+              body: "Use Laura's dates above and grab one of the options below. The minute you book, pop back in here and let us know so we can talk outfits.",
+              actions: [
+                { label: "Done, I just booked", goto: "outfits" }
+              ]
+            },
+            rsvp: {
+              tone: "alert",
+              title: "Let's check in.",
+              body: "Please contact Laura to let her know if your RSVP has changed. We just want to make sure we still have you for the weekend."
+            },
+            outfits: {
+              note: "Girls are starting to submit the outfits they have already gotten, so you can see what everyone else is wearing and get a feel for the rainbow before you decide.",
+              q: "Have you picked out all your outfits yet?",
+              options: [
+                { label: "Yes, all picked", goto: "outfitsYes", tone: "yes" },
+                { label: "Not yet", goto: "outfitsNo", tone: "no" }
+              ]
+            },
+            outfitsYes: {
+              title: "Yay!",
+              body: "If you have not already, please text a photo of your outfit to Laura so she can upload it here for everyone to see."
+            },
+            outfitsNo: {
+              title: "Let's find your looks.",
+              body: "Two nights call for an outfit: the Rainbow Fish night and the Coco Nuts night. Hop into each one for the colors, the inspo, and what the group is already wearing, then pick yours.",
+              jumps: [
+                { label: "Rainbow Fish night", anchor: "friday-rainbow" },
+                { label: "Coco Nuts night", anchor: "coconuts" }
+              ]
+            }
+          }
+        }
+      },
       flightGroups: [
         {
           city: "Flying from Wichita",
