@@ -846,6 +846,59 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .day--acc.has-bg .outfit-inspo__label,
 .day--acc.has-bg .outfit-inspo__hint { text-shadow: var(--text-halo, none); }
 
+/* claimed looks: the dresses people have already ordered for a night. A gold
+   label (with a hairline above) and a short note set it up, then each look
+   sits in a calm column with its owner's name tagged below. No drop-shadow
+   boxes; the photos read as an editorial lineup, not cards. Tapping a look
+   opens the lightbox at full size. */
+.claimed-looks { margin-top: var(--space-7); }
+.claimed-looks__label {
+  font-size: 10px; letter-spacing: var(--track-label); text-transform: uppercase;
+  color: var(--gold);
+  padding-top: var(--space-5);
+  border-top: 1px solid currentColor;
+}
+.claimed-looks__note {
+  margin-top: var(--space-4);
+  max-width: 46ch;
+  font-size: clamp(14px, 3.6vw, 16px);
+  line-height: 1.5;
+  opacity: .85;
+}
+.claimed-looks__grid {
+  margin-top: var(--space-5);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--space-5) var(--space-4);
+}
+.claimed-look { margin: 0; }
+.claimed-look__btn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+  transition: opacity .25s var(--ease);
+}
+@media (hover: hover) { .claimed-look__btn:hover { opacity: .94; } }
+.claimed-look__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+.claimed-look__tag {
+  margin-top: var(--space-3);
+  font-family: var(--display);
+  font-size: clamp(15px, 4vw, 18px);
+  font-weight: 600; letter-spacing: -.01em;
+}
+.day--acc.has-bg .claimed-looks__label,
+.day--acc.has-bg .claimed-looks__note,
+.day--acc.has-bg .claimed-look__tag { text-shadow: var(--text-halo, none); }
+
 /* oversized botanical glyph as quiet texture per day */
 .day__glyph {
   position: absolute; z-index: 1;

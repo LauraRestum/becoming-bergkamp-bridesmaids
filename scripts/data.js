@@ -539,6 +539,20 @@ var DATA = {
           // No band color: the collage runs full bleed straight on the pale
           // opal day so the iridescent looks read against the mermaid scales.
         },
+        // Dresses people have already ordered for the night, gathered here so
+        // everyone can see what the group is wearing and try for a different
+        // color or shade. Each look opens in the shared lightbox.
+        claimedLooks: {
+          label: "Who's wearing what",
+          note: "As dresses get ordered they land here, so you can see what everyone else is wearing. No need to match, just try your best to find a different color or shade so the whole rainbow shows up.",
+          looks: [
+            {
+              src: "assets/img/rainbow/looks/paige.jpeg",
+              name: "Paige",
+              alt: "Paige's green sequined mini dress with a satin cowl neckline for the Rainbow Fish night"
+            }
+          ]
+        },
         swatches: [
           { name: "opal", hex: "#EAE6F2" },
           { name: "pink", hex: "#FF3FA4" },

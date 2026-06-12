@@ -73,6 +73,34 @@
     "</section>";
   }
 
+  /* The looks people have already ordered for a night, gathered under the
+     outfit inspo so everyone can see what the group is wearing and steer
+     toward a different color or shade. A gold label (with a hairline above)
+     and a short note set it up, then each claimed look sits in a calm column
+     with its owner's name tagged below. Tapping a look opens the shared
+     lightbox at full size. */
+  function claimedLooksHTML(data) {
+    if (!data || !data.looks || !data.looks.length) return "";
+    var cards = data.looks.map(function (look) {
+      if (!look || !look.src) return "";
+      var alt = look.alt || ((look.name || "Someone") + "'s look");
+      var tag = look.name ? esc(look.name) + "'s" : "Claimed";
+      return '<figure class="claimed-look">' +
+        '<button class="claimed-look__btn" type="button" data-zoom="' + esc(look.src) +
+          '" data-zoom-alt="' + esc(alt) + '" aria-label="Expand ' + tag + ' look">' +
+          '<img class="claimed-look__img" src="' + esc(look.src) +
+            '" alt="' + esc(alt) + '" loading="lazy">' +
+        "</button>" +
+        '<figcaption class="claimed-look__tag">' + tag + "</figcaption>" +
+      "</figure>";
+    }).join("");
+    return '<section class="claimed-looks reveal">' +
+      '<p class="claimed-looks__label">' + esc(data.label || "Who's wearing what") + "</p>" +
+      (data.note ? '<p class="claimed-looks__note">' + esc(data.note) + "</p>" : "") +
+      '<div class="claimed-looks__grid">' + cards + "</div>" +
+    "</section>";
+  }
+
   function pagefoot(script, line) {
     return '<footer class="pagefoot reveal">' + contactList() +
            '<div class="script">' + esc(script) +
@@ -300,6 +328,10 @@
 
     // The outfit inspo collage runs full bleed in its own band below the plan.
     body += outfitInspoHTML(day.outfitInspo);
+
+    // The looks people have already ordered sit just under the inspo, so the
+    // group can see what is taken and pick a different color or shade.
+    if (day.claimedLooks) body += seg(claimedLooksHTML(day.claimedLooks));
 
     if (day.meals) body += seg(mealsHTML(day.meals));
     // The boardwalk tee is a surprise, so its widget keeps a plain background.
@@ -942,7 +974,7 @@
     var lastFocus = null;
 
     document.addEventListener("click", function (e) {
-      var tile = e.target.closest && e.target.closest(".look-tile, .outfit-inspo__btn");
+      var tile = e.target.closest && e.target.closest(".look-tile, .outfit-inspo__btn, .claimed-look__btn");
       if (tile) {
         lastFocus = document.activeElement;
         img.src = tile.getAttribute("data-zoom");
