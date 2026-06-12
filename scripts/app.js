@@ -658,15 +658,181 @@
     }).join("") + "</div>";
   }
 
+  /* The big, flashing "time to book" banner that crowns the open travel panel.
+     The bride asked for something impossible to miss, so it pulses in a light
+     blue (the cabana sky of the trip) with a beacon dot. Reduced motion turns
+     the pulse off in the stylesheet but the bold blue frame stays obvious. */
+  function bookingFlashHTML(f) {
+    if (!f) return "";
+    return '<div class="bookflash reveal" role="status">' +
+      '<span class="bookflash__beacon" aria-hidden="true"></span>' +
+      '<div class="bookflash__text">' +
+        '<strong class="bookflash__title">' + esc(f.title) + "</strong>" +
+        (f.note ? '<span class="bookflash__note">' + esc(f.note) + "</span>" : "") +
+      "</div></div>";
+  }
+
+  /* Laura's own flights, laid out so each girl can match her dates and grab a
+     seat near her. Arrival and departure up top, then her seat on every leg. */
+  function lauraFlightsHTML(lf) {
+    if (!lf) return "";
+    var seats = (lf.seats || []).map(function (s) {
+      return '<div class="lauraflights__seat">' +
+        '<span class="lauraflights__leg">' + esc(s.leg) + "</span>" +
+        '<span class="lauraflights__no">' + esc(s.seat) + "</span></div>";
+    }).join("");
+    return '<div class="lauraflights reveal">' +
+      '<span class="lauraflights__label">' + esc(lf.label) +
+        ' <span aria-hidden="true">&#9992;</span></span>' +
+      (lf.note ? '<p class="lauraflights__note">' + esc(lf.note) + "</p>" : "") +
+      '<div class="lauraflights__times">' +
+        '<div class="lauraflights__time"><span class="k">Arrives</span>' +
+          '<span class="v">' + esc(lf.arrive) + "</span></div>" +
+        '<div class="lauraflights__time"><span class="k">Departs</span>' +
+          '<span class="v">' + esc(lf.depart) + "</span></div>" +
+      "</div>" +
+      (seats
+        ? '<span class="lauraflights__seatlabel">Her seats</span>' +
+          '<div class="lauraflights__seats">' + seats + "</div>"
+        : "") +
+    "</div>";
+  }
+
+  /* A green check, for the "Booked" badge on the roster. */
+  function checkSVG() {
+    return '<svg class="booked__check" viewBox="0 0 24 24" width="14" height="14" fill="none" ' +
+      'stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" ' +
+      'aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg>';
+  }
+
+  /* The booked board: everyone other than Laura who has locked their flights,
+     each with the flight out and back and a green Booked check. Add a name to
+     the data list as she books and she shows up here. */
+  function bookedRosterHTML(r) {
+    if (!r || !r.list || !r.list.length) return "";
+    var rows = r.list.map(function (p) {
+      var legs = "";
+      if (p.depart) {
+        legs += '<div class="booked__leg"><span class="k">Out</span>' +
+          '<span class="v">' + esc(p.depart) + "</span></div>";
+      }
+      if (p.return) {
+        legs += '<div class="booked__leg"><span class="k">Back</span>' +
+          '<span class="v">' + esc(p.return) + "</span></div>";
+      }
+      return '<div class="booked__row">' +
+        '<div class="booked__top">' +
+          '<span class="booked__name">' + esc(p.name) + "</span>" +
+          '<span class="booked__badge">' + checkSVG() + "Booked</span>" +
+        "</div>" +
+        '<div class="booked__legs">' + legs + "</div>" +
+      "</div>";
+    }).join("");
+    return '<div class="booked reveal">' +
+      (r.label ? '<span class="booked__label">' + esc(r.label) + "</span>" : "") +
+      rows +
+    "</div>";
+  }
+
+  /* One step of the booking check in: a note and a question up top (when set),
+     then the answer buttons, continue actions, or jump links for that step.
+     Steps with no answer options are endpoints, so they offer a quiet restart. */
+  function bookStepHTML(flow, key) {
+    var s = flow.steps[key];
+    if (!s) return "";
+    var html = "";
+    if (s.note) html += '<p class="bookflow__note">' + esc(s.note) + "</p>";
+    if (s.title) {
+      html += '<p class="bookflow__title' + (s.tone ? " is-" + esc(s.tone) : "") + '">' +
+        esc(s.title) + "</p>";
+    }
+    if (s.body) html += '<p class="bookflow__body">' + esc(s.body) + "</p>";
+    if (s.q) html += '<p class="bookflow__q">' + esc(s.q) + "</p>";
+
+    var btns = (s.options || []).concat(s.actions || []).map(function (o) {
+      return '<button type="button" class="bookflow__opt' +
+        (o.tone ? " is-" + esc(o.tone) : " is-yes") + '" data-goto="' + esc(o.goto) + '">' +
+        esc(o.label) + "</button>";
+    }).join("");
+    if (btns) html += '<div class="bookflow__opts">' + btns + "</div>";
+
+    var jumps = (s.jumps || []).map(function (j) {
+      return '<button type="button" class="bookflow__jump" data-jump="' + esc(j.anchor) + '">' +
+        esc(j.label) + ' <span aria-hidden="true">&#8594;</span></button>';
+    }).join("");
+    if (jumps) html += '<div class="bookflow__jumps">' + jumps + "</div>";
+
+    if (!s.options) {
+      html += '<button type="button" class="bookflow__restart" data-restart="1">Start over</button>';
+    }
+    return html;
+  }
+
+  /* The interactive booking check in. A friendly little yes or no flow that
+     walks from "have you booked" through to outfits. Rendered with its first
+     step; initBookingFlow swaps in later steps on tap. */
+  function bookingFlowHTML(flow) {
+    if (!flow) return "";
+    return '<div class="bookflow reveal" data-bookflow>' +
+      '<span class="bookflow__eyebrow">A quick check in</span>' +
+      '<div class="bookflow__stage" data-bookflow-stage>' +
+        bookStepHTML(flow, flow.start) +
+      "</div>" +
+    "</div>";
+  }
+
+  /* Open a collapsed day and scroll to it. Shared by the jump nav and the
+     booking flow's "jump to this night" links. */
+  function jumpToDay(id) {
+    var target = document.getElementById(id);
+    if (!target) return;
+    if (target.classList.contains("day--acc") && !target.classList.contains("is-open")) {
+      toggleDay(target, true);
+    }
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  /* Wire the booking check in: each tap swaps the stage to the next step, or
+     jumps to a night's plan. Nothing is stored or submitted. */
+  function initBookingFlow(scope) {
+    var root = (scope || document).querySelector("[data-bookflow]");
+    if (!root || root.dataset.bound) return;
+    var booking = DATA.bachelorette.travelDetails.booking;
+    if (!booking || !booking.flow) return;
+    root.dataset.bound = "1";
+    var flow = booking.flow;
+    var stage = root.querySelector("[data-bookflow-stage]");
+
+    root.addEventListener("click", function (e) {
+      var btn = e.target.closest("button");
+      if (!btn || !root.contains(btn)) return;
+      if (btn.dataset.jump) { jumpToDay(btn.dataset.jump); return; }
+      var next = btn.dataset.restart ? flow.start : btn.dataset.goto;
+      if (!next) return;
+      stage.innerHTML = bookStepHTML(flow, next);
+      // replay the soft swap transition on the fresh content
+      stage.classList.remove("is-swap");
+      void stage.offsetWidth;
+      stage.classList.add("is-swap");
+      root.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+  }
+
   function renderTravelDetails(t) {
     if (!t) return "";
+    var booking = t.booking || {};
+    var flash = booking.flash;
+    // a flashing cue rides the collapsed banner when a booking nudge is on
+    var hint = flash
+      ? '<span class="travel__cue">' + esc(flash.cue) + "</span>"
+      : (t.hint ? '<span class="travel__hint">' + esc(t.hint) + "</span>" : "");
     var head =
       '<button class="day__head day__head--text travel__head reveal" type="button" ' +
         'aria-expanded="false" aria-controls="panel-travel">' +
         '<span class="day__seam"><span class="day__cap">' + esc(t.eyebrow) + "</span></span>" +
         '<span class="day__hero"><span class="travel__title">' +
           '<span class="day__wordmark">' + esc(t.title) + "</span>" +
-          (t.hint ? '<span class="travel__hint">' + esc(t.hint) + "</span>" : "") +
+          hint +
         "</span></span>" +
         '<span class="day__chev" aria-hidden="true"></span>' +
       "</button>";
@@ -681,7 +847,11 @@
     var copy =
       '<div class="wrap"><div class="day__inner">' +
         (t.headline ? '<h3 class="travel__head-copy reveal">' + esc(t.headline) + "</h3>" : "") +
+        bookingFlashHTML(flash) +
         (t.note ? '<p class="travel__note reveal">' + esc(t.note) + "</p>" : "") +
+        lauraFlightsHTML(booking.lauraFlights) +
+        bookedRosterHTML(booking.booked) +
+        bookingFlowHTML(booking.flow) +
         travelLegsHTML(t.legs) +
         flightGroupsHTML(t.flightGroups) +
       "</div></div>";
@@ -779,6 +949,7 @@
 
     initJumpNav();
     initAccordion(el("view-bachelorette"));
+    initBookingFlow(el("view-bachelorette"));
     if (window.Boardwalk) window.Boardwalk.init(el("view-bachelorette"));
   }
 
@@ -932,13 +1103,8 @@
 
     pills.forEach(function (p) {
       p.addEventListener("click", function () {
-        var target = document.getElementById(p.getAttribute("data-anchor"));
-        if (!target) return;
         // open a collapsed day before jumping to it
-        if (target.classList.contains("day--acc") && !target.classList.contains("is-open")) {
-          toggleDay(target, true);
-        }
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        jumpToDay(p.getAttribute("data-anchor"));
       });
     });
 
