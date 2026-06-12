@@ -672,8 +672,18 @@
       "</div></div>";
   }
 
+  /* Join a list of names into readable prose: "Maddie", "Maddie and Jacey",
+     or "Maddie, Jacey, and Ali". */
+  function joinNames(list) {
+    if (!list || !list.length) return "";
+    if (list.length === 1) return esc(list[0]);
+    if (list.length === 2) return esc(list[0]) + " and " + esc(list[1]);
+    return list.slice(0, -1).map(esc).join(", ") + ", and " + esc(list[list.length - 1]);
+  }
+
   /* Laura's own flights, laid out so each girl can match her dates and grab a
-     seat near her. Arrival and departure up top, then her seat on every leg. */
+     seat near her. Arrival and departure up top, then her seat on every leg.
+     Anyone already booked on the same itinerary gets a "you have company" line. */
   function lauraFlightsHTML(lf) {
     if (!lf) return "";
     var seats = (lf.seats || []).map(function (s) {
@@ -681,10 +691,17 @@
         '<span class="lauraflights__leg">' + esc(s.leg) + "</span>" +
         '<span class="lauraflights__no">' + esc(s.seat) + "</span></div>";
     }).join("");
+    var also = (lf.also && lf.also.length)
+      ? '<p class="lauraflights__also">' +
+          '<span class="lauraflights__alsotag">On this itinerary too</span>' +
+          joinNames(lf.also) + " booked these exact flights, so you have company." +
+        "</p>"
+      : "";
     return '<div class="lauraflights reveal">' +
       '<span class="lauraflights__label">' + esc(lf.label) +
         ' <span aria-hidden="true">&#9992;</span></span>' +
       (lf.note ? '<p class="lauraflights__note">' + esc(lf.note) + "</p>" : "") +
+      also +
       '<div class="lauraflights__times">' +
         '<div class="lauraflights__time"><span class="k">Arrives</span>' +
           '<span class="v">' + esc(lf.arrive) + "</span></div>" +

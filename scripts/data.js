@@ -169,6 +169,9 @@ var DATA = {
         lauraFlights: {
           label: "Laura's flights",
           note: "Laura is on the first Southwest option below, out of Wichita, Thursday to Sunday. Here is where she will be so you can match dates and pick a seat nearby.",
+          // Anyone already booked on this exact itinerary, so the group knows
+          // who they will be traveling with.
+          also: ["Maddie", "Jacey"],
           arrive: "Thu, Aug 20 · lands Myrtle Beach (MYR) 1:10 PM",
           depart: "Sun, Aug 23 · leaves Myrtle Beach (MYR) 2:45 PM",
           seats: [

@@ -1595,6 +1595,18 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   font-weight: 700; color: #1B4A6E; margin-bottom: 8px;
 }
 .lauraflights__note { font-size: 14px; line-height: 1.55; color: #16314E; opacity: .85; margin-bottom: 14px; }
+.lauraflights__also {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px;
+  font-size: 14px; line-height: 1.5; color: #16314E;
+  padding: 11px 13px; margin-bottom: 14px;
+  border-radius: 10px;
+  background: rgba(220, 234, 243, .7); border: 1px solid rgba(30, 127, 196, .28);
+}
+.lauraflights__alsotag {
+  font-family: var(--sans); font-size: 10px; letter-spacing: var(--track-label);
+  text-transform: uppercase; font-weight: 700; color: #0F2B47;
+  padding: 4px 9px; border-radius: 999px; background: #BFE0F5;
+}
 .lauraflights__times { display: flex; flex-wrap: wrap; gap: 14px 28px; margin-bottom: 16px; }
 .lauraflights__time { display: flex; flex-direction: column; gap: 2px; }
 .lauraflights__time .k {
