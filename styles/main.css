@@ -1595,18 +1595,6 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   font-weight: 700; color: #1B4A6E; margin-bottom: 8px;
 }
 .lauraflights__note { font-size: 14px; line-height: 1.55; color: #16314E; opacity: .85; margin-bottom: 14px; }
-.lauraflights__also {
-  display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px;
-  font-size: 14px; line-height: 1.5; color: #16314E;
-  padding: 11px 13px; margin-bottom: 14px;
-  border-radius: 10px;
-  background: rgba(220, 234, 243, .7); border: 1px solid rgba(30, 127, 196, .28);
-}
-.lauraflights__alsotag {
-  font-family: var(--sans); font-size: 10px; letter-spacing: var(--track-label);
-  text-transform: uppercase; font-weight: 700; color: #0F2B47;
-  padding: 4px 9px; border-radius: 999px; background: #BFE0F5;
-}
 .lauraflights__times { display: flex; flex-wrap: wrap; gap: 14px 28px; margin-bottom: 16px; }
 .lauraflights__time { display: flex; flex-direction: column; gap: 2px; }
 .lauraflights__time .k {
@@ -1632,6 +1620,51 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 }
 .lauraflights__leg { font-size: 12px; color: #1B4A6E; }
 .lauraflights__no { font-family: var(--display); font-weight: 800; font-size: 15px; color: #16314E; }
+
+/* the booked board: everyone (other than Laura) who has locked their flights,
+   each with the flight out and back and a green Booked check */
+.booked {
+  margin: 0 0 var(--space-5);
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(22, 49, 78, .16);
+  background: rgba(255, 255, 255, .5);
+  text-align: left;
+}
+.booked__label {
+  display: block;
+  font-family: var(--sans); font-size: 11px; letter-spacing: var(--track-label);
+  text-transform: uppercase; font-weight: 700; color: #1B4A6E; margin-bottom: 12px;
+}
+.booked__row {
+  padding: 12px 0;
+  border-top: 1px solid rgba(22, 49, 78, .12);
+}
+.booked__row:first-of-type { border-top: none; padding-top: 0; }
+.booked__top {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin-bottom: 8px;
+}
+.booked__name {
+  font-family: var(--display); font-weight: 800; font-size: clamp(17px, 4.6vw, 21px);
+  line-height: 1; letter-spacing: var(--track-tight); color: #16314E;
+}
+.booked__badge {
+  display: inline-flex; align-items: center; gap: 5px; flex-shrink: 0;
+  font-family: var(--sans); font-size: 10px; letter-spacing: var(--track-label);
+  text-transform: uppercase; font-weight: 700; color: #2F7D4F;
+  padding: 4px 10px 4px 8px; border-radius: 999px;
+  background: rgba(47, 125, 79, .12); border: 1px solid rgba(47, 125, 79, .35);
+}
+.booked__check { color: #2F8A4E; }
+.booked__legs { display: flex; flex-direction: column; gap: 5px; }
+.booked__leg { display: flex; align-items: baseline; gap: 10px; }
+.booked__leg .k {
+  flex: 0 0 34px;
+  font-family: var(--sans); font-size: 10px; letter-spacing: var(--track-label);
+  text-transform: uppercase; font-weight: 700; color: #1B4A6E; opacity: .7;
+}
+.booked__leg .v { font-size: 13px; line-height: 1.4; color: #16314E; }
 
 /* the yes or no booking check in */
 .bookflow {

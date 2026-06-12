@@ -672,18 +672,8 @@
       "</div></div>";
   }
 
-  /* Join a list of names into readable prose: "Maddie", "Maddie and Jacey",
-     or "Maddie, Jacey, and Ali". */
-  function joinNames(list) {
-    if (!list || !list.length) return "";
-    if (list.length === 1) return esc(list[0]);
-    if (list.length === 2) return esc(list[0]) + " and " + esc(list[1]);
-    return list.slice(0, -1).map(esc).join(", ") + ", and " + esc(list[list.length - 1]);
-  }
-
   /* Laura's own flights, laid out so each girl can match her dates and grab a
-     seat near her. Arrival and departure up top, then her seat on every leg.
-     Anyone already booked on the same itinerary gets a "you have company" line. */
+     seat near her. Arrival and departure up top, then her seat on every leg. */
   function lauraFlightsHTML(lf) {
     if (!lf) return "";
     var seats = (lf.seats || []).map(function (s) {
@@ -691,17 +681,10 @@
         '<span class="lauraflights__leg">' + esc(s.leg) + "</span>" +
         '<span class="lauraflights__no">' + esc(s.seat) + "</span></div>";
     }).join("");
-    var also = (lf.also && lf.also.length)
-      ? '<p class="lauraflights__also">' +
-          '<span class="lauraflights__alsotag">On this itinerary too</span>' +
-          joinNames(lf.also) + " booked these exact flights, so you have company." +
-        "</p>"
-      : "";
     return '<div class="lauraflights reveal">' +
       '<span class="lauraflights__label">' + esc(lf.label) +
         ' <span aria-hidden="true">&#9992;</span></span>' +
       (lf.note ? '<p class="lauraflights__note">' + esc(lf.note) + "</p>" : "") +
-      also +
       '<div class="lauraflights__times">' +
         '<div class="lauraflights__time"><span class="k">Arrives</span>' +
           '<span class="v">' + esc(lf.arrive) + "</span></div>" +
@@ -712,6 +695,42 @@
         ? '<span class="lauraflights__seatlabel">Her seats</span>' +
           '<div class="lauraflights__seats">' + seats + "</div>"
         : "") +
+    "</div>";
+  }
+
+  /* A green check, for the "Booked" badge on the roster. */
+  function checkSVG() {
+    return '<svg class="booked__check" viewBox="0 0 24 24" width="14" height="14" fill="none" ' +
+      'stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" ' +
+      'aria-hidden="true"><path d="M4 12.5l5 5 11-11"/></svg>';
+  }
+
+  /* The booked board: everyone other than Laura who has locked their flights,
+     each with the flight out and back and a green Booked check. Add a name to
+     the data list as she books and she shows up here. */
+  function bookedRosterHTML(r) {
+    if (!r || !r.list || !r.list.length) return "";
+    var rows = r.list.map(function (p) {
+      var legs = "";
+      if (p.depart) {
+        legs += '<div class="booked__leg"><span class="k">Out</span>' +
+          '<span class="v">' + esc(p.depart) + "</span></div>";
+      }
+      if (p.return) {
+        legs += '<div class="booked__leg"><span class="k">Back</span>' +
+          '<span class="v">' + esc(p.return) + "</span></div>";
+      }
+      return '<div class="booked__row">' +
+        '<div class="booked__top">' +
+          '<span class="booked__name">' + esc(p.name) + "</span>" +
+          '<span class="booked__badge">' + checkSVG() + "Booked</span>" +
+        "</div>" +
+        '<div class="booked__legs">' + legs + "</div>" +
+      "</div>";
+    }).join("");
+    return '<div class="booked reveal">' +
+      (r.label ? '<span class="booked__label">' + esc(r.label) + "</span>" : "") +
+      rows +
     "</div>";
   }
 
@@ -831,6 +850,7 @@
         bookingFlashHTML(flash) +
         (t.note ? '<p class="travel__note reveal">' + esc(t.note) + "</p>" : "") +
         lauraFlightsHTML(booking.lauraFlights) +
+        bookedRosterHTML(booking.booked) +
         bookingFlowHTML(booking.flow) +
         travelLegsHTML(t.legs) +
         flightGroupsHTML(t.flightGroups) +

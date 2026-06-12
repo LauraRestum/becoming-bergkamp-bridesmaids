@@ -169,9 +169,6 @@ var DATA = {
         lauraFlights: {
           label: "Laura's flights",
           note: "Laura is on the first Southwest option below, out of Wichita, Thursday to Sunday. Here is where she will be so you can match dates and pick a seat nearby.",
-          // Anyone already booked on this exact itinerary, so the group knows
-          // who they will be traveling with.
-          also: ["Maddie", "Jacey"],
           arrive: "Thu, Aug 20 · lands Myrtle Beach (MYR) 1:10 PM",
           depart: "Sun, Aug 23 · leaves Myrtle Beach (MYR) 2:45 PM",
           seats: [
@@ -181,6 +178,25 @@ var DATA = {
             { leg: "MYR to STL", seat: "16C" },
             { leg: "STL to DEN", seat: "20C" },
             { leg: "DEN to ICT", seat: "18C" }
+          ]
+        },
+        // The booked board: everyone other than Laura who has their flights
+        // locked, with their flight out and back and a green Booked check. Right
+        // now Maddie and Jacey, both on Laura's identical itinerary. Add a girl
+        // here as she books.
+        booked: {
+          label: "Already booked",
+          list: [
+            {
+              name: "Maddie",
+              depart: "Thu, Aug 20 · ICT 5:30 AM to MYR 1:10 PM",
+              return: "Sun, Aug 23 · MYR 2:45 PM to ICT 10:10 PM"
+            },
+            {
+              name: "Jacey",
+              depart: "Thu, Aug 20 · ICT 5:30 AM to MYR 1:10 PM",
+              return: "Sun, Aug 23 · MYR 2:45 PM to ICT 10:10 PM"
+            }
           ]
         },
         // A tiny front end state machine. Each step either asks a question with
