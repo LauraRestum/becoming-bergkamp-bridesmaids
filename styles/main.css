@@ -1605,22 +1605,6 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   font-family: var(--display); font-weight: 700; font-size: clamp(15px, 3.8vw, 18px);
   line-height: 1.15; color: #16314E;
 }
-.lauraflights__seatlabel {
-  display: block;
-  font-family: var(--sans); font-size: 10px; letter-spacing: var(--track-label);
-  text-transform: uppercase; font-weight: 700; color: #1B4A6E; opacity: .7; margin-bottom: 8px;
-}
-.lauraflights__seats {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px;
-}
-.lauraflights__seat {
-  display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
-  padding: 7px 11px; border-radius: 8px;
-  background: rgba(220, 234, 243, .6); border: 1px solid rgba(22, 49, 78, .1);
-}
-.lauraflights__leg { font-size: 12px; color: #1B4A6E; }
-.lauraflights__no { font-family: var(--display); font-weight: 800; font-size: 15px; color: #16314E; }
-
 /* the booked board: everyone (other than Laura) who has locked their flights,
    each with the flight out and back and a green Booked check */
 .booked {
@@ -1666,22 +1650,49 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 }
 .booked__leg .v { font-size: 13px; line-height: 1.4; color: #16314E; }
 
-/* the yes or no booking check in */
-.bookflow {
-  margin: 0 0 var(--space-5);
-  padding: 18px;
-  border-radius: 14px;
-  border: 1px solid rgba(22, 49, 78, .18);
-  background: rgba(255, 255, 255, .5);
-  text-align: left;
+/* the check in pop up, greeting everyone on entry with the booking and outfit
+   questions. A light sky card over a dim scrim. The step content inside reuses
+   the .bookflow__* type and button rules below. */
+.qmodal { position: fixed; inset: 0; z-index: 1000; display: none; }
+.qmodal.is-open { display: block; }
+.qmodal__scrim {
+  position: absolute; inset: 0;
+  background: rgba(15, 19, 15, .55);
+  -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+  animation: fadeIn .25s ease;
 }
-.bookflow__eyebrow {
+.qmodal__card {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: min(440px, calc(100vw - 32px));
+  max-height: calc(100dvh - 48px); overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F1F7FB 100%);
+  border: 2px solid #5AA9DC; border-radius: 18px;
+  padding: 28px 22px 24px;
+  box-shadow: 0 24px 60px rgba(22, 49, 78, .3);
+  animation: qpop .32s var(--ease);
+}
+@keyframes qpop {
+  from { opacity: 0; transform: translate(-50%, -46%) scale(.96); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+.qmodal__close {
+  position: absolute; top: 12px; right: 14px;
+  width: 34px; height: 34px; border-radius: 50%;
+  border: none; background: rgba(22, 49, 78, .08); color: #16314E;
+  font-size: 22px; line-height: 1; cursor: pointer;
+}
+@media (hover: hover) { .qmodal__close:hover { background: rgba(22, 49, 78, .16); } }
+.qmodal__eyebrow {
   display: block;
   font-family: var(--sans); font-size: 10px; letter-spacing: var(--track-label);
-  text-transform: uppercase; font-weight: 700; color: #1B4A6E; opacity: .7; margin-bottom: 10px;
+  text-transform: uppercase; font-weight: 700; color: #1B4A6E; opacity: .7; margin-bottom: 12px;
 }
-.bookflow__stage.is-swap { animation: bookSwap .28s var(--ease); }
+.qmodal__stage.is-swap { animation: bookSwap .28s var(--ease); }
 @keyframes bookSwap { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+body.qmodal-open { overflow: hidden; }
+
+/* the booking and outfit step content (shared by the pop up stage) */
 .bookflow__note { font-size: 14px; line-height: 1.55; color: #16314E; opacity: .85; margin-bottom: 12px; }
 .bookflow__title {
   font-family: var(--display); font-weight: 800;
@@ -1770,7 +1781,7 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
      impossible to miss without the motion */
   .travel__cue, .bookflash, .bookflash__beacon { animation: none; }
   .bookflash { border-color: #1E7FC4; }
-  .bookflow__stage.is-swap { animation: none; }
+  .qmodal__card, .qmodal__scrim, .qmodal__stage.is-swap { animation: none; }
 }
 
 /* location marker, framed by a hairline rule instead of a box */
