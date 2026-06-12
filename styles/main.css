@@ -1701,6 +1701,14 @@ body.qmodal-open { overflow: hidden; }
 }
 .bookflow__title.is-alert { color: #B23A48; }
 .bookflow__body { font-size: 14px; line-height: 1.6; color: #16314E; opacity: .9; margin-bottom: 14px; }
+.bookflow__text {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--sans); font-size: 13px; font-weight: 700; letter-spacing: .02em;
+  padding: 13px 20px; border-radius: 999px;
+  background: #16314E; color: #F1F7FB; text-decoration: none;
+  transition: transform .1s;
+}
+.bookflow__text:active { transform: scale(.98); }
 .bookflow__q {
   font-family: var(--display); font-weight: 700;
   font-size: clamp(18px, 4.8vw, 22px); line-height: 1.15; color: #16314E; margin-bottom: 14px;

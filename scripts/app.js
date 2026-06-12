@@ -689,6 +689,13 @@
     "</div>";
   }
 
+  /* A small message bubble, for the tap to text Laura link. */
+  function smsSVG() {
+    return '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" ' +
+      'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 9.4 9.4 0 0 1-4-.9L3 20l1.4-4.2A8.4 8.4 0 0 1 3.5 11 8.38 8.38 0 0 1 12 2.5a8.38 8.38 0 0 1 9 9z"/></svg>';
+  }
+
   /* A green check, for the "Booked" badge on the roster. */
   function checkSVG() {
     return '<svg class="booked__check" viewBox="0 0 24 24" width="14" height="14" fill="none" ' +
@@ -738,6 +745,10 @@
         esc(s.title) + "</p>";
     }
     if (s.body) html += '<p class="bookflow__body">' + esc(s.body) + "</p>";
+    if (s.contact && s.contact.sms) {
+      html += '<a class="bookflow__text" href="sms:' + esc(s.contact.sms) + '">' +
+        smsSVG() + "<span>" + esc(s.contact.label || "Text Laura") + "</span></a>";
+    }
     if (s.q) html += '<p class="bookflow__q">' + esc(s.q) + "</p>";
 
     var btns = (s.options || []).concat(s.actions || []).map(function (o) {

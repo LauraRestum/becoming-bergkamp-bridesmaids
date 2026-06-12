@@ -221,7 +221,8 @@ var DATA = {
             rsvp: {
               tone: "alert",
               title: "Let's check in.",
-              body: "Please contact Laura to let her know if your RSVP has changed. We just want to make sure we still have you for the weekend."
+              body: "Please contact Laura to let her know if your RSVP has changed. We just want to make sure we still have you for the weekend.",
+              contact: { sms: "+19706852573", label: "Text Laura" }
             },
             outfits: {
               note: "Girls are starting to submit the outfits they have already gotten, so you can see what everyone else is wearing and get a feel for the rainbow before you decide.",
@@ -233,7 +234,8 @@ var DATA = {
             },
             outfitsYes: {
               title: "Yay!",
-              body: "If you have not already, please text a photo of your outfit to Laura so she can upload it here for everyone to see."
+              body: "If you have not already, please text a photo of your outfit to Laura so she can upload it here for everyone to see.",
+              contact: { sms: "+19706852573", label: "Text Laura a photo" }
             },
             outfitsNo: {
               title: "Let's find your looks.",
