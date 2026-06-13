@@ -672,15 +672,10 @@
       "</div></div>";
   }
 
-  /* Laura's own flights, laid out so each girl can match her dates and grab a
-     seat near her. Arrival and departure up top, then her seat on every leg. */
+  /* Laura's own flights, as plain coordination detail: when she lands and when
+     she leaves. No "match my flight" ask, no seat map. */
   function lauraFlightsHTML(lf) {
     if (!lf) return "";
-    var seats = (lf.seats || []).map(function (s) {
-      return '<div class="lauraflights__seat">' +
-        '<span class="lauraflights__leg">' + esc(s.leg) + "</span>" +
-        '<span class="lauraflights__no">' + esc(s.seat) + "</span></div>";
-    }).join("");
     return '<div class="lauraflights reveal">' +
       '<span class="lauraflights__label">' + esc(lf.label) +
         ' <span aria-hidden="true">&#9992;</span></span>' +
@@ -691,11 +686,14 @@
         '<div class="lauraflights__time"><span class="k">Departs</span>' +
           '<span class="v">' + esc(lf.depart) + "</span></div>" +
       "</div>" +
-      (seats
-        ? '<span class="lauraflights__seatlabel">Her seats</span>' +
-          '<div class="lauraflights__seats">' + seats + "</div>"
-        : "") +
     "</div>";
+  }
+
+  /* A small message bubble, for the tap to text Laura link. */
+  function smsSVG() {
+    return '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" ' +
+      'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 9.4 9.4 0 0 1-4-.9L3 20l1.4-4.2A8.4 8.4 0 0 1 3.5 11 8.38 8.38 0 0 1 12 2.5a8.38 8.38 0 0 1 9 9z"/></svg>';
   }
 
   /* A green check, for the "Booked" badge on the roster. */
@@ -747,6 +745,10 @@
         esc(s.title) + "</p>";
     }
     if (s.body) html += '<p class="bookflow__body">' + esc(s.body) + "</p>";
+    if (s.contact && s.contact.sms) {
+      html += '<a class="bookflow__text" href="sms:' + esc(s.contact.sms) + '">' +
+        smsSVG() + "<span>" + esc(s.contact.label || "Text Laura") + "</span></a>";
+    }
     if (s.q) html += '<p class="bookflow__q">' + esc(s.q) + "</p>";
 
     var btns = (s.options || []).concat(s.actions || []).map(function (o) {
@@ -768,21 +770,8 @@
     return html;
   }
 
-  /* The interactive booking check in. A friendly little yes or no flow that
-     walks from "have you booked" through to outfits. Rendered with its first
-     step; initBookingFlow swaps in later steps on tap. */
-  function bookingFlowHTML(flow) {
-    if (!flow) return "";
-    return '<div class="bookflow reveal" data-bookflow>' +
-      '<span class="bookflow__eyebrow">A quick check in</span>' +
-      '<div class="bookflow__stage" data-bookflow-stage>' +
-        bookStepHTML(flow, flow.start) +
-      "</div>" +
-    "</div>";
-  }
-
   /* Open a collapsed day and scroll to it. Shared by the jump nav and the
-     booking flow's "jump to this night" links. */
+     check in pop up's "jump to this night" links. */
   function jumpToDay(id) {
     var target = document.getElementById(id);
     if (!target) return;
@@ -792,30 +781,79 @@
     target.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  /* Wire the booking check in: each tap swaps the stage to the next step, or
-     jumps to a night's plan. Nothing is stored or submitted. */
-  function initBookingFlow(scope) {
-    var root = (scope || document).querySelector("[data-bookflow]");
-    if (!root || root.dataset.bound) return;
+  /* The check in pop up. It greets everyone on entry with the booking and
+     outfit questions: each tap swaps to the next step, "jump" links close the
+     pop up and carry over to that night's plan, and the close button or scrim
+     dismisses it. Pure front end, nothing is stored or submitted (so it greets
+     on every visit, by design). */
+  function initQuestionModal() {
     var booking = DATA.bachelorette.travelDetails.booking;
     if (!booking || !booking.flow) return;
-    root.dataset.bound = "1";
     var flow = booking.flow;
-    var stage = root.querySelector("[data-bookflow-stage]");
 
-    root.addEventListener("click", function (e) {
-      var btn = e.target.closest("button");
-      if (!btn || !root.contains(btn)) return;
-      if (btn.dataset.jump) { jumpToDay(btn.dataset.jump); return; }
-      var next = btn.dataset.restart ? flow.start : btn.dataset.goto;
-      if (!next) return;
-      stage.innerHTML = bookStepHTML(flow, next);
-      // replay the soft swap transition on the fresh content
+    var modal = document.createElement("div");
+    modal.className = "qmodal";
+    modal.id = "qmodal";
+    modal.setAttribute("role", "dialog");
+    modal.setAttribute("aria-modal", "true");
+    modal.setAttribute("aria-label", "A quick check in");
+    modal.setAttribute("aria-hidden", "true");
+    modal.innerHTML =
+      '<div class="qmodal__scrim" data-qclose></div>' +
+      '<div class="qmodal__card" role="document">' +
+        '<button class="qmodal__close" type="button" data-qclose aria-label="Close">&times;</button>' +
+        '<span class="qmodal__eyebrow">A quick check in</span>' +
+        '<div class="qmodal__stage" data-qstage></div>' +
+      "</div>";
+    document.body.appendChild(modal);
+    var stage = modal.querySelector("[data-qstage]");
+    var lastFocus = null;
+
+    function show(key) {
+      stage.innerHTML = bookStepHTML(flow, key);
       stage.classList.remove("is-swap");
       void stage.offsetWidth;
       stage.classList.add("is-swap");
-      root.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+    function open() {
+      if (modal.classList.contains("is-open")) return;
+      lastFocus = document.activeElement;
+      show(flow.start);
+      document.body.classList.add("qmodal-open");
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      var first = stage.querySelector("button");
+      if (first) first.focus();
+    }
+    function close() {
+      if (!modal.classList.contains("is-open")) return;
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("qmodal-open");
+      if (lastFocus && lastFocus.focus) { lastFocus.focus(); lastFocus = null; }
+    }
+
+    modal.addEventListener("click", function (e) {
+      if (e.target.closest("[data-qclose]")) { close(); return; }
+      var btn = e.target.closest("button");
+      if (!btn) return;
+      if (btn.dataset.jump) {
+        var anchor = btn.dataset.jump;
+        close();
+        // carry over to the Bachelorette view, then open and scroll to that night
+        if (location.hash !== "#/bachelorette") location.hash = "#/bachelorette";
+        setTimeout(function () { jumpToDay(anchor); }, 360);
+        return;
+      }
+      var next = btn.dataset.restart ? flow.start : btn.dataset.goto;
+      if (next) show(next);
     });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") close();
+    });
+
+    // greet on entry, a beat after the app paints
+    setTimeout(open, 600);
   }
 
   function renderTravelDetails(t) {
@@ -851,7 +889,6 @@
         (t.note ? '<p class="travel__note reveal">' + esc(t.note) + "</p>" : "") +
         lauraFlightsHTML(booking.lauraFlights) +
         bookedRosterHTML(booking.booked) +
-        bookingFlowHTML(booking.flow) +
         travelLegsHTML(t.legs) +
         flightGroupsHTML(t.flightGroups) +
       "</div></div>";
@@ -949,7 +986,6 @@
 
     initJumpNav();
     initAccordion(el("view-bachelorette"));
-    initBookingFlow(el("view-bachelorette"));
     if (window.Boardwalk) window.Boardwalk.init(el("view-bachelorette"));
   }
 
@@ -1252,6 +1288,7 @@
 
     initDrawer();
     initLightbox();
+    initQuestionModal();
 
     window.addEventListener("hashchange", route);
     route();

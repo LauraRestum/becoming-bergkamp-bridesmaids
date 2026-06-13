@@ -162,23 +162,15 @@ var DATA = {
           // short, flashing pill on the collapsed Travel Details banner
           cue: "Dates locked · time to book",
           title: "The dates are locked. Time to book.",
-          note: "Laura's flights are set (right below). Match her dates so we all land together, then take thirty seconds to check in here."
+          note: "Get your flight booked as soon as you can."
         },
-        // Laura's own flights, so everyone can book the same days and grab a seat
-        // near her. She is on the first Southwest option below, out of Wichita.
+        // Laura's own flights, shown as plain coordination detail (when she lands
+        // and leaves). No "match my flight" ask.
         lauraFlights: {
           label: "Laura's flights",
-          note: "Laura is on the first Southwest option below, out of Wichita, Thursday to Sunday. Here is where she will be so you can match dates and pick a seat nearby.",
+          note: "Laura is flying Southwest out of Wichita, Thursday to Sunday.",
           arrive: "Thu, Aug 20 · lands Myrtle Beach (MYR) 1:10 PM",
-          depart: "Sun, Aug 23 · leaves Myrtle Beach (MYR) 2:45 PM",
-          seats: [
-            { leg: "ICT to MDW", seat: "18C" },
-            { leg: "MDW to STL", seat: "16D" },
-            { leg: "STL to MYR", seat: "20C" },
-            { leg: "MYR to STL", seat: "16C" },
-            { leg: "STL to DEN", seat: "20C" },
-            { leg: "DEN to ICT", seat: "18C" }
-          ]
+          depart: "Sun, Aug 23 · leaves Myrtle Beach (MYR) 2:45 PM"
         },
         // The booked board: everyone other than Laura who has their flights
         // locked, with their flight out and back and a green Booked check. Right
@@ -221,7 +213,7 @@ var DATA = {
             },
             soonYes: {
               title: "Perfect.",
-              body: "Use Laura's dates above and grab one of the options below. The minute you book, pop back in here and let us know so we can talk outfits.",
+              body: "Amazing. Get it booked when you can, then come right back so we can talk outfits.",
               actions: [
                 { label: "Done, I just booked", goto: "outfits" }
               ]
@@ -229,7 +221,8 @@ var DATA = {
             rsvp: {
               tone: "alert",
               title: "Let's check in.",
-              body: "Please contact Laura to let her know if your RSVP has changed. We just want to make sure we still have you for the weekend."
+              body: "Please contact Laura to let her know if your RSVP has changed. We just want to make sure we still have you for the weekend.",
+              contact: { sms: "+19706852573", label: "Text Laura" }
             },
             outfits: {
               note: "Girls are starting to submit the outfits they have already gotten, so you can see what everyone else is wearing and get a feel for the rainbow before you decide.",
@@ -241,7 +234,8 @@ var DATA = {
             },
             outfitsYes: {
               title: "Yay!",
-              body: "If you have not already, please text a photo of your outfit to Laura so she can upload it here for everyone to see."
+              body: "If you have not already, please text a photo of your outfit to Laura so she can upload it here for everyone to see.",
+              contact: { sms: "+19706852573", label: "Text Laura a photo" }
             },
             outfitsNo: {
               title: "Let's find your looks.",
