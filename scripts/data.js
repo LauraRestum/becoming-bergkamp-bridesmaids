@@ -174,8 +174,8 @@ var DATA = {
         },
         // The booked board: everyone other than Laura who has their flights
         // locked, with their flight out and back and a green Booked check. Right
-        // now Maddie and Jacey, both on Laura's identical itinerary. Add a girl
-        // here as she books.
+        // now Maddie, Jacey and Rachel are all on Laura's identical itinerary,
+        // and Erica is on her own. Add a girl here as she books.
         booked: {
           label: "Already booked",
           list: [
@@ -188,6 +188,16 @@ var DATA = {
               name: "Jacey",
               depart: "Thu, Aug 20 · ICT 5:30 AM to MYR 1:10 PM",
               return: "Sun, Aug 23 · MYR 2:45 PM to ICT 10:10 PM"
+            },
+            {
+              name: "Rachel",
+              depart: "Thu, Aug 20 · ICT 5:30 AM to MYR 1:10 PM",
+              return: "Sun, Aug 23 · MYR 2:45 PM to ICT 10:10 PM"
+            },
+            {
+              name: "Erica",
+              depart: "Thu, Aug 20 · arrives MYR 5:30 PM",
+              return: "Sun, Aug 23 · leaves MYR 7:30 AM"
             }
           ]
         },
