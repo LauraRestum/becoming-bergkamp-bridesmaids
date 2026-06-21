@@ -654,9 +654,9 @@ var DATA = {
           note: "As dresses get ordered they land here, so you can see what everyone else is wearing. No need to match, just try your best to find a different color or shade so the whole rainbow shows up.",
           looks: [
             {
-              src: "assets/img/rainbow/looks/paige.jpeg",
+              src: "assets/img/rainbow/looks/paige.png",
               name: "Paige",
-              alt: "Paige's green sequined mini dress with a satin cowl neckline for the Rainbow Fish night"
+              alt: "Paige's red strapless paillette sequin mini dress for the Rainbow Fish night"
             }
           ]
         },
