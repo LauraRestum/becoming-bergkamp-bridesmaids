@@ -732,46 +732,36 @@
     "</div>";
   }
 
-  /* One step of the booking check in: a note and a question up top (when set),
-     then the answer buttons, continue actions, or jump links for that step.
-     Steps with no answer options are endpoints, so they offer a quiet restart. */
-  function bookStepHTML(flow, key) {
-    var s = flow.steps[key];
-    if (!s) return "";
+  /* Join a list of names into a readable phrase: "Ali", "Ali and Paige", or
+     "Ali, Ashtyn, Ginger, and Paige". */
+  function joinNames(names) {
+    var list = (names || []).slice();
+    if (!list.length) return "";
+    if (list.length === 1) return list[0];
+    if (list.length === 2) return list[0] + " and " + list[1];
+    var last = list.pop();
+    return list.join(", ") + ", and " + last;
+  }
+
+  /* The greeting reminder: a title, the body copy, the names of whoever has not
+     confirmed booked flights yet, and a single dismiss button. */
+  function reminderHTML(r) {
+    if (!r) return "";
     var html = "";
-    if (s.note) html += '<p class="bookflow__note">' + esc(s.note) + "</p>";
-    if (s.title) {
-      html += '<p class="bookflow__title' + (s.tone ? " is-" + esc(s.tone) : "") + '">' +
-        esc(s.title) + "</p>";
+    if (r.title) html += '<p class="bookflow__title">' + esc(r.title) + "</p>";
+    if (r.body) html += '<p class="bookflow__body">' + esc(r.body) + "</p>";
+    var names = joinNames(r.names);
+    if (names) {
+      html += '<p class="bookflow__names">Still need to book: ' + esc(names) + ".</p>";
     }
-    if (s.body) html += '<p class="bookflow__body">' + esc(s.body) + "</p>";
-    if (s.contact && s.contact.sms) {
-      html += '<a class="bookflow__text" href="sms:' + esc(s.contact.sms) + '">' +
-        smsSVG() + "<span>" + esc(s.contact.label || "Text Laura") + "</span></a>";
-    }
-    if (s.q) html += '<p class="bookflow__q">' + esc(s.q) + "</p>";
-
-    var btns = (s.options || []).concat(s.actions || []).map(function (o) {
-      return '<button type="button" class="bookflow__opt' +
-        (o.tone ? " is-" + esc(o.tone) : " is-yes") + '" data-goto="' + esc(o.goto) + '">' +
-        esc(o.label) + "</button>";
-    }).join("");
-    if (btns) html += '<div class="bookflow__opts">' + btns + "</div>";
-
-    var jumps = (s.jumps || []).map(function (j) {
-      return '<button type="button" class="bookflow__jump" data-jump="' + esc(j.anchor) + '">' +
-        esc(j.label) + ' <span aria-hidden="true">&#8594;</span></button>';
-    }).join("");
-    if (jumps) html += '<div class="bookflow__jumps">' + jumps + "</div>";
-
-    if (!s.options) {
-      html += '<button type="button" class="bookflow__restart" data-restart="1">Start over</button>';
-    }
+    html += '<div class="bookflow__opts">' +
+      '<button type="button" class="bookflow__opt is-yes" data-qclose>' +
+        esc(r.dismiss || "Got it") + "</button>" +
+    "</div>";
     return html;
   }
 
-  /* Open a collapsed day and scroll to it. Shared by the jump nav and the
-     check in pop up's "jump to this night" links. */
+  /* Open a collapsed day and scroll to it, used by the jump nav pills. */
   function jumpToDay(id) {
     var target = document.getElementById(id);
     if (!target) return;
@@ -781,44 +771,38 @@
     target.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  /* The check in pop up. It greets everyone on entry with the booking and
-     outfit questions: each tap swaps to the next step, "jump" links close the
-     pop up and carry over to that night's plan, and the close button or scrim
-     dismisses it. Pure front end, nothing is stored or submitted (so it greets
-     on every visit, by design). */
+  /* The greeting pop up. It greets everyone on entry with the flight booking
+     reminder, naming whoever has not confirmed booked flights yet. The dismiss
+     button, the close button, the scrim, and Escape all close it. Pure front
+     end, nothing is stored or submitted (so it greets on every visit, by
+     design). */
   function initQuestionModal() {
     var booking = DATA.bachelorette.travelDetails.booking;
-    if (!booking || !booking.flow) return;
-    var flow = booking.flow;
+    if (!booking || !booking.reminder) return;
+    var reminder = booking.reminder;
 
     var modal = document.createElement("div");
     modal.className = "qmodal";
     modal.id = "qmodal";
     modal.setAttribute("role", "dialog");
     modal.setAttribute("aria-modal", "true");
-    modal.setAttribute("aria-label", "A quick check in");
+    modal.setAttribute("aria-label", reminder.eyebrow || "A quick reminder");
     modal.setAttribute("aria-hidden", "true");
     modal.innerHTML =
       '<div class="qmodal__scrim" data-qclose></div>' +
       '<div class="qmodal__card" role="document">' +
         '<button class="qmodal__close" type="button" data-qclose aria-label="Close">&times;</button>' +
-        '<span class="qmodal__eyebrow">A quick check in</span>' +
+        '<span class="qmodal__eyebrow">' + esc(reminder.eyebrow || "A quick reminder") + "</span>" +
         '<div class="qmodal__stage" data-qstage></div>' +
       "</div>";
     document.body.appendChild(modal);
     var stage = modal.querySelector("[data-qstage]");
     var lastFocus = null;
 
-    function show(key) {
-      stage.innerHTML = bookStepHTML(flow, key);
-      stage.classList.remove("is-swap");
-      void stage.offsetWidth;
-      stage.classList.add("is-swap");
-    }
     function open() {
       if (modal.classList.contains("is-open")) return;
       lastFocus = document.activeElement;
-      show(flow.start);
+      stage.innerHTML = reminderHTML(reminder);
       document.body.classList.add("qmodal-open");
       modal.classList.add("is-open");
       modal.setAttribute("aria-hidden", "false");
@@ -834,19 +818,7 @@
     }
 
     modal.addEventListener("click", function (e) {
-      if (e.target.closest("[data-qclose]")) { close(); return; }
-      var btn = e.target.closest("button");
-      if (!btn) return;
-      if (btn.dataset.jump) {
-        var anchor = btn.dataset.jump;
-        close();
-        // carry over to the Bachelorette view, then open and scroll to that night
-        if (location.hash !== "#/bachelorette") location.hash = "#/bachelorette";
-        setTimeout(function () { jumpToDay(anchor); }, 360);
-        return;
-      }
-      var next = btn.dataset.restart ? flow.start : btn.dataset.goto;
-      if (next) show(next);
+      if (e.target.closest("[data-qclose]")) { close(); }
     });
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape") close();

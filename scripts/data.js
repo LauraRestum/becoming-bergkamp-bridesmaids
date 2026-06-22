@@ -201,61 +201,17 @@ var DATA = {
             }
           ]
         },
-        // A tiny front end state machine. Each step either asks a question with
-        // answer buttons (each answer goes to another step) or lands on a closing
-        // message. "jumps" open a day's plan and scroll to it.
-        flow: {
-          start: "booked",
-          steps: {
-            booked: {
-              q: "Have you booked your flight?",
-              options: [
-                { label: "Yes, I'm booked", goto: "outfits", tone: "yes" },
-                { label: "Not yet", goto: "soon", tone: "no" }
-              ]
-            },
-            soon: {
-              q: "Do you plan to book in the next three days?",
-              options: [
-                { label: "Yes, within three days", goto: "soonYes", tone: "yes" },
-                { label: "No", goto: "rsvp", tone: "no" }
-              ]
-            },
-            soonYes: {
-              title: "Perfect.",
-              body: "Amazing. Get it booked when you can, then come right back so we can talk outfits.",
-              actions: [
-                { label: "Done, I just booked", goto: "outfits" }
-              ]
-            },
-            rsvp: {
-              tone: "alert",
-              title: "Let's check in.",
-              body: "Please contact Laura to let her know if your RSVP has changed. We just want to make sure we still have you for the weekend.",
-              contact: { sms: "+19706852573", label: "Text Laura" }
-            },
-            outfits: {
-              note: "Girls are starting to submit the outfits they have already gotten, so you can see what everyone else is wearing and get a feel for the rainbow before you decide.",
-              q: "Have you picked out all your outfits yet?",
-              options: [
-                { label: "Yes, all picked", goto: "outfitsYes", tone: "yes" },
-                { label: "Not yet", goto: "outfitsNo", tone: "no" }
-              ]
-            },
-            outfitsYes: {
-              title: "Yay!",
-              body: "If you have not already, please text a photo of your outfit to Laura so she can upload it here for everyone to see.",
-              contact: { sms: "+19706852573", label: "Text Laura a photo" }
-            },
-            outfitsNo: {
-              title: "Let's find your looks.",
-              body: "Two nights call for an outfit: the Rainbow Fish night and the Coco Nuts night. Hop into each one for the colors, the inspo, and what the group is already wearing, then pick yours.",
-              jumps: [
-                { label: "Rainbow Fish night", anchor: "friday-rainbow" },
-                { label: "Coco Nuts night", anchor: "coconuts" }
-              ]
-            }
-          }
+        // The greeting pop up. A plain reminder that names whoever has not
+        // confirmed booked flights yet, so the nudge is impossible to miss.
+        // Keep "names" in sync with the booked board above: as a girl books,
+        // move her off this list. Pure front end, nothing is stored, so it
+        // greets on every visit by design.
+        reminder: {
+          eyebrow: "A quick reminder",
+          title: "Time to book your flight.",
+          body: "We are still waiting on a few of you to confirm booked flights. Please get yours booked as soon as you can, then send Laura your flights.",
+          names: ["Ali", "Ashtyn", "Ginger", "Paige"],
+          dismiss: "Got it"
         }
       },
       flightGroups: [
