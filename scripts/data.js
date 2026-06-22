@@ -162,7 +162,7 @@ var DATA = {
           // short, flashing pill on the collapsed Travel Details banner
           cue: "Dates locked · time to book",
           title: "The dates are locked. Time to book.",
-          note: "Get your flight booked as soon as you can."
+          note: "Still waiting on Ali, Ashtyn, Ginger, and Paige to confirm booked flights. Get yours booked as soon as you can."
         },
         // Laura's own flights, shown as plain coordination detail (when she lands
         // and leaves). No "match my flight" ask.
