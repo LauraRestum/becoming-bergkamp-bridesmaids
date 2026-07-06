@@ -200,18 +200,6 @@ var DATA = {
               return: "Sun, Aug 23 · leaves MYR 7:30 AM"
             }
           ]
-        },
-        // The greeting pop up. A plain reminder that names whoever has not
-        // confirmed booked flights yet, so the nudge is impossible to miss.
-        // Keep "names" in sync with the booked board above: as a girl books,
-        // move her off this list. Pure front end, nothing is stored, so it
-        // greets on every visit by design.
-        reminder: {
-          eyebrow: "A quick reminder",
-          title: "Time to book your flight.",
-          body: "We are still waiting on a few of you to confirm booked flights. Please get yours booked as soon as you can, then send Laura your flights.",
-          names: ["Ali", "Ashtyn", "Ginger", "Paige"],
-          dismiss: "Got it"
         }
       },
       flightGroups: [
