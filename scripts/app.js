@@ -732,35 +732,6 @@
     "</div>";
   }
 
-  /* Join a list of names into a readable phrase: "Ali", "Ali and Paige", or
-     "Ali, Ashtyn, Ginger, and Paige". */
-  function joinNames(names) {
-    var list = (names || []).slice();
-    if (!list.length) return "";
-    if (list.length === 1) return list[0];
-    if (list.length === 2) return list[0] + " and " + list[1];
-    var last = list.pop();
-    return list.join(", ") + ", and " + last;
-  }
-
-  /* The greeting reminder: a title, the body copy, the names of whoever has not
-     confirmed booked flights yet, and a single dismiss button. */
-  function reminderHTML(r) {
-    if (!r) return "";
-    var html = "";
-    if (r.title) html += '<p class="bookflow__title">' + esc(r.title) + "</p>";
-    if (r.body) html += '<p class="bookflow__body">' + esc(r.body) + "</p>";
-    var names = joinNames(r.names);
-    if (names) {
-      html += '<p class="bookflow__names">Still need to book: ' + esc(names) + ".</p>";
-    }
-    html += '<div class="bookflow__opts">' +
-      '<button type="button" class="bookflow__opt is-yes" data-qclose>' +
-        esc(r.dismiss || "Got it") + "</button>" +
-    "</div>";
-    return html;
-  }
-
   /* Open a collapsed day and scroll to it, used by the jump nav pills. */
   function jumpToDay(id) {
     var target = document.getElementById(id);
@@ -769,63 +740,6 @@
       toggleDay(target, true);
     }
     target.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
-  /* The greeting pop up. It greets everyone on entry with the flight booking
-     reminder, naming whoever has not confirmed booked flights yet. The dismiss
-     button, the close button, the scrim, and Escape all close it. Pure front
-     end, nothing is stored or submitted (so it greets on every visit, by
-     design). */
-  function initQuestionModal() {
-    var booking = DATA.bachelorette.travelDetails.booking;
-    if (!booking || !booking.reminder) return;
-    var reminder = booking.reminder;
-
-    var modal = document.createElement("div");
-    modal.className = "qmodal";
-    modal.id = "qmodal";
-    modal.setAttribute("role", "dialog");
-    modal.setAttribute("aria-modal", "true");
-    modal.setAttribute("aria-label", reminder.eyebrow || "A quick reminder");
-    modal.setAttribute("aria-hidden", "true");
-    modal.innerHTML =
-      '<div class="qmodal__scrim" data-qclose></div>' +
-      '<div class="qmodal__card" role="document">' +
-        '<button class="qmodal__close" type="button" data-qclose aria-label="Close">&times;</button>' +
-        '<span class="qmodal__eyebrow">' + esc(reminder.eyebrow || "A quick reminder") + "</span>" +
-        '<div class="qmodal__stage" data-qstage></div>' +
-      "</div>";
-    document.body.appendChild(modal);
-    var stage = modal.querySelector("[data-qstage]");
-    var lastFocus = null;
-
-    function open() {
-      if (modal.classList.contains("is-open")) return;
-      lastFocus = document.activeElement;
-      stage.innerHTML = reminderHTML(reminder);
-      document.body.classList.add("qmodal-open");
-      modal.classList.add("is-open");
-      modal.setAttribute("aria-hidden", "false");
-      var first = stage.querySelector("button");
-      if (first) first.focus();
-    }
-    function close() {
-      if (!modal.classList.contains("is-open")) return;
-      modal.classList.remove("is-open");
-      modal.setAttribute("aria-hidden", "true");
-      document.body.classList.remove("qmodal-open");
-      if (lastFocus && lastFocus.focus) { lastFocus.focus(); lastFocus = null; }
-    }
-
-    modal.addEventListener("click", function (e) {
-      if (e.target.closest("[data-qclose]")) { close(); }
-    });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") close();
-    });
-
-    // greet on entry, a beat after the app paints
-    setTimeout(open, 600);
   }
 
   function renderTravelDetails(t) {
@@ -1260,7 +1174,6 @@
 
     initDrawer();
     initLightbox();
-    initQuestionModal();
 
     window.addEventListener("hashchange", route);
     route();
