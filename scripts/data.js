@@ -601,6 +601,11 @@ var DATA = {
               src: "assets/img/rainbow/looks/paige.png",
               name: "Paige",
               alt: "Paige's red strapless paillette sequin mini dress for the Rainbow Fish night"
+            },
+            {
+              src: "assets/img/rainbow/looks/jacey.jpeg",
+              name: "Jacey",
+              alt: "Jacey's aqua blue sequin ruffle mini dress for the Rainbow Fish night"
             }
           ]
         },
@@ -711,6 +716,20 @@ var DATA = {
           alt: "Outfit inspiration for the Coco Nuts night: dressy looks in brown, bronze, coconut, and coffee tones",
           // Warm cream band so the brown and bronze looks lift off the day.
           bg: "#F6ECD9"
+        },
+        // Dresses people have already ordered for the night, gathered here so
+        // everyone can see what the group is wearing. Each look opens in the
+        // shared lightbox.
+        claimedLooks: {
+          label: "Who's wearing what",
+          note: "As dresses get ordered they land here, so you can see what everyone else is wearing.",
+          looks: [
+            {
+              src: "assets/img/coconuts/looks/jacey.jpeg",
+              name: "Jacey",
+              alt: "Jacey's brown halter cutout mini dress with a gold starfish for the Coco Nuts night"
+            }
+          ]
         },
         meals: {
           dinner: {
