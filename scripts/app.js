@@ -1088,6 +1088,88 @@
     });
   }
 
+  /* -------------------------------------------------- OUTFIT PROMPT */
+  /* A one time, friendly welcome the first time a girl opens the Bachelorette
+     trip: text Laura a photo of each night's outfit so it can be added to
+     "Who's wearing what." It is inspiration only, never approval, and nothing
+     submits here. The button opens the phone's messages app straight to Laura
+     with a short starter note. Shown once per visit (no storage, per the app's
+     no-storage rule) and dismissable every way: close, scrim, Escape, or the
+     "maybe later" link. Lives only on the Bachelorette, so it keeps the SEA
+     brand and never touches the editorial routes. */
+  var outfitPromptShown = false;      // once per visit, held in memory only
+  var outfitPromptLastFocus = null;   // restore focus to wherever we came from
+
+  function buildOutfitPrompt() {
+    var p = DATA.bachelorette && DATA.bachelorette.outfitPrompt;
+    if (!p || el("outfit-prompt")) return;
+
+    // The button opens Messages to Laura with a short starter note prefilled.
+    // "?&body=" is the form both iOS and Android understand.
+    var href = "sms:" + esc(p.smsNumber) +
+      (p.smsBody ? "?&body=" + encodeURIComponent(p.smsBody) : "");
+
+    var modal = document.createElement("div");
+    modal.className = "outfit-prompt";
+    modal.id = "outfit-prompt";
+    modal.setAttribute("role", "dialog");
+    modal.setAttribute("aria-modal", "true");
+    modal.setAttribute("aria-labelledby", "outfit-prompt-title");
+    modal.setAttribute("aria-hidden", "true");
+    modal.innerHTML =
+      '<div class="outfit-prompt__scrim" data-close></div>' +
+      '<div class="outfit-prompt__card" role="document">' +
+        '<button class="outfit-prompt__close" type="button" aria-label="Close" data-close>&times;</button>' +
+        (p.eyebrow ? '<p class="outfit-prompt__eyebrow">' + esc(p.eyebrow) + "</p>" : "") +
+        '<h2 class="outfit-prompt__title" id="outfit-prompt-title">' + esc(p.title) + "</h2>" +
+        (p.body ? '<p class="outfit-prompt__body">' + esc(p.body) + "</p>" : "") +
+        (p.badge ? '<p class="outfit-prompt__badge">' + esc(p.badge) + "</p>" : "") +
+        '<a class="outfit-prompt__cta" href="' + href + '">' +
+          '<span class="outfit-prompt__cta-icon" aria-hidden="true">' + smsSVG() + "</span>" +
+          '<span>' + esc(p.cta || "Text your outfit") + "</span></a>" +
+        (p.dismiss
+          ? '<button class="outfit-prompt__later" type="button" data-close>' + esc(p.dismiss) + "</button>"
+          : "") +
+      "</div>";
+
+    document.body.appendChild(modal);
+
+    // Any element marked data-close (the scrim, the X, "maybe later") folds it.
+    modal.addEventListener("click", function (e) {
+      if (e.target.closest && e.target.closest("[data-close]")) closeOutfitPrompt();
+    });
+    // Tapping the text button hands off to Messages, so fold the card behind it.
+    var cta = modal.querySelector(".outfit-prompt__cta");
+    if (cta) cta.addEventListener("click", closeOutfitPrompt);
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeOutfitPrompt();
+    });
+  }
+
+  function showOutfitPrompt() {
+    var modal = el("outfit-prompt");
+    if (!modal || modal.classList.contains("is-open")) return;
+    outfitPromptLastFocus = document.activeElement;
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("outfit-open");
+    var focusTarget = modal.querySelector(".outfit-prompt__cta");
+    if (focusTarget) focusTarget.focus();
+  }
+
+  function closeOutfitPrompt() {
+    var modal = el("outfit-prompt");
+    if (!modal || !modal.classList.contains("is-open")) return;
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("outfit-open");
+    if (outfitPromptLastFocus && outfitPromptLastFocus.focus) {
+      outfitPromptLastFocus.focus();
+      outfitPromptLastFocus = null;
+    }
+  }
+
   /* -------------------------------------------------- DRAWER */
   function initDrawer() {
     var burger = el("hamburger");
@@ -1163,6 +1245,13 @@
 
     window.scrollTo(0, 0);
     initReveal(el(viewId));
+
+    // Greet each girl with the outfit prompt the first time she lands on the
+    // trip, a beat after it settles so it does not slam in on arrival.
+    if (r === "/bachelorette" && !outfitPromptShown) {
+      outfitPromptShown = true;
+      window.setTimeout(showOutfitPrompt, 650);
+    }
   }
 
   /* -------------------------------------------------- BOOT */
@@ -1174,6 +1263,7 @@
 
     initDrawer();
     initLightbox();
+    buildOutfitPrompt();
 
     window.addEventListener("hashchange", route);
     route();

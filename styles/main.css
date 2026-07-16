@@ -2109,6 +2109,103 @@ body.standalone main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-t
 }
 .update-toast__btn:disabled { opacity: .6; cursor: default; }
 
+/* ----------------------------------------- OUTFIT PROMPT (bachelorette)
+   The one time welcome that invites each girl to text Laura a photo of each
+   night's look. It carries the SEA brand: a clean ivory card, nautical blue
+   accents, and a greenery inspiration badge. Bricolage Grotesque and Jost
+   only, never the editorial serif. */
+.outfit-prompt {
+  position: fixed; inset: 0; z-index: 3000;
+  display: none; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.outfit-prompt.is-open { display: flex; }
+.outfit-prompt__scrim {
+  position: absolute; inset: 0;
+  background: rgba(23,58,86,.55);
+  -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+  animation: fadeIn .3s var(--ease) both;
+}
+.outfit-prompt__card {
+  position: relative; z-index: 1;
+  width: 100%; max-width: 400px;
+  max-height: calc(100vh - 48px); overflow-y: auto;
+  padding: var(--space-7) var(--space-6) var(--space-6);
+  background: var(--ivory);
+  border: 1px solid rgba(46,127,180,.35);
+  border-radius: var(--radius-m);
+  box-shadow: 0 24px 60px rgba(15,19,25,.28);
+  text-align: center;
+  animation: promptRise .4s var(--ease) both;
+}
+@keyframes promptRise {
+  from { opacity: 0; transform: translateY(16px) scale(.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.outfit-prompt__close {
+  position: absolute; top: 10px; right: 10px;
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 0; background: transparent;
+  color: var(--ink); opacity: .5; font-size: 24px; line-height: 1;
+}
+@media (hover: hover) { .outfit-prompt__close:hover { opacity: 1; } }
+.outfit-prompt__eyebrow {
+  font-family: var(--sans);
+  font-size: 10px; letter-spacing: var(--track-wide); text-transform: uppercase;
+  font-weight: 600; color: #2E7FB4;
+}
+.outfit-prompt__title {
+  margin-top: var(--space-3);
+  font-family: var(--display);
+  font-size: clamp(26px, 8vw, 34px);
+  font-weight: 700; letter-spacing: var(--track-tight); line-height: 1.02;
+  color: #16314E;
+}
+.outfit-prompt__body {
+  margin-top: var(--space-4);
+  font-size: clamp(14px, 3.8vw, 16px); line-height: 1.55;
+  color: var(--ink); opacity: .85;
+}
+.outfit-prompt__badge {
+  display: inline-block;
+  margin-top: var(--space-5);
+  padding: 6px 14px;
+  font-size: 10px; letter-spacing: var(--track-label); text-transform: uppercase;
+  font-weight: 600; color: var(--greenery);
+  border: 1px solid currentColor; border-radius: var(--radius-pill);
+}
+.outfit-prompt__cta {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin-top: var(--space-5);
+  padding: 15px 22px;
+  text-decoration: none;
+  font-family: var(--sans);
+  font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(120deg, #2E7FB4, #16314E);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 10px 24px rgba(46,127,180,.32);
+  transition: transform .2s var(--ease), box-shadow .2s var(--ease);
+}
+@media (hover: hover) {
+  .outfit-prompt__cta:hover { transform: translateY(-1px); box-shadow: 0 14px 30px rgba(46,127,180,.4); }
+}
+.outfit-prompt__cta:active { transform: translateY(0); }
+.outfit-prompt__cta-icon { display: inline-flex; line-height: 0; }
+.outfit-prompt__later {
+  display: block; width: 100%;
+  margin-top: var(--space-3);
+  padding: 8px;
+  border: 0; background: transparent;
+  font-family: var(--sans); font-size: 13px; letter-spacing: .02em;
+  color: var(--ink); opacity: .55;
+}
+@media (hover: hover) { .outfit-prompt__later:hover { opacity: .85; } }
+body.outfit-open { overflow: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  .outfit-prompt__scrim, .outfit-prompt__card { animation: none; }
+}
+
 /* ============================================================
    EDITORIAL DARK THEME  ::  Home, The Day Before, The Day Of
    ------------------------------------------------------------

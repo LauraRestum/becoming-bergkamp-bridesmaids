@@ -100,6 +100,24 @@ var DATA = {
       mockup: "assets/img/brand/sea-header-white.png"
     },
 
+    // A friendly, one time welcome that greets each girl the first time she
+    // opens the trip. It invites her to text Laura a photo of each night's
+    // outfit so it can be added to "Who's wearing what," purely for inspiration
+    // and to spread the colors out, never for approval. Nothing submits here:
+    // the button just opens her phone's messages app straight to Laura with a
+    // short starter note. Edit the copy or the number in one place, here.
+    outfitPrompt: {
+      eyebrow: "All You Sea is Love",
+      title: "Share Your Looks",
+      body: "As you pick out what to wear each night, text me a photo. I will add it to “Who’s wearing what” so we can all see the looks come together and spread the colors out. This is just for inspiration, never for approval. Wear whatever makes you feel amazing.",
+      badge: "Inspiration only, never approval",
+      cta: "Text your outfit to Laura",
+      dismiss: "Maybe later",
+      // Laura's number for outfit photos. Digits only, with the country code.
+      smsNumber: "+19706852573",
+      smsBody: "Hi Laura! Here is my outfit to add to the looks: "
+    },
+
     // Sticky day-jump pills. anchor matches each day's id.
     jump: [
       { label: "The House", anchor: "house" },
