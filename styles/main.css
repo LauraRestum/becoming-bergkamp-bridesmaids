@@ -873,6 +873,7 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 }
 .claimed-look { margin: 0; }
 .claimed-look__btn {
+  position: relative;
   display: block;
   width: 100%;
   padding: 0;
@@ -895,9 +896,58 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   font-size: clamp(15px, 4vw, 18px);
   font-weight: 600; letter-spacing: -.01em;
 }
+/* the play badge over a claimed look that is a video, not a photo */
+.claimed-look__play {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 46px; height: 46px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgba(21, 19, 15, .55);
+  pointer-events: none;
+}
+.claimed-look__play::after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-38%, -50%);
+  border-style: solid;
+  border-width: 9px 0 9px 15px;
+  border-color: transparent transparent transparent var(--ivory);
+}
 .day--acc.has-bg .claimed-looks__label,
 .day--acc.has-bg .claimed-looks__note,
 .day--acc.has-bg .claimed-look__tag { text-shadow: var(--text-halo, none); }
+
+/* inspo video: a short clip of the night's dress code in motion, right under
+   the outfit collage. It is portrait phone footage, so it holds a calm phone
+   shaped column instead of running full bleed. Same gold label treatment as
+   the sections around it, no drop-shadow box. */
+.inspo-video { margin-top: var(--space-7); }
+.inspo-video__label {
+  font-size: 10px; letter-spacing: var(--track-label); text-transform: uppercase;
+  color: var(--gold);
+  padding-top: var(--space-5);
+  border-top: 1px solid currentColor;
+}
+.inspo-video__note {
+  margin-top: var(--space-4);
+  max-width: 46ch;
+  font-size: clamp(14px, 3.6vw, 16px);
+  line-height: 1.5;
+  opacity: .85;
+}
+.inspo-video__player {
+  display: block;
+  margin-top: var(--space-5);
+  width: min(340px, 100%);
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+  background: var(--ink);
+  border-radius: var(--radius-s);
+}
+.day--acc.has-bg .inspo-video__label,
+.day--acc.has-bg .inspo-video__note { text-shadow: var(--text-halo, none); }
 
 /* oversized botanical glyph as quiet texture per day */
 .day__glyph {
@@ -2057,6 +2107,7 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
 .lightbox.is-open { display: flex; animation: fadeIn .25s var(--ease) both; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 .lightbox img { max-width: 100%; max-height: 90vh; border-radius: var(--radius-s); }
+.lightbox video { max-width: 100%; max-height: 90vh; border-radius: var(--radius-s); }
 .lightbox__close {
   position: absolute; top: calc(env(safe-area-inset-top) + 14px); right: 16px;
   width: 44px; height: 44px; border-radius: 50%;

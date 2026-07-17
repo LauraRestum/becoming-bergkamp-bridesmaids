@@ -82,14 +82,21 @@
   function claimedLooksHTML(data) {
     if (!data || !data.looks || !data.looks.length) return "";
     var cards = data.looks.map(function (look) {
-      if (!look || !look.src) return "";
+      if (!look || !(look.src || look.video)) return "";
       var alt = look.alt || ((look.name || "Someone") + "'s look");
       var tag = look.name ? esc(look.name) + "'s" : "Claimed";
+      // A look with a video shows its thumbnail with a play badge and hands
+      // the clip to the lightbox. A plain look opens its photo full size.
+      var zoom = look.video
+        ? 'data-zoom-video="' + esc(look.video) + '"'
+        : 'data-zoom="' + esc(look.src) + '"';
       return '<figure class="claimed-look">' +
-        '<button class="claimed-look__btn" type="button" data-zoom="' + esc(look.src) +
-          '" data-zoom-alt="' + esc(alt) + '" aria-label="Expand ' + tag + ' look">' +
-          '<img class="claimed-look__img" src="' + esc(look.src) +
+        '<button class="claimed-look__btn" type="button" ' + zoom +
+          ' data-zoom-alt="' + esc(alt) + '" aria-label="' +
+          (look.video ? "Play " + tag + " look" : "Expand " + tag + " look") + '">' +
+          '<img class="claimed-look__img" src="' + esc(look.src || look.poster) +
             '" alt="' + esc(alt) + '" loading="lazy">' +
+          (look.video ? '<span class="claimed-look__play" aria-hidden="true"></span>' : "") +
         "</button>" +
         '<figcaption class="claimed-look__tag">' + tag + "</figcaption>" +
       "</figure>";
@@ -98,6 +105,21 @@
       '<p class="claimed-looks__label">' + esc(data.label || "Who's wearing what") + "</p>" +
       (data.note ? '<p class="claimed-looks__note">' + esc(data.note) + "</p>" : "") +
       '<div class="claimed-looks__grid">' + cards + "</div>" +
+    "</section>";
+  }
+
+  /* A short inspo video for a night, playing inline right under the outfit
+     collage. It is portrait phone footage, so it holds a phone shaped column
+     instead of running full bleed. Native controls, sound starts on tap. */
+  function inspoVideoHTML(v) {
+    if (!v || !v.src) return "";
+    return '<section class="inspo-video reveal">' +
+      '<p class="inspo-video__label">' + esc(v.label || "The vibe, in motion") + "</p>" +
+      (v.caption ? '<p class="inspo-video__note">' + esc(v.caption) + "</p>" : "") +
+      '<video class="inspo-video__player" src="' + esc(v.src) + '"' +
+        (v.poster ? ' poster="' + esc(v.poster) + '"' : "") +
+        (v.alt ? ' aria-label="' + esc(v.alt) + '"' : "") +
+        " controls playsinline preload=\"metadata\"></video>" +
     "</section>";
   }
 
@@ -328,6 +350,9 @@
 
     // The outfit inspo collage runs full bleed in its own band below the plan.
     body += outfitInspoHTML(day.outfitInspo);
+
+    // A short clip of the dress code in motion rides under the collage.
+    if (day.inspoVideo) body += seg(inspoVideoHTML(day.inspoVideo));
 
     // The looks people have already ordered sit just under the inspo, so the
     // group can see what is taken and pick a different color or shade.
@@ -1058,17 +1083,39 @@
     var lb = el("lightbox");
     if (!lb) return;
     var img = lb.querySelector("img");
+    var vid = lb.querySelector("video");
     var closeBtn = lb.querySelector(".lightbox__close");
     var lastFocus = null;
+
+    function stopVideo() {
+      if (!vid) return;
+      vid.pause();
+      vid.removeAttribute("src");
+      vid.load();
+      vid.hidden = true;
+    }
 
     document.addEventListener("click", function (e) {
       var tile = e.target.closest && e.target.closest(".look-tile, .outfit-inspo__btn, .claimed-look__btn");
       if (tile) {
         lastFocus = document.activeElement;
-        img.src = tile.getAttribute("data-zoom");
+        var alt = tile.getAttribute("data-zoom-alt") || "Outfit inspiration";
         var look = tile.getAttribute("data-look");
-        img.alt = look ? look + ", front and back"
-                       : (tile.getAttribute("data-zoom-alt") || "Outfit inspiration");
+        var video = vid && tile.getAttribute("data-zoom-video");
+        if (video) {
+          // A video look: swap the image out for the player and start it.
+          img.hidden = true;
+          img.src = "";
+          vid.hidden = false;
+          vid.src = video;
+          vid.setAttribute("aria-label", alt);
+          vid.play().catch(function () {});
+        } else {
+          stopVideo();
+          img.hidden = false;
+          img.src = tile.getAttribute("data-zoom");
+          img.alt = look ? look + ", front and back" : alt;
+        }
         lb.classList.add("is-open");
         lb.setAttribute("aria-hidden", "false");
         if (closeBtn) closeBtn.focus();
@@ -1080,9 +1127,14 @@
       lb.classList.remove("is-open");
       lb.setAttribute("aria-hidden", "true");
       img.src = "";
+      img.hidden = false;
+      stopVideo();
       if (lastFocus && lastFocus.focus) { lastFocus.focus(); lastFocus = null; }
     }
     lb.addEventListener("click", close);
+    // Taps on the player (play, pause, scrub) must not fall through to the
+    // backdrop and close the lightbox.
+    if (vid) vid.addEventListener("click", function (e) { e.stopPropagation(); });
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape") close();
     });

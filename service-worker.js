@@ -10,7 +10,7 @@
 
   Bump CACHE when shipping so clients pick up a new worker and get prompted.
 */
-var CACHE = "bergkamp-v46";
+var CACHE = "bergkamp-v47";
 
 var SHELL = [
   "/",
@@ -108,6 +108,11 @@ self.addEventListener("fetch", function (e) {
   if (req.method !== "GET") return;
 
   var url = new URL(req.url);
+
+  // Video playback uses range requests that a cached full response cannot
+  // answer, so let the browser talk to the network directly for videos.
+  if (/\.(?:mp4|mov|webm)$/i.test(url.pathname)) return;
+
   var sameOrigin = url.origin === self.location.origin;
   var isDoc = req.mode === "navigate" ||
     (req.headers.get("accept") || "").indexOf("text/html") !== -1;
