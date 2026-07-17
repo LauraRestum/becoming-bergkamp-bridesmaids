@@ -717,13 +717,30 @@ var DATA = {
           // Warm cream band so the brown and bronze looks lift off the day.
           bg: "#F6ECD9"
         },
+        // A short clip of the same dress code in motion: a crew by the pool
+        // spinning from swimsuits into every shade of brown. It plays inline
+        // right under the outfit collage.
+        inspoVideo: {
+          src: "assets/video/coconuts/inspo-night.mp4",
+          poster: "assets/img/coconuts/inspo-video-poster.jpg",
+          label: "The vibe, in motion",
+          caption: "Every shade of brown, one crew. Tap to watch the look come together.",
+          alt: "A bachelorette crew by the pool spins from swimsuits into brown dresses for the night"
+        },
         // Dresses people have already ordered for the night, gathered here so
         // everyone can see what the group is wearing. Each look opens in the
-        // shared lightbox.
+        // shared lightbox. A look with a video shows its thumbnail with a play
+        // badge and plays the clip in the lightbox.
         claimedLooks: {
           label: "Who's wearing what",
           note: "As dresses get ordered they land here, so you can see what everyone else is wearing.",
           looks: [
+            {
+              video: "assets/video/coconuts/paige-dress.mp4",
+              poster: "assets/img/coconuts/looks/paige-thumb.jpeg",
+              name: "Paige",
+              alt: "Paige's brown midi dress with side cutouts, an open tie back, and gold studs at the waist for the Coco Nuts night"
+            },
             {
               src: "assets/img/coconuts/looks/jacey.jpeg",
               name: "Jacey",
