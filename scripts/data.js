@@ -649,8 +649,8 @@ var DATA = {
         // The fleet drives in across the top of the plan when this day opens.
         cars: true,
         hook: "Boardwalk by Day",
-        vibe: "Slow morning, then we head to Broadway at the Beach for lunch and to walk the shops. This is the day for our matching tee and your own pick of shorts (choose yours below). It is a half day: we leave Broadway by 3 to 4 in the afternoon and head back to the house to change for the night out.",
-        wear: "the matching tee with your pick of shorts (pick yours below), comfy sneakers",
+        vibe: "Slow morning, then we head to Broadway at the Beach for lunch and to walk the shops. This is the day for our matching blue tee and your own pick of shorts (choose yours below). It is a half day: we leave Broadway by 3 to 4 in the afternoon and head back to the house to change for the night out.",
+        wear: "the matching blue tee with your pick of shorts (pick yours below), comfy sneakers",
         meals: {
           breakfast: "At the house",
           lunch: {
@@ -928,9 +928,9 @@ var DATA = {
   boardwalk: {
     kicker: "saturday · boardwalk",
     title: "Pick Your Bottoms",
-    intro: "Same surprise tee for everyone, your choice of bottoms. Arrow through the shorts and skirts, flip between crop top and tucked in, then shop your favorite.",
-    teeNote: "Everyone gets the same tee",
-    teeSub: "It's a surprise, so it's shown blank here. Just pick your bottoms.",
+    intro: "Same blue tee for everyone, your choice of bottoms. Arrow through the shorts and skirts, flip between crop top and tucked in, then shop your favorite.",
+    teeNote: "Everyone gets the same blue tee",
+    teeSub: "This is the tee, in this blue. A white design is going on it, and that part stays a surprise, so it's shown blank here. Yours is waiting for you when you get there. Just pick your bottoms.",
     teeSizing: "On sizing: in your true size the tee hits right at your waistline, if not a touch above. Want the oversized look? Order one size up. Those are your two size options.",
     fitNote: "Two ways to wear the tee: cropped, or tucked in and worn long.",
     footerScript: "boardwalk & chill",

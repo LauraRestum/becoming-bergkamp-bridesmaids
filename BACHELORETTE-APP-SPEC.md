@@ -163,9 +163,9 @@ original handoff for the verbatim copy, all of which is encoded in `data.js`.
 
 ### 7.1 Boardwalk Shorts Visualizer ("Pick Your Shorts")
 
-A look builder for the Boardwalk day. Everyone gets the same surprise tee (shown
-blank) and chooses one of several shorts options. Each look is a front-and-back
-mockup on black.
+A look builder for the Boardwalk day. Everyone gets the same blue tee (shown
+blank, because the white design going on it is the surprise) and chooses one of
+several shorts options. Each look is a front-and-back mockup on black.
 
 Built as a self-contained module: embedded inside the Boardwalk day section AND
 available as a standalone page (`boardwalk-looks.html`). Both render from
