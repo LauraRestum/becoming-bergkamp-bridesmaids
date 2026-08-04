@@ -1230,6 +1230,8 @@
     window.addEventListener("hashchange", route);
     route();
 
+    initNotice();
+
     // register service worker for offline / installable PWA, with an
     // in-app prompt when a fresh version has been deployed
     if ("serviceWorker" in navigator) {
@@ -1237,17 +1239,76 @@
     }
   }
 
+  /* -------------------------------------------------- GROUP NOTICE */
+  /* DATA.notice greets everyone on app open when something already decided has
+     changed. Nothing is stored on the phone (no localStorage anywhere in this
+     app), so it shows once per open and the button walks them to the day it is
+     about. Turn it off by setting active to false in data.js. */
+  function initNotice() {
+    var n = DATA.notice;
+    if (!n || !n.active) return;
+
+    var lastFocus = document.activeElement;
+    var wrap = document.createElement("div");
+    wrap.className = "notice";
+    wrap.setAttribute("role", "dialog");
+    wrap.setAttribute("aria-modal", "true");
+    wrap.setAttribute("aria-labelledby", "notice-title");
+    wrap.innerHTML =
+      '<div class="notice__sheet">' +
+        '<button type="button" class="notice__x" aria-label="Close">&times;</button>' +
+        (n.eyebrow ? '<span class="notice__eyebrow">' + esc(n.eyebrow) + "</span>" : "") +
+        '<h2 class="notice__title" id="notice-title">' + esc(n.title) + "</h2>" +
+        (n.body ? '<p class="notice__body">' + esc(n.body) + "</p>" : "") +
+        '<div class="notice__acts">' +
+          (n.cta ? '<button type="button" class="notice__go">' + esc(n.cta) + "</button>" : "") +
+          '<button type="button" class="notice__later">' + esc(n.dismiss || "Close") + "</button>" +
+        "</div>" +
+      "</div>";
+
+    function close() {
+      wrap.classList.remove("is-in");
+      document.body.classList.remove("notice-open");
+      window.setTimeout(function () {
+        if (wrap.parentNode) wrap.parentNode.removeChild(wrap);
+      }, 300);
+      document.removeEventListener("keydown", onKey);
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    function onKey(e) { if (e.key === "Escape") close(); }
+
+    var go = wrap.querySelector(".notice__go");
+    if (go) {
+      go.addEventListener("click", function () {
+        close();
+        // Land on the Bachelorette, then open the day this note is about.
+        if (currentRoute() !== "/bachelorette") location.hash = "#/bachelorette";
+        if (n.day) {
+          window.setTimeout(function () { jumpToDay(n.day); }, 120);
+        }
+      });
+    }
+    wrap.querySelector(".notice__later").addEventListener("click", close);
+    wrap.querySelector(".notice__x").addEventListener("click", close);
+    wrap.addEventListener("click", function (e) { if (e.target === wrap) close(); });
+    document.addEventListener("keydown", onKey);
+
+    document.body.appendChild(wrap);
+    document.body.classList.add("notice-open");
+    requestAnimationFrame(function () {
+      wrap.classList.add("is-in");
+      var first = go || wrap.querySelector(".notice__later");
+      if (first) first.focus();
+    });
+  }
+
   /* -------------------------------------------------- AUTO UPDATE */
   function initServiceWorker() {
-    var reloading = false;
-
-    // When the new worker takes control, reload once onto the fresh version.
-    navigator.serviceWorker.addEventListener("controllerchange", function () {
-      if (reloading) return;
-      reloading = true;
-      window.location.reload();
-    });
-
+    // A new worker now takes over on its own and drops the old cache with it,
+    // so the next open is always the fresh version, art included. Mid visit we
+    // do not yank the page out from under anyone: the note below offers the
+    // refresh, and skipping it costs nothing.
     navigator.serviceWorker.register("service-worker.js").then(function (reg) {
       // A worker may already be waiting from a previous visit.
       if (reg.waiting && navigator.serviceWorker.controller) showUpdatePrompt(reg.waiting);
@@ -1289,8 +1350,9 @@
     btn.addEventListener("click", function () {
       btn.disabled = true;
       btn.textContent = "Updating";
-      // Ask the waiting worker to activate; controllerchange then reloads.
-      worker.postMessage({ type: "SKIP_WAITING" });
+      // Nudge a worker that is somehow still waiting, then take the fresh one.
+      if (worker && worker.postMessage) worker.postMessage({ type: "SKIP_WAITING" });
+      window.setTimeout(function () { window.location.reload(); }, 150);
     });
 
     document.body.appendChild(bar);

@@ -2116,6 +2116,95 @@ main { padding-top: calc(var(--topbar-h) + env(safe-area-inset-top)); }
   color: #fff; font-size: 22px;
 }
 
+/* ============================================ GROUP NOTICE
+   The note that greets everyone on app open when something already decided has
+   changed. Editorial, not a card: paper ground, one gold hairline, oversized
+   display line. It picks up the serif dress on the routes that wear it. */
+.notice {
+  position: fixed; inset: 0; z-index: 9600;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  background: rgba(8,7,5,.62);
+  opacity: 0;
+  transition: opacity .3s var(--ease);
+}
+.notice.is-in { opacity: 1; }
+body.notice-open { overflow: hidden; }
+
+.notice__sheet {
+  position: relative;
+  width: 100%; max-width: 420px;
+  padding: 34px 26px 26px;
+  background: var(--ivory);
+  color: var(--ink);
+  border: 1px solid var(--gold-soft);
+  border-radius: var(--radius-s);
+  text-align: center;
+  transform: translateY(14px) scale(.98);
+  transition: transform .35s var(--ease);
+}
+.notice.is-in .notice__sheet { transform: none; }
+
+.notice__x {
+  position: absolute; top: 6px; right: 8px;
+  width: 40px; height: 40px;
+  border: 0; background: none;
+  color: rgba(21,19,15,.5); font-size: 24px; line-height: 1;
+}
+.notice__eyebrow {
+  display: block;
+  font-family: var(--display);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: var(--track-label); text-transform: uppercase;
+  color: var(--gold);
+}
+.notice__title {
+  font-family: var(--display); font-weight: 700;
+  font-size: clamp(26px, 7vw, 32px); line-height: 1.08;
+  margin: 12px 0 0;
+}
+.notice__title::after {
+  content: ""; display: block;
+  width: 54px; height: 1px; margin: 16px auto 0;
+  background: var(--gold);
+}
+.notice__body {
+  font-family: var(--sans);
+  font-size: 15px; line-height: 1.55;
+  opacity: .82;
+  margin: 16px 0 0;
+}
+.notice__acts { margin-top: 22px; display: grid; gap: 10px; }
+.notice__go {
+  padding: 14px 22px;
+  border: 0; border-radius: 999px;
+  background: var(--ink); color: var(--ivory);
+  font-family: var(--sans);
+  font-size: 12px; font-weight: 700;
+  letter-spacing: var(--track-label); text-transform: uppercase;
+}
+.notice__later {
+  padding: 10px;
+  border: 0; background: none;
+  color: rgba(21,19,15,.6);
+  font-family: var(--sans); font-size: 13px; letter-spacing: .02em;
+}
+
+/* On the serif routes the note wears the same dress as the page under it. */
+body.theme-editorial .notice__sheet {
+  background: var(--ed-bg-2);
+  color: var(--ed-paper);
+  border-color: var(--ed-rule);
+}
+body.theme-editorial .notice__eyebrow { font-family: var(--ed-label); color: var(--ed-gold); }
+body.theme-editorial .notice__title { font-family: var(--ed-serif); font-weight: 400; }
+body.theme-editorial .notice__title::after { background: var(--ed-gold); }
+body.theme-editorial .notice__body { font-family: var(--ed-serif); opacity: .78; }
+body.theme-editorial .notice__x { color: var(--ed-faint); }
+/* The light Home variant flips the same tokens, so this reads right on both. */
+body.theme-editorial .notice__go { background: var(--ed-paper); color: var(--ed-bg); }
+body.theme-editorial .notice__later { color: var(--ed-faint); font-family: var(--ed-serif); }
+
 /* ============================================ RESPONSIVE UP */
 @media (min-width: 760px) {
   .day__inner { max-width: var(--col); }

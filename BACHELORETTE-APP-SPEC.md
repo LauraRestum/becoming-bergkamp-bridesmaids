@@ -190,6 +190,29 @@ Adding a look later: add an image to `assets/img/looks/` and append one object.
 **Image handling:** source mockups are about 1300px square PNGs on black. Resize
 to about 920px wide and export JPEG (quality 85). Store under `assets/img/looks/`.
 
+### 7.2 Group Notice (app open pop-up)
+
+A note that greets everyone when the app opens, for the times something already
+decided has changed (the Boardwalk shirt color, for example). It reads as the
+page it sits on: paper sheet and serif on the editorial routes, SEA type on the
+Bachelorette. One button walks straight to the day the note is about, opening
+that day's plan on the way.
+
+Nothing is stored on anyone's phone, so it shows once per app open. Retire it by
+setting `active: false`.
+
+```js
+notice: {
+  active: true,
+  eyebrow: "Group Update",
+  title: "The group shirt color changed",
+  body: "Our matching Boardwalk tee is blue now, not white.",
+  cta: "See the new tee",
+  day: "boardwalk",       // day id the button opens and scrolls to
+  dismiss: "Got it"
+}
+```
+
 -----
 
 ## 8. Assets
@@ -242,7 +265,10 @@ Queries: House `83 Carrington Dr Pawleys Island SC`; Broadway at the Beach
   `display: standalone`, `theme_color: #15130F`, `background_color: #FBF7EF`,
   `start_url: "/"`, icon set (192, 256, 512, plus maskable).
 - `service-worker.js`: cache the shell, styles, script, fonts, and images for
-  offline use. Cache-first for assets, network-first for the document.
+  offline use. Cache-first for assets, network-first for the document. A new
+  worker skips waiting and claims the page, and activate deletes every older
+  cache, so bumping `CACHE` on deploy is what forces phones off stale art. The
+  in-app Update note still offers an immediate refresh mid visit.
 - Meta tags: `theme-color`, `apple-mobile-web-app-capable`,
   `apple-mobile-web-app-status-bar-style`, `apple-mobile-web-app-title`, and
   `viewport` with `viewport-fit=cover`.
