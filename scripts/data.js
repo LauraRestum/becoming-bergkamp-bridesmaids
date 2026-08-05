@@ -28,6 +28,21 @@ var DATA = {
     label: "Main Wedding Site"
   },
 
+  /* A one-time note that greets everyone when the app opens, for the times
+     something already decided has changed. Flip "active" to false to retire it,
+     and edit the copy here when the next change comes along. It shows once per
+     app open (nothing is stored on anyone's phone), and the button drops them
+     straight onto the day it is about. */
+  notice: {
+    active: true,
+    eyebrow: "Group Update",
+    title: "The group shirt color changed",
+    body: "Our matching Boardwalk tee is blue now, not white. Nothing else moves: your bottoms are still your pick, so keep the pair you already chose.",
+    cta: "See the new tee",
+    day: "boardwalk",
+    dismiss: "Got it"
+  },
+
   /* The wedding party phone list, shown in the footer of every view. Sorted
      alphabetically by first name. "tel" is the clean dialable number, "display"
      is how it reads on screen. */

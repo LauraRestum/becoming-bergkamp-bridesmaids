@@ -4,13 +4,15 @@
   new deploys are picked up automatically. Cache-first for binary assets
   (images, icons, fonts) that rarely change.
 
-  Update flow: a new worker waits instead of taking over silently. The page
-  detects the waiting worker, prompts the user, and on confirm posts
-  SKIP_WAITING. We then activate and the page reloads onto the fresh version.
+  Update flow: a new worker takes over on its own. It skips waiting, claims the
+  page, and the old cache (art and all) is thrown out on activate, so a phone
+  that already has the app opens straight onto the fresh version instead of
+  sitting on stale images. The page still shows its Update note if the worker is
+  found mid visit, and SKIP_WAITING is still honored so that button works.
 
-  Bump CACHE when shipping so clients pick up a new worker and get prompted.
+  Bump CACHE when shipping so clients pick up a new worker and drop the old art.
 */
-var CACHE = "bergkamp-v47";
+var CACHE = "bergkamp-v48";
 
 var SHELL = [
   "/",
@@ -77,8 +79,11 @@ self.addEventListener("install", function (e) {
       return Promise.all(SHELL.map(function (url) {
         return c.add(url).catch(function () {});
       }));
+    }).then(function () {
+      // Take over as soon as we are ready. Nobody has to tap anything for a
+      // shirt color change to reach them.
+      return self.skipWaiting();
     })
-    // Note: no skipWaiting here. The new worker waits so the page can prompt.
   );
 });
 
