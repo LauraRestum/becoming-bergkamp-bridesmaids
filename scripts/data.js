@@ -899,17 +899,23 @@ var DATA = {
         when: "6:00 PM",
         map: mapFor("Crestview Country Club Wichita KS"),
         photo: {
-          src: "assets/img/venue/brick-mortar-exterior.jpg",
-          alt: "The reception venue glowing at night, with the chandelier hall inside",
+          src: "assets/img/venue/crestview-entrance.png",
+          alt: "The Crestview Country Club entrance in oil, the gold crest on white brick beside glowing doors",
           caption: "Crestview Country Club, for the reception"
         }
       }
     ],
-    // A warm look inside the reception, carried over from the main site.
+    // A look inside the reception ballroom, carried over from the main site.
     feature: {
-      src: "assets/img/venue/brick-mortar-pavilion.jpg",
-      alt: "The open reception pavilion, chandeliers and a brick walk, set for the evening",
+      src: "assets/img/venue/crestview-ballroom.png",
+      alt: "The Crestview ballroom in oil, chandeliers over a patterned carpet and tall windows onto the course",
       caption: "Dinner and dancing under the lights at Crestview Country Club"
+    },
+    // The getting-ready suite, first thing in the morning.
+    morning: {
+      src: "assets/img/venue/crestview-dressing-room.png",
+      alt: "The dressing room, lit vanity mirrors wrapping a long marble counter with flowers and brushes laid out",
+      caption: "The dressing room, where the morning begins"
     },
     scheduleNote: "All times are subject to change",
     colors: {

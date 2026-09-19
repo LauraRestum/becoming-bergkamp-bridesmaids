@@ -985,6 +985,7 @@
       (d.hero.image
         ? edFigure({ src: d.hero.image, alt: d.hero.imageAlt }, "ed-figure--bleed")
         : "") +
+      (d.morning ? edFigure(d.morning) : "") +
       '<section class="ed-schedule reveal">' + edSchedule(d.schedule) + "</section>" +
       '<div class="ed-sched-note reveal">' + esc(d.scheduleNote) + "</div>" +
       (d.feature ? edFigure(d.feature) : "") +
