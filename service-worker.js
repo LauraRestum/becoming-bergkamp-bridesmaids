@@ -12,7 +12,7 @@
 
   Bump CACHE when shipping so clients pick up a new worker and drop the old art.
 */
-var CACHE = "bergkamp-v49";
+var CACHE = "bergkamp-v50";
 
 var SHELL = [
   "/",
@@ -33,8 +33,9 @@ var SHELL = [
   "/assets/img/venue/central-community-interior.jpg",
   "/assets/img/venue/st-rose-chapel.jpg",
   "/assets/img/venue/st-rose-hall.jpg",
-  "/assets/img/venue/brick-mortar-exterior.jpg",
-  "/assets/img/venue/brick-mortar-pavilion.jpg",
+  "/assets/img/venue/crestview-entrance.png",
+  "/assets/img/venue/crestview-ballroom.png",
+  "/assets/img/venue/crestview-dressing-room.png",
   "/assets/img/attire/bridesmaid-dress-options.jpeg",
   "/assets/img/dayof/our-colors.png",
   "/assets/img/photos/house/river-club-aerial.jpg",
