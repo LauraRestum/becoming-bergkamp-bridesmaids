@@ -12,7 +12,7 @@
 
   Bump CACHE when shipping so clients pick up a new worker and drop the old art.
 */
-var CACHE = "bergkamp-v48";
+var CACHE = "bergkamp-v49";
 
 var SHELL = [
   "/",

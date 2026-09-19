@@ -255,7 +255,7 @@ Queries: House `83 Carrington Dr Pawleys Island SC`; Broadway at the Beach
 `Broadway at the Beach Myrtle Beach SC`; Murrells Inlet
 `Murrells Inlet MarshWalk SC`; Ceremony and Rehearsal
 `Central Community Church Wichita KS`; Blessing and Rehearsal Dinner
-`Saint Rose Mount Vernon Cheney KS`; Reception `Brick and Mortar Wichita KS`.
+`Saint Rose Mount Vernon Cheney KS`; Reception `Crestview Country Club Wichita KS`.
 
 -----
 
