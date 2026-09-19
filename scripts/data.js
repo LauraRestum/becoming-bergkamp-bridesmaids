@@ -894,22 +894,22 @@ var DATA = {
       {
         time: "6:00",
         name: "Reception",
-        venue: "Brick + Mortar",
+        venue: "Crestview Country Club",
         place: "Wichita, Kansas",
         when: "6:00 PM",
-        map: mapFor("Brick and Mortar Wichita KS"),
+        map: mapFor("Crestview Country Club Wichita KS"),
         photo: {
           src: "assets/img/venue/brick-mortar-exterior.jpg",
-          alt: "Brick and Mortar event venue glowing at night, with the chandelier hall inside",
-          caption: "Brick + Mortar, for the reception"
+          alt: "The reception venue glowing at night, with the chandelier hall inside",
+          caption: "Crestview Country Club, for the reception"
         }
       }
     ],
     // A warm look inside the reception, carried over from the main site.
     feature: {
       src: "assets/img/venue/brick-mortar-pavilion.jpg",
-      alt: "The open pavilion at Brick and Mortar, chandeliers and a brick walk, set for the reception",
-      caption: "Dinner and dancing under the lights at Brick + Mortar"
+      alt: "The open reception pavilion, chandeliers and a brick walk, set for the evening",
+      caption: "Dinner and dancing under the lights at Crestview Country Club"
     },
     scheduleNote: "All times are subject to change",
     colors: {
